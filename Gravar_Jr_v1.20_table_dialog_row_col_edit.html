@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>Gravar Jr. v1.20 — All Start Timecodes Toggle</title>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#5d6878;--line:#cfd7e5;--accent:#2e6fbb;--accent2:#164f91;--danger:#b43c3c;--radius:18px;--tap:52px;--shadow:0 5px 16px rgba(20,30,50,.10)}
+*{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif} body{overflow:hidden} button,input,select,textarea{font:inherit} button{min-height:var(--tap);border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);padding:9px 13px;font-weight:650;cursor:pointer;touch-action:manipulation} button.primary{background:var(--accent);border-color:var(--accent);color:#fff} button.primary:hover{background:var(--accent2)} button.danger{background:var(--danger);border-color:var(--danger);color:#fff} button.small{min-height:40px;padding:6px 10px;font-size:13px} button:disabled{opacity:.45} input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 11px;color:var(--ink)} textarea{resize:none;line-height:1.35} label{display:block;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:4px}.hidden{display:none!important}.file-input{display:none}.app{height:100%;padding:10px}.layout{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 154px;grid-template-rows:34px minmax(150px,1fr) minmax(250px,50vh);gap:8px;max-width:1500px;margin:0 auto}.topbar,.video-panel,.bottom-panel,.side-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.topbar{grid-column:1;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:3px 8px;min-height:34px}.video-name{min-width:0;height:24px;line-height:24px;border:0;border-radius:8px;padding:0 4px;background:transparent;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}.file-box{position:relative;justify-self:end;align-self:center}.file-box>button{width:34px;height:28px;min-height:28px;padding:0;border-radius:9px;font-size:18px;line-height:1;background:#f8faff}.file-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);width:min(300px,calc(100vw - 30px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:9px;z-index:80;gap:6px}.file-menu.show{display:grid}.file-menu .menu-block{display:block;padding:2px 2px 6px;border-bottom:1px solid #edf1f7;margin-bottom:4px}.file-menu .menu-block select{height:38px;padding:6px 8px}.file-menu button{min-height:40px;border:0;border-radius:9px;text-align:left;background:#fff;padding:7px 9px}.file-menu button:hover{background:#eef3fb}.file-menu .primary{background:var(--accent);color:#fff;text-align:center}.file-menu .primary:hover{background:var(--accent2)}
+.video-panel{grid-column:1;grid-row:2;position:relative;overflow:hidden;background:#10141d;min-height:0}.video-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative}video,#youtubeWrap,#youtubePlayer,#webFrame{width:100%;height:100%;border:0;background:#000}video{object-fit:contain}.empty-video{color:#dbe5f4;text-align:center;padding:30px;line-height:1.5;max-width:620px}.video-overlay-label{position:absolute;left:12px;top:12px;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:750;z-index:7}.scrub-layer{position:absolute;left:0;right:0;top:0;bottom:24px;z-index:5;cursor:ew-resize;touch-action:none;background:transparent}.scrub-layer.scrubbing{background:rgba(46,111,187,.08)}.diagnostic{position:absolute;left:0;right:0;bottom:0;height:24px;background:rgba(255,255,255,.94);border-top:1px solid rgba(0,0,0,.15);font-size:11px;color:#47556b;overflow:hidden;z-index:8;cursor:pointer;touch-action:none}.diag-progress{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(46,111,187,.25);pointer-events:none}.diag-text{position:relative;z-index:1;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px;white-space:nowrap;overflow:hidden}.diag-message{overflow:hidden;text-overflow:ellipsis}.time-readout{font-variant-numeric:tabular-nums;font-weight:850;color:#172033;white-space:nowrap}.yt-actions{position:absolute;right:10px;top:10px;background:#fff;padding:5px;border-radius:10px;display:flex;gap:6px;align-items:center;font-size:12px;z-index:11}.yt-actions a{color:var(--accent)}.speed-menu{position:absolute;right:10px;top:10px;z-index:75;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;min-width:220px}.speed-menu button{min-height:38px;padding:6px 8px}.speed-menu .speed-title{grid-column:1/-1;font-weight:800;font-size:12px;color:var(--muted);padding:0 2px 2px}
+.transport{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:8px;padding:10px}.transport button{width:100%;flex:1;font-size:18px}.transport .play{flex:1.35}.transport button.holding{box-shadow:0 0 0 3px rgba(46,111,187,.18);border-color:var(--accent)}.speed-wrap{display:none}
+.bottom-panel{grid-column:1;grid-row:3;overflow:hidden;min-height:0}.add-pane{height:100%;display:grid;grid-template-rows:1fr auto;gap:8px;padding:11px}.note-area textarea{height:100%;min-height:86px;font-size:16px}.fields{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end}.field-actions{display:flex;gap:7px}.field-actions button{min-height:46px}.status{font-size:12px;color:var(--muted);min-height:16px}.annotation-pane{height:100%;display:grid;grid-template-rows:auto 1fr;min-height:0}.list-toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:8px;border-bottom:1px solid var(--line)}.annotation-list{overflow:auto;padding:8px;display:grid;gap:7px}.row{border:1px solid var(--line);border-radius:11px;background:#fff;overflow:hidden}.row.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(46,111,187,.15)}.row-head{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:#f8faff;border-bottom:1px solid #e9eef7;padding:6px 8px}.pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800;border:1px solid var(--line);background:#fff;white-space:nowrap}.row-time{font-variant-numeric:tabular-nums;font-weight:800}.row-body{padding:7px 9px}.row-label{font-size:12px;color:var(--muted);display:flex;gap:8px}.row-text{white-space:pre-wrap;line-height:1.3}.row-actions{display:flex;gap:5px;padding:0 9px 7px}.row-actions button{min-height:34px;padding:4px 7px;font-size:12px}
+.action-stack{grid-column:2;grid-row:3;display:grid;grid-template-rows:1fr 1fr;gap:8px}.action-stack button{width:100%;font-size:16px}.source-hidden{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}.modal-backdrop{position:fixed;inset:0;background:rgba(14,22,38,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:90}.modal-backdrop.show{display:flex}.modal{width:min(760px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:0 22px 60px rgba(0,0,0,.25)}.modal header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}.modal .content{padding:14px;line-height:1.5}.brand{display:flex;gap:10px;align-items:center}.brand h1{font-size:18px;margin:0}.ver{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.app{padding:7px}.layout{grid-template-columns:minmax(0,1fr) 104px;grid-template-rows:32px minmax(160px,1fr) minmax(260px,50vh);gap:7px}.topbar{min-height:32px;padding:2px 6px}.video-name{font-size:12px}.file-box>button{width:32px;height:28px;min-height:28px}.transport{padding:7px;gap:6px}.transport button{min-height:44px;font-size:15px;padding:5px}.fields{grid-template-columns:1fr 1fr;overflow:auto}.field-actions{grid-column:1/-1}.action-stack button{font-size:13px;padding:5px}.list-toolbar{grid-template-columns:1fr auto}.list-toolbar #countBadge{display:none}.diag-message{max-width:70vw}.speed-menu{right:8px;top:8px;min-width:200px}}
+@media(orientation:portrait) and (max-width:900px){.layout{grid-template-columns:minmax(0,1fr) 92px;grid-template-rows:32px minmax(130px,1fr) minmax(330px,50vh)}.transport{gap:5px}.transport button{font-size:14px}.diag-text{font-size:10px;padding:0 6px}.yt-actions{display:none!important}}
+
+/* v1.11 paper transcript pane redesign */
+.action-stack{display:none!important}
+.bottom-panel{grid-column:1 / 3;grid-row:3;overflow:hidden;min-height:0}
+.jr-transcript-pane{height:100%;display:grid;grid-template-rows:minmax(0,1fr) 48px;background:#fff;min-height:0}
+.jr-transcript-rows{overflow:auto;padding:6px 10px 4px;display:grid;align-content:start;gap:0;background:#fff}
+.jr-line{display:grid;grid-template-columns:36px 44px minmax(0,1fr) 22px;grid-template-rows:auto 32px;column-gap:6px;row-gap:1px;align-items:start;border-bottom:1px solid #d9e1ed;padding:4px 3px 3px;background:#fff;min-height:70px}
+.jr-line.selected{background:#eef6ff;box-shadow:inset 3px 0 0 var(--accent)}
+.jr-line-num{grid-column:1;grid-row:1 / 3;display:flex;align-items:flex-start;gap:3px;padding-top:3px;color:#596679;font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;user-select:none}
+.jr-speaker{grid-column:2;grid-row:1;width:100%;min-height:30px;height:30px;border:1px solid #d5deec;border-radius:8px;padding:3px 4px;text-align:center;text-transform:uppercase;font-size:13px;font-weight:800;background:#fff}
+.jr-text{grid-column:3;grid-row:1;width:100%;min-height:32px;border:0;border-radius:0;border-bottom:1px solid transparent;padding:2px 3px 3px;background:transparent;resize:none;overflow:hidden;font-size:16px;line-height:1.32;color:#172033;white-space:pre-wrap;word-break:normal}
+.jr-text:focus{outline:1px solid rgba(46,111,187,.25);outline-offset:1px;background:#fff}
+.jr-end-slot{grid-column:4;grid-row:1;display:flex;align-items:flex-start;justify-content:center;padding-top:6px}
+.jr-subline{grid-column:2 / 5;grid-row:2;display:flex;gap:6px;align-items:center;min-width:0}
+.jr-mini-btn{min-height:27px!important;height:27px!important;border-radius:8px!important;padding:3px 8px!important;font-size:12px!important;font-weight:800!important;background:#f8faff!important}
+.jr-code{min-height:27px!important;height:27px!important;border-radius:8px!important;padding:3px 7px!important;font-size:12px!important;max-width:180px}
+.jr-spacer{flex:1 1 auto;min-width:12px}
+.jr-time-check{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;min-width:14px;border:0;background:transparent;color:#d12626;font-size:13px;line-height:1;cursor:help;padding:0;font-weight:900;user-select:none}
+.jr-time-check.empty{visibility:hidden}
+.jr-bottom-actions{border-top:1px solid var(--line);padding:5px 8px;display:flex;gap:8px;align-items:center;background:#f8faff}
+.jr-bottom-actions button{min-height:36px!important;height:36px!important;border-radius:10px!important;padding:5px 12px!important;font-size:14px!important}
+.jr-note-status{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:auto}
+.jr-floating-tip{position:fixed;z-index:150;background:#111827;color:#fff;border-radius:8px;padding:6px 8px;font-size:12px;box-shadow:0 10px 28px rgba(0,0,0,.28);pointer-events:none;white-space:nowrap}
+@media(max-width:900px){.bottom-panel{grid-column:1 / 3}.jr-line{grid-template-columns:30px 40px minmax(0,1fr) 20px;column-gap:5px;padding-left:2px;padding-right:2px}.jr-text{font-size:15px}.jr-code{max-width:120px}.jr-bottom-actions{gap:6px}.jr-bottom-actions button{padding-left:9px!important;padding-right:9px!important}}
+
+
+
+/* v1.11 paper transcript pane refinements */
+.bottom-panel{background:#fff!important;border-color:#dfe5ee!important;box-shadow:0 2px 8px rgba(20,30,50,.06)!important}
+.jr-transcript-pane{height:100%;display:grid;grid-template-rows:minmax(0,1fr) 48px;background:#fff!important;min-height:0}
+.jr-transcript-rows{overflow:auto;padding:12px 18px 6px!important;display:grid;align-content:start;gap:0;background:#fff!important}
+.jr-line{display:grid!important;grid-template-columns:34px 42px minmax(0,1fr) 20px!important;grid-template-rows:auto!important;column-gap:8px!important;align-items:start!important;border-bottom:1px solid #e3e8f0!important;padding:7px 4px 6px!important;background:#fff!important;min-height:44px!important}
+.jr-line.selected{background:#fff!important;box-shadow:inset 2px 0 0 rgba(46,111,187,.55)!important}
+.jr-line-num{grid-column:1!important;grid-row:1!important;display:flex!important;align-items:flex-start!important;justify-content:flex-end!important;gap:3px!important;padding-top:5px!important;color:#6b7280!important;font-weight:750!important;font-size:12.5px!important;font-variant-numeric:tabular-nums!important;user-select:none!important}
+.jr-speaker{grid-column:2!important;grid-row:1!important;width:100%!important;min-height:28px!important;height:28px!important;border:0!important;border-radius:0!important;border-bottom:1px solid transparent!important;padding:3px 2px!important;text-align:center!important;text-transform:uppercase!important;font-size:13px!important;font-weight:800!important;background:transparent!important;color:#172033!important}
+.jr-speaker:focus{outline:1px solid rgba(46,111,187,.24)!important;outline-offset:1px!important;background:#fff!important}
+.jr-text{grid-column:3!important;grid-row:1!important;width:100%!important;min-height:30px!important;border:0!important;border-radius:0!important;padding:3px 4px 2px!important;background:transparent!important;resize:none!important;overflow:hidden!important;font-size:16px!important;line-height:1.35!important;color:#172033!important;white-space:pre-wrap!important;word-break:normal!important}
+.jr-text:focus{outline:1px solid rgba(46,111,187,.24)!important;outline-offset:1px!important;background:#fff!important}
+.jr-end-slot{grid-column:4!important;grid-row:1!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;padding-top:6px!important}
+.jr-subline,.jr-code{display:none!important}
+.jr-bottom-actions{border-top:1px solid #e1e7f0!important;padding:5px 10px!important;display:flex!important;gap:8px!important;align-items:center!important;background:#fff!important}
+.jr-bottom-actions button{min-height:36px!important;height:36px!important;border-radius:8px!important;padding:5px 12px!important;font-size:14px!important}
+.jr-time-check{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:13px!important;height:13px!important;min-width:13px!important;border:0!important;background:transparent!important;color:#d12626!important;font-size:12px!important;line-height:1!important;cursor:help!important;padding:0!important;font-weight:900!important;user-select:none!important}
+.jr-time-check.empty{visibility:hidden!important}
+@media(max-width:900px){.jr-transcript-rows{padding:10px 12px 6px!important}.jr-line{grid-template-columns:29px 38px minmax(0,1fr) 18px!important;column-gap:6px!important;padding-left:2px!important;padding-right:2px!important}.jr-text{font-size:15px!important}.jr-bottom-actions{gap:6px!important}.jr-bottom-actions button{padding-left:9px!important;padding-right:9px!important}}
+
+
+/* v1.13: transcript pane coding rail and plain-text line note popover */
+.bottom-panel{grid-column:1 / 3!important;}
+.jr-transcript-pane{grid-template-columns:minmax(0,1fr) 154px!important;grid-template-rows:minmax(0,1fr) 48px!important;background:#fff!important;}
+.jr-transcript-rows{grid-column:1 / 3!important;grid-row:1!important;padding:12px 0 6px 18px!important;background:#fff!important;}
+.jr-bottom-actions{grid-column:1 / 2!important;grid-row:2!important;}
+.jr-line{grid-template-columns:34px 42px minmax(0,1fr) 20px 154px!important;border-bottom:1px solid #e6ebf2!important;padding-right:0!important;}
+.jr-coding-slot{grid-column:5!important;grid-row:1!important;align-self:stretch;display:flex!important;align-items:flex-start!important;justify-content:flex-end!important;padding:2px 14px 2px 10px!important;border-left:1px solid #e1e7f0!important;background:#fbfcff!important;min-height:34px!important;}
+.jr-line-note-btn{width:28px!important;height:28px!important;min-height:28px!important;padding:0!important;border:0!important;border-radius:8px!important;background:transparent!important;color:#64748b!important;font-size:17px!important;line-height:1!important;font-weight:800!important;box-shadow:none!important;}
+.jr-line-note-btn:hover,.jr-line-note-btn:focus{background:#eef3fb!important;color:#172033!important;outline:none!important;}
+.jr-line-note-btn.has-note{color:#111827!important;background:#f1f5f9!important;}
+.jr-line-note-popover{position:fixed;z-index:200;background:#fff;border:1px solid #d9e1ed;border-radius:12px;box-shadow:0 8px 24px rgba(20,30,50,.12);padding:0;display:grid;grid-template-rows:34px minmax(108px,1fr);gap:0;overflow:hidden;}
+.jr-line-note-popover.hidden{display:none!important;}
+.jr-line-note-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;border-bottom:1px solid #e6ebf2;font-size:13px;font-weight:850;color:#334155;background:#fff;}
+.jr-line-note-head button{width:24px!important;height:24px!important;min-height:24px!important;border:0!important;border-radius:6px!important;padding:0!important;font-size:17px!important;background:#fff!important;color:#64748b!important;box-shadow:none!important;}
+.jr-line-note-head button:hover{background:#f1f5f9!important;color:#172033!important;}
+.jr-line-note-popover textarea{width:100%!important;height:100%!important;min-height:108px!important;border:0!important;border-radius:0!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-size:15px!important;line-height:1.35!important;resize:none!important;padding:12px 14px!important;outline:none!important;background:#fff!important;color:#172033!important;}
+.jr-line-note-popover textarea:focus{outline:none!important;box-shadow:inset 0 0 0 1px #c8d4e3!important;}
+.jr-line-note-actions{display:none!important;}
+@media(max-width:900px){.jr-transcript-pane{grid-template-columns:minmax(0,1fr) 104px!important}.jr-line{grid-template-columns:29px 38px minmax(0,1fr) 18px 104px!important}.jr-coding-slot{padding-right:9px!important}.jr-line-note-btn{width:26px!important;height:26px!important;min-height:26px!important}}
+@media(orientation:portrait) and (max-width:900px){.jr-transcript-pane{grid-template-columns:minmax(0,1fr) 92px!important}.jr-line{grid-template-columns:29px 36px minmax(0,1fr) 18px 92px!important}.jr-coding-slot{padding-right:8px!important}}
+
+
+/* v1.15: inline line/field notes under transcript rows and project note */
+.jr-line{grid-template-rows:auto auto!important;}
+.jr-coding-slot{display:flex!important;flex-direction:column!important;align-items:flex-end!important;justify-content:flex-start!important;gap:3px!important;padding-top:1px!important;}
+.jr-note-icon-btn{width:27px!important;height:24px!important;min-height:24px!important;padding:0!important;border:0!important;border-radius:7px!important;background:transparent!important;color:#64748b!important;font-size:15px!important;line-height:1!important;font-weight:850!important;box-shadow:none!important;}
+.jr-note-icon-btn:hover,.jr-note-icon-btn:focus{background:#eef3fb!important;color:#172033!important;outline:none!important;}
+.jr-note-icon-btn.has-note{color:#111827!important;background:#f1f5f9!important;}
+.jr-inline-note{grid-column:1 / 6!important;grid-row:2!important;margin:6px 14px 4px 0!important;border:1px solid #d7e0ea!important;border-radius:10px!important;background:#fff!important;overflow:hidden!important;box-shadow:0 1px 4px rgba(20,30,50,.05)!important;}
+.jr-inline-note-head{height:28px!important;display:flex!important;align-items:center!important;padding:0 10px!important;border-bottom:1px solid #e6ebf2!important;background:#f8fafc!important;color:#334155!important;font-size:13px!important;font-weight:850!important;}
+.jr-inline-note textarea{width:100%!important;min-height:96px!important;height:96px!important;border:0!important;border-radius:0!important;padding:10px 12px!important;resize:vertical!important;outline:none!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-size:15px!important;line-height:1.35!important;background:#fff!important;color:#172033!important;}
+.jr-inline-note textarea:focus{box-shadow:inset 0 0 0 1px #bfd3ef!important;}
+.jr-line-note-popover{display:none!important;}
+
+/* v1.15: Field Note is project/global, not line-specific. Button lives in bottom row. */
+/* v1.16: clicking or long-pressing the line number seeks to the row Start time. */
+#jrFieldNoteBtn.has-note{background:#111827!important;color:#fff!important;border-color:#111827!important;}
+.jr-field-note-panel{position:fixed!important;z-index:221!important;left:16px!important;right:16px!important;bottom:16px!important;height:min(310px,45vh)!important;background:#f8fafc!important;border:2px solid #64748b!important;border-radius:14px!important;box-shadow:0 12px 34px rgba(15,23,42,.16)!important;display:grid!important;grid-template-rows:34px minmax(0,1fr)!important;overflow:hidden!important;}
+.jr-field-note-panel.hidden{display:none!important;}
+.jr-field-note-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;padding:0 10px!important;background:#e2e8f0!important;border-bottom:1px solid #cbd5e1!important;color:#334155!important;font-size:14px!important;font-weight:900!important;}
+.jr-field-note-head button{width:24px!important;height:24px!important;min-height:24px!important;border:0!important;border-radius:6px!important;padding:0!important;background:transparent!important;color:#334155!important;font-size:18px!important;box-shadow:none!important;}
+.jr-field-note-head button:hover{background:#cbd5e1!important;}
+.jr-field-note-panel textarea{width:100%!important;height:100%!important;min-height:0!important;border:0!important;border-radius:0!important;resize:none!important;padding:13px 14px!important;outline:none!important;background:#fff!important;color:#172033!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-size:16px!important;line-height:1.35!important;}
+.jr-field-note-panel textarea:focus{box-shadow:inset 0 0 0 1px #64748b!important;}
+@media(max-width:900px){.jr-field-note-panel{left:8px!important;right:8px!important;bottom:8px!important;height:min(280px,42vh)!important}}
+
+/* v1.20: Field Note rich-text/RTF toolbar modeled on Gravar inline note titlebar. */
+.jr-field-note-head{grid-template-columns:auto minmax(0,1fr) auto!important;display:grid!important;align-items:center!important;}
+.jr-field-note-title{white-space:nowrap!important;}
+.jr-field-note-formatbar{display:flex!important;align-items:center!important;justify-content:center!important;gap:2px!important;min-width:0!important;overflow:hidden!important;}
+.jr-note-format-btn{width:16px!important;min-width:16px!important;height:16px!important;min-height:16px!important;padding:0!important;border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;color:#334155!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:10px!important;line-height:1!important;box-shadow:none!important;transform:none!important;filter:none!important;overflow:visible!important;cursor:pointer!important;}
+.jr-note-format-btn:hover,.jr-note-format-btn:focus-visible{border-color:#cbd5e1!important;background:rgba(15,23,42,.05)!important;outline:none!important;}
+.jr-note-format-btn.format-bold-icon{font-weight:900!important;}
+.jr-note-format-btn.format-italic-icon{font-style:italic!important;font-weight:700!important;font-family:Georgia,"Times New Roman",serif!important;}
+.jr-note-format-btn.format-clear-icon{font-size:12px!important;color:#64748b!important;}
+.jr-note-format-btn.format-table-icon{font-size:13px!important;font-weight:900!important;}
+.jr-note-format-dot{width:8px!important;height:8px!important;border-radius:50%!important;display:block!important;background:var(--note-format-color,#0f172a)!important;box-shadow:0 0 0 1px rgba(15,23,42,.18)!important;}
+.jr-field-note-editor{width:100%!important;height:100%!important;min-height:0!important;border:0!important;border-radius:0!important;overflow:auto!important;padding:13px 14px!important;outline:none!important;background:#fff!important;color:#172033!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-size:16px!important;line-height:1.35!important;white-space:pre-wrap!important;word-break:normal!important;}
+.jr-field-note-editor:focus{box-shadow:inset 0 0 0 1px #64748b!important;}
+.jr-field-note-editor:empty::before{content:attr(data-placeholder);color:#94a3b8;}
+.jr-field-note-editor table{border-collapse:collapse;margin:6px 0;width:100%;table-layout:fixed;background:#fff;}
+.jr-field-note-editor td,.jr-field-note-editor th{border:1px solid #cbd5e1;min-width:48px;min-height:24px;padding:5px 6px;vertical-align:top;}
+
+.jr-project-note-panel{position:fixed!important;z-index:220!important;left:16px!important;right:16px!important;bottom:16px!important;height:min(310px,45vh)!important;background:#fff7f7!important;border:2px solid #ef4444!important;border-radius:14px!important;box-shadow:0 12px 34px rgba(185,28,28,.18)!important;display:grid!important;grid-template-rows:34px minmax(0,1fr)!important;overflow:hidden!important;}
+.jr-project-note-panel.hidden{display:none!important;}
+.jr-project-note-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;padding:0 10px!important;background:#fee2e2!important;border-bottom:1px solid #fca5a5!important;color:#7f1d1d!important;font-size:14px!important;font-weight:900!important;}
+.jr-project-note-head button{width:24px!important;height:24px!important;min-height:24px!important;border:0!important;border-radius:6px!important;padding:0!important;background:transparent!important;color:#7f1d1d!important;font-size:18px!important;box-shadow:none!important;}
+.jr-project-note-head button:hover{background:#fecaca!important;}
+.jr-project-note-panel textarea{width:100%!important;height:100%!important;min-height:0!important;border:0!important;border-radius:0!important;resize:none!important;padding:13px 14px!important;outline:none!important;background:#fffafa!important;color:#172033!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-size:16px!important;line-height:1.35!important;}
+.jr-project-note-panel textarea:focus{box-shadow:inset 0 0 0 1px #ef4444!important;}
+@media(max-width:900px){.jr-inline-note{margin-right:8px!important}.jr-inline-note textarea{min-height:84px!important;height:84px!important}.jr-note-icon-btn{width:25px!important;height:23px!important;min-height:23px!important}.jr-project-note-panel{left:8px!important;right:8px!important;bottom:8px!important;height:min(280px,42vh)!important}}
+
+
+/* v1.16: line number area seeks to Start time. */
+.jr-line-num{cursor:pointer!important;border-radius:5px!important;}
+.jr-line-num:hover{background:#f1f5f9!important;color:#172033!important;}
+.jr-line-num:active{background:#e8f1ff!important;}
+
+.jr-line-num.editing{position:relative!important;overflow:visible!important;z-index:6!important;background:transparent!important;justify-content:flex-start!important;align-items:flex-start!important;gap:4px!important;}
+.jr-transcript-rows.show-start-editors .jr-line{grid-template-columns:104px 42px minmax(0,1fr) 20px 154px!important;}
+.jr-start-time-editor{position:static!important;width:68px!important;height:25px!important;min-height:25px!important;padding:2px 4px!important;border:1px solid #cbd5e1!important;border-radius:6px!important;background:#fff!important;color:#172033!important;font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-variant-numeric:tabular-nums!important;box-shadow:none!important;z-index:7!important;text-align:center!important;}
+.jr-start-time-editor:focus{outline:none!important;border-color:#93b7e4!important;box-shadow:0 0 0 2px rgba(46,111,187,.14)!important;}
+@media(max-width:900px){.jr-transcript-rows.show-start-editors .jr-line{grid-template-columns:94px 38px minmax(0,1fr) 18px 104px!important}.jr-start-time-editor{width:60px!important;font-size:11px!important;padding-left:3px!important;padding-right:3px!important;}}
+@media(orientation:portrait) and (max-width:900px){.jr-transcript-rows.show-start-editors .jr-line{grid-template-columns:88px 36px minmax(0,1fr) 18px 92px!important}.jr-start-time-editor{width:56px!important;font-size:10.5px!important;}}
+</style>
+</head>
+<body>
+<div class="app"><main class="layout">
+  <section class="topbar">
+    <div id="videoTitleDisplay" class="video-name">No video selected</div>
+    <div class="file-box"><button id="fileMenuBtn" title="Files and video source" aria-label="Files and video source">📁</button><div id="fileMenu" class="file-menu">
+      <div class="menu-block"><select id="sourceType" aria-label="Choose video source"><option value="" selected>&lt; Choose Video &gt;</option><option value="local">Local file</option><option value="youtube">YouTube</option><option value="panopto">Panopto</option></select></div>
+      <button id="newProjectBtn">New project</button><button id="projectNoteBtn">Project Note</button><button id="saveJsonBtn">Save project JSON</button><button id="loadJsonBtn">Load project JSON</button><button id="exportCsvBtn">Export CSV</button><button id="exportHtmlBtn">Export HTML report</button><button id="exportFieldRtfBtn">Export Field Note RTF</button><button id="helpBtn">Help</button>
+    </div></div>
+    <div class="source-hidden" aria-hidden="true"><label id="sourceLabel" for="sourceUrl">Choose video</label><input id="sourceUrl" type="text"><input id="localFile" type="file" accept="video/*,.mov,.mp4,.m4v,.webm"><div id="loadHelp"></div><button id="loadSourceBtn">Load video</button></div>
+  </section>
+
+  <section class="video-panel"><div class="video-wrap" id="videoWrap"><video id="localVideo" playsinline webkit-playsinline preload="metadata" class="hidden"></video><div id="youtubeWrap" class="hidden"><div id="youtubePlayer"></div></div><iframe id="webFrame" class="hidden" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="empty-video" id="emptyVideo"><strong>Choose Local, YouTube, or Panopto.</strong><br>Then choose the assigned video and begin observing.</div><div class="video-overlay-label hidden" id="videoModeLabel"></div></div><div id="scrubLayer" class="scrub-layer" aria-label="Drag left or right to scrub the video ±2 seconds"></div><div class="diagnostic" id="videoDiagnostic"><div class="diag-progress" id="diagProgress"></div><div class="diag-text"><span class="diag-message" id="diagMessage">No video loaded.</span><span class="time-readout" id="timeReadout">00:00:00.0</span></div></div><div id="speedMenu" class="speed-menu hidden"><div class="speed-title">Playback speed</div><button data-speed="0.5">0.5×</button><button data-speed="0.75">0.75×</button><button data-speed="1">1×</button><button data-speed="1.25">1.25×</button><button data-speed="1.5">1.5×</button><button data-speed="2">2×</button></div><div class="yt-actions hidden" id="ytActions"><a id="openYouTubeLink" href="#" target="_blank" rel="noopener">Open in YouTube</a><button id="copyEmbedBtn" class="small">Copy embed URL</button></div></section>
+
+  <aside class="transport side-card"><button id="back5Btn">↶ 5s</button><button id="back1Btn">↶ 1s</button><button id="playPauseBtn" class="primary play">▶︎</button><button id="fwd1Btn">1s ↷</button><button id="fwd5Btn">5s ↷</button><div class="speed-wrap"><select id="speedSelect"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></div></aside>
+
+  <section class="bottom-panel">
+    <div id="jrTranscriptPane" class="jr-transcript-pane" aria-label="Transcript notes pane">
+      <div id="jrTranscriptRows" class="jr-transcript-rows"></div>
+      <div class="jr-bottom-actions">
+        <button id="jrSetStartBtn" title="Set Start time for the selected line">Start</button>
+        <button id="jrSetEndBtn" title="Set End time for the selected line">End</button>
+        <button id="jrFieldNoteBtn" title="Open project-wide Field Note">◇ Field Note</button>
+        <button id="jrAddLineBtn" class="primary" title="Add a transcript line under the selected line">Add</button>
+        <button id="jrDeleteLineBtn" class="danger" title="Delete the selected transcript line">Delete</button>
+        <span id="jrNoteStatus" class="jr-note-status">Ready.</span>
+      </div>
+    </div>
+    <div id="legacyAnnotationControls" class="hidden" aria-hidden="true">
+      <div id="addPane" class="add-pane hidden"><div class="note-area"><label for="annText">Note</label><textarea id="annText" placeholder="Write a note or brief transcription."></textarea></div><div><div class="fields"><div><label for="annStart">Start</label><input id="annStart" type="text" placeholder="00:00:00.0"></div><div><label for="annEnd">End</label><input id="annEnd" type="text" placeholder="Optional"></div><div><label for="annLabel">Code</label><input id="annLabel" type="text" list="labelSuggestions" placeholder="Code"><datalist id="labelSuggestions"><option value="AAC selection"><option value="Communication breakdown"><option value="Device output"><option value="Gaze shift"><option value="Partner assistance"><option value="Repair"><option value="Response delay"><option value="Topic shift"><option value="Wait time"></datalist></div><div><label for="annActor">Speaker</label><input id="annActor" type="text" placeholder="Speaker/actor"></div><div class="field-actions"><button id="markStartBtn">Set Start</button><button id="markEndBtn">Set End</button><button id="addAnnBtn" class="primary">Add</button><button id="updateAnnBtn" class="hidden">Update</button><button id="clearFormBtn">Clear</button></div></div><div class="status" id="statusLine">Ready.</div></div><select id="annType" class="hidden"><option value="Note">Note</option><option value="Transcript">Transcript</option><option value="Code">Code</option></select><button id="captureNowBtn" class="hidden">Set start</button><button id="mobileExportsBtn" class="hidden">Exports</button><span id="projectStatus" class="hidden">No project saved yet</span></div>
+      <div id="annotatePane" class="annotation-pane hidden"><div class="list-toolbar"><input id="filterText" type="search" placeholder="Filter annotations"><button id="sortBtn" class="small">Sort by time</button><span id="countBadge" class="pill">0 rows</span></div><div class="annotation-list" id="annotationList"></div></div>
+    </div>
+  </section>
+
+</main></div>
+<input id="jsonFileInput" class="file-input" type="file" accept="application/json,.json">
+<div class="jr-line-note-popover hidden" id="jrLineNotePopover" role="dialog" aria-label="Line note editor">
+  <div class="jr-line-note-head"><span id="jrLineNoteTitle">Line Note</span><button id="jrLineNoteClose" type="button" title="Close line note">×</button></div>
+  <textarea id="jrLineNoteText" placeholder="Line note for the selected transcript line"></textarea>
+</div>
+<div class="jr-project-note-panel hidden" id="jrProjectNotePanel" role="dialog" aria-label="Project note editor">
+  <div class="jr-project-note-head"><span>Project Note</span><button id="jrProjectNoteClose" type="button" title="Close project note">×</button></div>
+  <textarea id="jrProjectNoteText" placeholder="Project Note"></textarea>
+</div>
+<div class="jr-field-note-panel hidden" id="jrFieldNotePanel" role="dialog" aria-label="Field note editor">
+  <div class="jr-field-note-head">
+    <span class="jr-field-note-title">Field Note</span>
+    <span class="jr-field-note-formatbar" aria-label="Field Note formatting tools">
+      <button class="jr-note-format-btn format-bold-icon" data-field-note-cmd="bold" type="button" title="Bold selected field note text">B</button>
+      <button class="jr-note-format-btn format-italic-icon" data-field-note-cmd="italic" type="button" title="Italicize selected field note text">I</button>
+      <button class="jr-note-format-btn" data-field-note-cmd="color" data-color="#b91c1c" type="button" title="Color selected text red"><span class="jr-note-format-dot" style="--note-format-color:#b91c1c"></span></button>
+      <button class="jr-note-format-btn" data-field-note-cmd="color" data-color="#1d4ed8" type="button" title="Color selected text blue"><span class="jr-note-format-dot" style="--note-format-color:#1d4ed8"></span></button>
+      <button class="jr-note-format-btn" data-field-note-cmd="color" data-color="#047857" type="button" title="Color selected text green"><span class="jr-note-format-dot" style="--note-format-color:#047857"></span></button>
+      <button class="jr-note-format-btn" data-field-note-cmd="color" data-color="#6b7280" type="button" title="Color selected text grey"><span class="jr-note-format-dot" style="--note-format-color:#6b7280"></span></button>
+      <button class="jr-note-format-btn" data-field-note-cmd="color" data-color="#0f172a" type="button" title="Color selected text black"><span class="jr-note-format-dot" style="--note-format-color:#0f172a"></span></button>
+      <button class="jr-note-format-btn format-table-icon" data-field-note-cmd="table" type="button" title="Insert table with row/column choices">▦</button>
+      <button class="jr-note-format-btn" data-field-note-cmd="add-row" type="button" title="Add row to selected table">+R</button>
+      <button class="jr-note-format-btn" data-field-note-cmd="delete-row" type="button" title="Delete selected table row">−R</button>
+      <button class="jr-note-format-btn" data-field-note-cmd="add-col" type="button" title="Add column to selected table">+C</button>
+      <button class="jr-note-format-btn" data-field-note-cmd="delete-col" type="button" title="Delete selected table column">−C</button>
+      <button class="jr-note-format-btn format-clear-icon" data-field-note-cmd="clear" type="button" title="Clear selected field note formatting">×</button>
+    </span>
+    <button id="jrFieldNoteClose" type="button" title="Close field note">×</button>
+  </div>
+  <div id="jrFieldNoteText" class="jr-field-note-editor" contenteditable="true" data-placeholder="Field Note" spellcheck="false" tabindex="0"></div>
+</div>
+<div class="modal-backdrop" id="helpModal"><div class="modal"><header><div class="brand"><h1>Gravar Jr. Help</h1><span class="ver">v1.20</span></div><button id="closeHelpBtn">Close</button></header><div class="content"><p><strong>Video</strong> shows the current filename or source title. Use the folder button to choose a video source and access project files. Choosing Local file, YouTube, or Panopto immediately starts that loading path.</p><p>Use Start and End to copy the current video position into the selected transcript line. Click the line-number area, or touch-hold it for 0.5 seconds, to move the video to that line's Start time. Double-click or double-tap the line-number/check area to show editable Start time fields for all transcript lines; double-click or double-tap any visible timecode to hide them. Add creates a line below the selected line. Field Note opens a project-wide rich-text field note with compact Gravar-style formatting buttons, table insertion with chosen row/column counts, table row/column editing, and RTF export; the ▣ icon opens a line-specific note under the transcript row.</p><p>The diagnostic bar beneath the video also functions as a timeline. Drag on the video to scrub ±2 seconds. Hold Play for one second to show playback speed choices.</p></div></div></div>
+<script>
+(function(){
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+  const els = {
+    sourceType:$('sourceType'), sourceUrl:$('sourceUrl'), localFile:$('localFile'), sourceLabel:$('sourceLabel'), loadSourceBtn:$('loadSourceBtn'),
+    localVideo:$('localVideo'), youtubePlayer:$('youtubePlayer'), emptyVideo:$('emptyVideo'), videoModeLabel:$('videoModeLabel'),
+    timeReadout:$('timeReadout'), back5Btn:$('back5Btn'), back1Btn:$('back1Btn'), playPauseBtn:$('playPauseBtn'), fwd1Btn:$('fwd1Btn'), fwd5Btn:$('fwd5Btn'), speedSelect:$('speedSelect'),
+    markStartBtn:$('markStartBtn'), markEndBtn:$('markEndBtn'), captureNowBtn:$('captureNowBtn'),
+    annType:$('annType'), annStart:$('annStart'), annEnd:$('annEnd'), annLabel:$('annLabel'), annActor:$('annActor'), annText:$('annText'),
+    addAnnBtn:$('addAnnBtn'), updateAnnBtn:$('updateAnnBtn'), clearFormBtn:$('clearFormBtn'), statusLine:$('statusLine'), projectStatus:$('projectStatus'),
+    annotationList:$('annotationList'), countBadge:$('countBadge'), filterText:$('filterText'), sortBtn:$('sortBtn'), deleteSelectedBtn:$('deleteSelectedBtn'),
+    newProjectBtn:$('newProjectBtn'), saveJsonBtn:$('saveJsonBtn'), loadJsonBtn:$('loadJsonBtn'), exportCsvBtn:$('exportCsvBtn'), exportHtmlBtn:$('exportHtmlBtn'), exportFieldRtfBtn:$('exportFieldRtfBtn'), jsonFileInput:$('jsonFileInput'),
+    helpBtn:$('helpBtn'), projectNoteBtn:$('projectNoteBtn'), jrProjectNotePanel:$('jrProjectNotePanel'), jrProjectNoteText:$('jrProjectNoteText'), jrProjectNoteClose:$('jrProjectNoteClose'), jrFieldNoteBtn:$('jrFieldNoteBtn'), jrFieldNotePanel:$('jrFieldNotePanel'), jrFieldNoteText:$('jrFieldNoteText'), jrFieldNoteClose:$('jrFieldNoteClose'), helpModal:$('helpModal'), closeHelpBtn:$('closeHelpBtn'), mobileExportsBtn:$('mobileExportsBtn'), loadHelp:$('loadHelp'), youtubeWrap:$('youtubeWrap'), webFrame:$('webFrame'), videoDiagnostic:$('videoDiagnostic'), diagMessage:$('diagMessage'), diagProgress:$('diagProgress'), scrubLayer:$('scrubLayer'), speedMenu:$('speedMenu'), ytActions:$('ytActions'), openYouTubeLink:$('openYouTubeLink'), copyEmbedBtn:$('copyEmbedBtn'), jrTranscriptRows:$('jrTranscriptRows'), jrSetStartBtn:$('jrSetStartBtn'), jrSetEndBtn:$('jrSetEndBtn'), jrAddLineBtn:$('jrAddLineBtn'), jrDeleteLineBtn:$('jrDeleteLineBtn'), jrNoteStatus:$('jrNoteStatus'), jrLineNotePopover:$('jrLineNotePopover'), jrLineNoteTitle:$('jrLineNoteTitle'), jrLineNoteText:$('jrLineNoteText'), jrLineNoteSave:$('jrLineNoteSave'), jrLineNoteClear:$('jrLineNoteClear'), jrLineNoteClose:$('jrLineNoteClose')
+  };
+
+  let annotations = [];
+  let selectedId = null;
+  let projectNote = '';
+  let fieldNote = '';
+  let openInlineNote = {id:null, type:null};
+  let openStartEditorId = null; // null or "__all__" for global Start-time edit display
+  let source = { type:'local', name:'', url:'', youtubeId:'' };
+  const canUseFileProtocol = location.protocol === 'file:';
+  function setDiag(msg){ if(els.diagMessage) els.diagMessage.textContent = msg; else if(els.videoDiagnostic) els.videoDiagnostic.textContent = msg; }
+  function isUsableWebOrigin(){
+    // YouTube's JS API needs a real origin/referrer. file:// has none.
+    // http://localhost and http://127.0.0.1 are allowed for Mac laptop testing through the included launcher.
+    return location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname === '[::1]';
+  }
+  function clearYouTubeActions(){
+    if(els.ytActions) els.ytActions.classList.add('hidden');
+    if(els.openYouTubeLink) els.openYouTubeLink.href = '#';
+  }
+  function setYouTubeActions(id){
+    const watch = 'https://www.youtube.com/watch?v=' + encodeURIComponent(id);
+    const embed = 'https://www.youtube.com/embed/' + encodeURIComponent(id);
+    if(els.openYouTubeLink) els.openYouTubeLink.href = watch;
+    if(els.copyEmbedBtn) els.copyEmbedBtn.onclick = async function(){
+      try{ await navigator.clipboard.writeText(embed); status('Copied YouTube embed URL.'); }
+      catch(e){ status('Embed URL: ' + embed); }
+    };
+    if(els.ytActions) els.ytActions.classList.remove('hidden');
+  }
+  let currentMode = 'none';
+  let ytPlayer = null;
+  let ytReady = false;
+  let ticker = null;
+  let dirty = false;
+  let localObjectUrl = null;
+
+  function pad(n, w=2){ return String(Math.floor(Math.abs(n))).padStart(w,'0'); }
+  function fmtTime(s){
+    s = Number(s); if(!Number.isFinite(s) || s < 0) s = 0;
+    const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = Math.floor(s%60), tenth = Math.floor((s-Math.floor(s))*10);
+    return `${pad(h)}:${pad(m)}:${pad(sec)}.${tenth}`;
+  }
+  function hasTimeValue(v){
+    return v != null && v !== '' && Number.isFinite(Number(v));
+  }
+  function fmtOptionalTime(v){
+    return hasTimeValue(v) ? fmtTime(v) : '';
+  }
+  function sortTimeValue(v){
+    return hasTimeValue(v) ? Number(v) : Number.POSITIVE_INFINITY;
+  }
+  function parseTime(v){
+    if(v == null || String(v).trim()==='') return null;
+    const txt = String(v).trim();
+    if(/^\d+(\.\d+)?$/.test(txt)) return Number(txt);
+    const parts = txt.split(':').map(p=>p.trim());
+    if(parts.length === 2){
+      const m = Number(parts[0]), s = Number(parts[1]);
+      if(Number.isFinite(m)&&Number.isFinite(s)) return m*60+s;
+    }
+    if(parts.length === 3){
+      const h = Number(parts[0]), m = Number(parts[1]), s = Number(parts[2]);
+      if(Number.isFinite(h)&&Number.isFinite(m)&&Number.isFinite(s)) return h*3600+m*60+s;
+    }
+    return NaN;
+  }
+  function escapeHtml(str){ return String(str ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+
+  function stripHtml(str){
+    const d = document.createElement('div');
+    d.innerHTML = String(str || '');
+    return (d.textContent || d.innerText || '').trim();
+  }
+  function rtfEscape(str){
+    return String(str ?? '').replace(/[\\{}]/g, '\\$&').replace(/\n/g, '\\par\n').replace(/[\u0080-\uFFFF]/g, ch => '\\u' + ch.charCodeAt(0) + '?');
+  }
+  function htmlToRtf(html){
+    const root = document.createElement('div');
+    root.innerHTML = String(html || '');
+    function walk(node){
+      if(node.nodeType === Node.TEXT_NODE) return rtfEscape(node.nodeValue || '');
+      if(node.nodeType !== Node.ELEMENT_NODE) return '';
+      const tag = node.tagName.toLowerCase();
+      const kids = Array.from(node.childNodes).map(walk).join('');
+      if(tag === 'br') return '\\line ';
+      if(tag === 'b' || tag === 'strong') return '{\\b ' + kids + '}';
+      if(tag === 'i' || tag === 'em') return '{\\i ' + kids + '}';
+      if(tag === 'p' || tag === 'div') return kids + '\\par\n';
+      if(tag === 'li') return '\\bullet\tab ' + kids + '\\par\n';
+      if(tag === 'tr') return Array.from(node.children).map(walk).join('\\tab ') + '\\par\n';
+      if(tag === 'td' || tag === 'th') return kids.replace(/\\par\n$/,'');
+      if(tag === 'table') return '\\par\n' + kids + '\\par\n';
+      if(tag === 'span'){
+        const color = (node.style && node.style.color) ? node.style.color : '';
+        return kids;
+      }
+      return kids;
+    }
+    return '{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Courier New;}}\\fs24\n' + walk(root) + '}';
+  }
+  function saveFieldNoteFromEditor(){
+    if(!els.jrFieldNoteText) return;
+    fieldNote = els.jrFieldNoteText.innerHTML || '';
+    refreshFieldNoteButton();
+    markDirty(true);
+  }
+  function clampInt(value, fallback, min, max){
+    const n = parseInt(value, 10);
+    if(!Number.isFinite(n)) return fallback;
+    return Math.max(min, Math.min(max, n));
+  }
+  function getFieldNoteSelectionCell(){
+    if(!els.jrFieldNoteText) return null;
+    const sel = window.getSelection && window.getSelection();
+    if(sel && sel.rangeCount){
+      let node = sel.anchorNode;
+      if(node && node.nodeType === Node.TEXT_NODE) node = node.parentElement;
+      if(node && els.jrFieldNoteText.contains(node)){
+        const cell = node.closest && node.closest('td,th');
+        if(cell) return cell;
+      }
+    }
+    return els.jrFieldNoteText.querySelector('td,th');
+  }
+  function getFieldNoteSelectionTable(){
+    const cell = getFieldNoteSelectionCell();
+    return cell ? cell.closest('table') : (els.jrFieldNoteText ? els.jrFieldNoteText.querySelector('table') : null);
+  }
+  function setCaretInCell(cell){
+    if(!cell) return;
+    cell.focus && cell.focus();
+    const sel = window.getSelection && window.getSelection();
+    if(!sel || !document.createRange) return;
+    const range = document.createRange();
+    range.selectNodeContents(cell);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  function buildFieldNoteTable(rows, cols){
+    let html = '<table><tbody>';
+    for(let r=0;r<rows;r++){
+      html += '<tr>';
+      for(let c=0;c<cols;c++) html += '<td><br></td>';
+      html += '</tr>';
+    }
+    return html + '</tbody></table><div><br></div>';
+  }
+  function insertFieldNoteTable(){
+    if(!els.jrFieldNoteText) return;
+    const rows = clampInt(prompt('Number of rows', '2'), 2, 1, 25);
+    const cols = clampInt(prompt('Number of columns', '2'), 2, 1, 12);
+    els.jrFieldNoteText.focus();
+    document.execCommand('insertHTML', false, buildFieldNoteTable(rows, cols));
+    saveFieldNoteFromEditor();
+    status(`Inserted ${rows} × ${cols} Field Note table.`);
+  }
+  function addFieldNoteTableRow(){
+    const cell = getFieldNoteSelectionCell();
+    if(!cell){ status('Click inside a Field Note table first.'); return; }
+    const row = cell.closest('tr');
+    const count = row ? row.children.length : 1;
+    const tr = document.createElement('tr');
+    for(let i=0;i<count;i++){ const td=document.createElement('td'); td.innerHTML='<br>'; tr.appendChild(td); }
+    row.parentNode.insertBefore(tr, row.nextSibling);
+    setCaretInCell(tr.cells[0]);
+    saveFieldNoteFromEditor();
+    status('Added table row.');
+  }
+  function deleteFieldNoteTableRow(){
+    const cell = getFieldNoteSelectionCell();
+    if(!cell){ status('Click inside a Field Note table first.'); return; }
+    const row = cell.closest('tr');
+    const table = row.closest('table');
+    const tbody = row.parentNode;
+    if(tbody.rows.length <= 1){ table.remove(); status('Removed table.'); }
+    else { const next = row.nextElementSibling || row.previousElementSibling; row.remove(); if(next && next.cells[0]) setCaretInCell(next.cells[0]); status('Deleted table row.'); }
+    saveFieldNoteFromEditor();
+  }
+  function addFieldNoteTableColumn(){
+    const cell = getFieldNoteSelectionCell();
+    if(!cell){ status('Click inside a Field Note table first.'); return; }
+    const table = cell.closest('table');
+    const index = cell.cellIndex;
+    Array.from(table.rows).forEach(row=>{ const td=document.createElement('td'); td.innerHTML='<br>'; row.insertBefore(td, row.cells[index+1] || null); });
+    const target = cell.parentElement.cells[index+1];
+    setCaretInCell(target);
+    saveFieldNoteFromEditor();
+    status('Added table column.');
+  }
+  function deleteFieldNoteTableColumn(){
+    const cell = getFieldNoteSelectionCell();
+    if(!cell){ status('Click inside a Field Note table first.'); return; }
+    const table = cell.closest('table');
+    const index = cell.cellIndex;
+    const colCount = table.rows[0] ? table.rows[0].cells.length : 0;
+    if(colCount <= 1){ table.remove(); status('Removed table.'); }
+    else {
+      Array.from(table.rows).forEach(row=>{ if(row.cells[index]) row.cells[index].remove(); });
+      const targetRow = table.rows[0];
+      if(targetRow) setCaretInCell(targetRow.cells[Math.max(0, Math.min(index, targetRow.cells.length-1))]);
+      status('Deleted table column.');
+    }
+    saveFieldNoteFromEditor();
+  }
+  function exportFieldNoteRtf(){
+    const content = fieldNote || (els.jrFieldNoteText ? els.jrFieldNoteText.innerHTML : '');
+    if(!stripHtml(content)) { status('Field Note is empty.'); alert('Field Note is empty.'); return; }
+    download('Gravar_Jr_field_note.rtf', htmlToRtf(content), 'application/rtf;charset=utf-8');
+    status('Exported Field Note RTF.');
+  }
+
+  function csvCell(v){
+    const s = String(v ?? '');
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+  }
+  function download(name, text, type){
+    const blob = new Blob([text], {type:type || 'text/plain;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function status(msg){ if(els.statusLine) els.statusLine.textContent = msg; if(els.jrNoteStatus) els.jrNoteStatus.textContent = msg; }
+  function markDirty(v=true){ dirty = v; els.projectStatus.textContent = dirty ? 'Unsaved changes' : 'Saved / clean'; }
+  function updateVideoTitle(){ const el=document.getElementById('videoTitleDisplay'); if(el) el.textContent = source.name || (source.type==='youtube' && source.youtubeId ? 'YouTube '+source.youtubeId : 'No video selected'); }
+
+  function extractYouTubeId(url){
+    const txt = String(url||'').trim();
+    if(!txt) return '';
+    const patterns = [
+      /youtu\.be\/([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/watch\?.*v=([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/,
+      /youtube\.com\/shorts\/([A-Za-z0-9_-]{6,})/
+    ];
+    for(const re of patterns){ const m = txt.match(re); if(m) return m[1]; }
+    if(/^[A-Za-z0-9_-]{6,}$/.test(txt)) return txt;
+    return '';
+  }
+
+  window.onYouTubeIframeAPIReady = function(){ ytReady = true; };
+  const ytScript = document.createElement('script');
+  ytScript.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(ytScript);
+
+  function showMode(mode, label){
+    currentMode = mode;
+    if(mode !== 'youtube') clearYouTubeActions();
+    els.localVideo.classList.toggle('hidden', mode !== 'local' && mode !== 'url');
+    els.youtubeWrap.classList.toggle('hidden', mode !== 'youtube');
+    els.webFrame.classList.toggle('hidden', mode !== 'web');
+    els.emptyVideo.classList.toggle('hidden', mode !== 'none');
+    els.videoModeLabel.classList.toggle('hidden', mode === 'none');
+    els.videoModeLabel.textContent = label || mode.toUpperCase();
+    if(mode !== 'web') els.webFrame.removeAttribute('src');
+  }
+
+  function getCurrentTime(){
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.getCurrentTime === 'function'){
+      try{ return ytPlayer.getCurrentTime() || 0; } catch(e){ return 0; }
+    }
+    if((currentMode === 'local' || currentMode === 'url') && els.localVideo) return els.localVideo.currentTime || 0;
+    return 0;
+  }
+  function setCurrentTime(t){
+    t = Math.max(0, Number(t)||0);
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.seekTo === 'function'){
+      ytPlayer.seekTo(t, true);
+    } else if(currentMode === 'local' || currentMode === 'url'){
+      els.localVideo.currentTime = t;
+    }
+    updateTimeReadout();
+  }
+  function isPlaying(){
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.getPlayerState === 'function'){
+      try{ return ytPlayer.getPlayerState() === 1; }catch(e){ return false; }
+    }
+    if(currentMode === 'local' || currentMode === 'url') return !els.localVideo.paused;
+    return false;
+  }
+  function play(){
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.playVideo === 'function') ytPlayer.playVideo();
+    else if(currentMode === 'local' || currentMode === 'url') els.localVideo.play().catch(()=>status('Playback was blocked by the browser. Tap Play again.'));
+    updatePlayButton();
+  }
+  function pause(){
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
+    else if(currentMode === 'local' || currentMode === 'url') els.localVideo.pause();
+    updatePlayButton();
+  }
+  function updatePlayButton(){ els.playPauseBtn.textContent = isPlaying() ? '⏸' : '▶︎'; }
+  function seek(delta){ setCurrentTime(getCurrentTime() + delta); }
+  function getDuration(){
+    if(currentMode === 'youtube' && ytPlayer && typeof ytPlayer.getDuration === 'function'){
+      try{ return ytPlayer.getDuration() || 0; }catch(e){ return 0; }
+    }
+    if((currentMode === 'local' || currentMode === 'url') && els.localVideo) return els.localVideo.duration || 0;
+    return 0;
+  }
+  function updateTimeline(){
+    const dur = getDuration();
+    const cur = getCurrentTime();
+    if(els.diagProgress){
+      const pct = dur && Number.isFinite(dur) ? Math.max(0, Math.min(100, (cur / dur) * 100)) : 0;
+      els.diagProgress.style.width = pct + '%';
+    }
+  }
+  function updateTimeReadout(){ els.timeReadout.textContent = fmtTime(getCurrentTime()); updateTimeline(); updatePlayButton(); }
+  function startTicker(){ if(ticker) clearInterval(ticker); ticker = setInterval(updateTimeReadout, 120); }
+
+  function loadSource(typeOverride){
+    const type = typeOverride || els.sourceType.value;
+    if(localObjectUrl){ URL.revokeObjectURL(localObjectUrl); localObjectUrl = null; }
+    try{ pause(); }catch(e){}
+    els.localVideo.removeAttribute('src');
+    if(type === 'local'){
+      const f = els.localFile.files && els.localFile.files[0];
+      if(!f){ status('Choose a local video file first.'); setDiag('No local file selected. On iPad, tap Choose File and select from Photos or Files.'); return; }
+      localObjectUrl = URL.createObjectURL(f);
+      els.localVideo.src = localObjectUrl;
+      els.localVideo.load();
+      source = {type:'local', name:f.name, url:'', youtubeId:''};
+      showMode('local', 'LOCAL VIDEO');
+      setDiag('Local file selected: ' + f.name + '. Tap the video Play button once if the browser blocks scripted playback.');
+      status('Loaded local video: ' + f.name);
+      updateVideoTitle(); markDirty(true);
+    } else if(type === 'url'){
+      const url = els.sourceUrl.value.trim();
+      if(!url){ status('Paste a direct video file URL first.'); setDiag('Direct video URLs must point to a browser-playable file such as .mp4, .m4v, .mov, or .webm. Regular web pages usually will not work here.'); return; }
+      els.localVideo.src = url;
+      els.localVideo.load();
+      source = {type:'url', name:url.split('/').pop() || 'direct video file URL', url, youtubeId:''};
+      showMode('url', 'DIRECT VIDEO URL');
+      setDiag('Loaded as an HTML5 video file URL. If the video stays blank, the server may block browser playback, require login, or the link may not be a direct video file.');
+      status('Loaded direct video file URL.');
+      updateVideoTitle(); markDirty(true);
+    } else if(type === 'youtube'){
+      const url = els.sourceUrl.value.trim();
+      const id = extractYouTubeId(url);
+      if(!id){ status('Could not identify a YouTube video ID from that URL.'); setDiag('Paste a full YouTube URL, a youtu.be link, or the video ID.'); return; }
+      source = {type:'youtube', name:'YouTube ' + id, url, youtubeId:id};
+      showMode('youtube', 'YOUTUBE');
+      createOrLoadYouTube(id);
+      setDiag('YouTube loaded through the official embedded player with strict-origin-when-cross-origin referrer policy. Some videos disable embedding, and YouTube timing is approximate rather than frame-accurate.');
+      status('Loaded YouTube video. Some videos may not permit embedding.');
+      updateVideoTitle(); markDirty(true);
+    } else if(type === 'panopto'){
+      const url = els.sourceUrl.value.trim();
+      if(!url){ status('Paste a Panopto embed URL first.'); setDiag('Use the Panopto Embed URL supplied by your institution. Browser security prevents Gravar Jr. from reading the embedded player time, so use the app timer manually.'); return; }
+      source = {type:'panopto', name:url, url, youtubeId:''};
+      els.webFrame.src = url;
+      showMode('web', 'PANOPTO');
+      setDiag('Panopto player embedded. Browser security usually prevents automatic timing control for this mode; use this for viewing and manual time-linked notes only.');
+      status('Loaded Panopto embed view. Automatic playback timing may not be available.');
+      updateVideoTitle(); markDirty(true);
+    }
+    startTicker();
+  }
+  function createOrLoadYouTube(id){
+    setYouTubeActions(id);
+    const hostedOrigin = isUsableWebOrigin() ? location.origin : '';
+    if(!hostedOrigin){
+      showMode('youtube', 'YOUTUBE NEEDS WEB ORIGIN');
+      els.youtubeWrap.innerHTML = '<div class="empty-video"><strong>YouTube streaming requires Gravar Jr. to be opened from a real web origin.</strong><br><br>This copy is running as <code>' + escapeHtml(location.protocol || 'unknown') + '</code>, so YouTube may reject the embed with Error 153. Local video can still work from a file, but YouTube timing control needs a web-served page with a real origin/referrer.<br><br>On Mac, use the included Start Gravar Jr.command launcher to open the app through localhost. For iPad, deploy the package to GitHub Pages, Netlify, UB web space, or another HTTPS host.</div>';
+      setDiag('YouTube Error 153 is expected from downloaded/local HTML because YouTube requires a valid referrer/origin for embeds. On Mac, use the v1.4 launcher; on iPad, deploy the hosted package and open its HTTPS URL.');
+      return;
+    }
+    function create(){
+      if(ytPlayer && typeof ytPlayer.loadVideoById === 'function'){
+        try{ ytPlayer.loadVideoById(id); }catch(e){}
+        setTimeout(()=>{ try{ ytPlayer.pauseVideo(); }catch(e){} }, 250);
+        return;
+      }
+      // Build the iframe ourselves before giving it to the YouTube API so we can set
+      // referrerpolicy and provide origin/widget_referrer. YouTube's current embedded
+      // player behavior rejects some requests without these identity signals.
+      const params = new URLSearchParams({
+        enablejsapi:'1',
+        playsinline:'1',
+        rel:'0',
+        origin:hostedOrigin,
+        widget_referrer:location.href.split('#')[0]
+      });
+      els.youtubeWrap.innerHTML = '<iframe id="youtubePlayerFrame" title="YouTube video player" width="100%" height="100%" src="https://www.youtube.com/embed/' + encodeURIComponent(id) + '?' + params.toString() + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen playsinline referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+      const frame = document.getElementById('youtubePlayerFrame');
+      ytPlayer = new YT.Player(frame, {
+        events:{
+          onReady:function(){ try{ ytPlayer.pauseVideo(); }catch(e){} updateTimeReadout(); setDiag('YouTube player ready. If a specific private/unlisted video still fails, check YouTube Studio: embedding must be allowed and age/sign-in restrictions can block embeds.'); },
+          onStateChange:function(){ updatePlayButton(); },
+          onError:function(ev){
+            const code = ev && typeof ev.data !== 'undefined' ? ev.data : 'unknown';
+            const extra = code === 153 ? ' Error 153 means YouTube did not accept the embedder identity/referrer. Confirm the app is loaded from HTTPS, not file/download/preview/sandbox, and that the host sends Referrer-Policy: strict-origin-when-cross-origin.' : '';
+            setDiag('YouTube could not play this video in an embedded player. Error code: ' + code + '.' + extra);
+          }
+        }
+      });
+    }
+    if(window.YT && window.YT.Player) create();
+    else {
+      setDiag('Loading YouTube player API from a web-served page. If this never completes, the browser, network, or content filters are blocking YouTube embeds.');
+      const wait = setInterval(()=>{
+        if(window.YT && window.YT.Player){ clearInterval(wait); create(); }
+      },100);
+      setTimeout(()=>{ if(!(window.YT && window.YT.Player)) setDiag('YouTube API has not loaded. Check network filtering, content blockers, or institutional device restrictions.'); }, 5000);
+    }
+  }
+  function configureSourceInputs(type){
+    const isLocal = type === 'local';
+    els.localFile.classList.toggle('hidden', !isLocal);
+    els.sourceUrl.classList.toggle('hidden', isLocal);
+    els.sourceLabel.textContent = isLocal ? 'Choose video' : (type === 'youtube' ? 'YouTube URL or ID' : (type === 'panopto' ? 'Panopto embed URL' : 'Video URL'));
+    els.sourceUrl.placeholder = type === 'youtube' ? 'https://www.youtube.com/watch?v=...' : (type === 'panopto' ? 'https://YOUR-INSTITUTION.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=...' : '');
+    els.loadHelp.textContent = isLocal ? 'Choose a local MP4/MOV/WebM file from the device.' : (type === 'youtube' ? 'Paste a YouTube URL or video ID.' : (type === 'panopto' ? 'Paste the Panopto embed URL supplied by your institution.' : ''));
+  }
+  function resetChooseVideoMenu(){
+    if(els.sourceType) els.sourceType.value = '';
+  }
+  function promptForVideoSource(type){
+    configureSourceInputs(type);
+    if(type === 'local'){
+      els.localFile.click();
+      return;
+    }
+    if(type === 'youtube' || type === 'panopto'){
+      const promptText = type === 'youtube' ? 'Paste a YouTube URL or video ID:' : 'Paste the Panopto embed URL:';
+      const entered = window.prompt(promptText, els.sourceUrl.value || '');
+      if(entered !== null){
+        els.sourceUrl.value = entered.trim();
+        if(els.sourceUrl.value) loadSource(type);
+      }
+      resetChooseVideoMenu();
+    }
+  }
+  function onSourceTypeChange(){
+    const type = els.sourceType.value;
+    if(!type){ configureSourceInputs(''); return; }
+    promptForVideoSource(type);
+  }
+
+  function clearForm(){
+    selectedId = null;
+    els.annType.value = 'Note';
+    els.annStart.value = fmtTime(getCurrentTime());
+    els.annEnd.value = '';
+    els.annLabel.value = '';
+    els.annActor.value = '';
+    els.annText.value = '';
+    els.updateAnnBtn.classList.add('hidden');
+    els.addAnnBtn.classList.remove('hidden');
+    if(els.deleteSelectedBtn) els.deleteSelectedBtn.disabled = true;
+    renderList();
+  }
+  function formToAnnotation(existingId){
+    const start = parseTime(els.annStart.value);
+    const end = parseTime(els.annEnd.value);
+    if(start == null || Number.isNaN(start)){ throw new Error('Start time is missing or invalid. Use 00:00:00.0 or seconds.'); }
+    if(end != null && Number.isNaN(end)){ throw new Error('End time is invalid. Use 00:00:00.0 or seconds.'); }
+    if(end != null && end < start){ throw new Error('End time cannot be before start time.'); }
+    const text = els.annText.value.trim();
+    if(!text && !els.annLabel.value.trim()){ throw new Error('Add text/note or a label before saving.'); }
+    return {
+      id: existingId || 'ann_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+      type: els.annType.value,
+      start, end,
+      label: els.annLabel.value.trim(),
+      actor: els.annActor.value.trim(),
+      text,
+      createdAt: existingId ? (annotations.find(a=>a.id===existingId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+  }
+  function addAnnotation(){
+    try{
+      const a = formToAnnotation();
+      annotations.push(a);
+      annotations.sort((x,y)=>sortTimeValue(x.start)-sortTimeValue(y.start));
+      markDirty(true);
+      // After adding, return immediately to entry mode.
+      // v1.4 left the new row selected, so a later row click/replay could hide
+      // the Add button and make the interface feel limited to one annotation.
+      selectedId = null;
+      els.annEnd.value = '';
+      els.annText.value = '';
+      els.annStart.value = fmtTime(getCurrentTime());
+      els.updateAnnBtn.classList.add('hidden');
+      els.addAnnBtn.classList.remove('hidden');
+      if(els.deleteSelectedBtn) els.deleteSelectedBtn.disabled = true;
+      status('Added annotation at ' + fmtTime(a.start) + '. Ready for the next annotation.');
+      renderList();
+    }catch(e){ status(e.message); }
+  }
+  function updateAnnotation(){
+    if(!selectedId) return;
+    try{
+      const updated = formToAnnotation(selectedId);
+      const idx = annotations.findIndex(a=>a.id===selectedId);
+      if(idx >= 0) annotations[idx] = updated;
+      annotations.sort((x,y)=>sortTimeValue(x.start)-sortTimeValue(y.start));
+      markDirty(true);
+      status('Updated selected annotation.');
+      renderList();
+    }catch(e){ status(e.message); }
+  }
+  function selectAnnotation(id){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    selectedId = id;
+    els.annType.value = a.type;
+    els.annStart.value = fmtTime(a.start);
+    els.annEnd.value = a.end == null ? '' : fmtTime(a.end);
+    els.annLabel.value = a.label || '';
+    els.annActor.value = a.actor || '';
+    els.annText.value = a.text || '';
+    // Keep Add visible even while a row is selected. This lets users use an
+    // existing row as a template for a new annotation, while Update selected
+    // remains available for actual edits.
+    els.updateAnnBtn.classList.remove('hidden');
+    els.addAnnBtn.classList.remove('hidden');
+    if(els.deleteSelectedBtn) els.deleteSelectedBtn.disabled = false;
+    if(hasTimeValue(a.start)) setCurrentTime(a.start);
+    status('Selected annotation. Use Update selected to edit it, or Add annotation to create a new row from the current form.');
+    renderList();
+  }
+  function deleteSelected(){
+    if(!selectedId) return;
+    annotations = annotations.filter(a=>a.id!==selectedId);
+    selectedId = null;
+    markDirty(true);
+    status('Deleted selected annotation.');
+    clearForm();
+    renderList();
+  }
+  function replay(id){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    selectedId = id;
+    setCurrentTime(a.start);
+    renderList();
+    play();
+    if(a.end != null){
+      const stopAt = a.end;
+      const stopper = setInterval(()=>{
+        if(getCurrentTime() >= stopAt || !isPlaying()){
+          pause(); clearInterval(stopper);
+        }
+      },100);
+    }
+  }
+  function duplicate(id){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    const b = {...a, id:'ann_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), createdAt:new Date().toISOString(), updatedAt:new Date().toISOString(), text:a.text};
+    annotations.push(b); annotations.sort((x,y)=>sortTimeValue(x.start)-sortTimeValue(y.start)); selectedId=b.id; markDirty(true); renderList(); status('Duplicated annotation.');
+  }
+
+
+  function fmtShortTime(s){
+    s = Number(s); if(!Number.isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s/60), sec = Math.floor(s%60), tenth = Math.floor((s-Math.floor(s))*10);
+    return `${pad(m)}:${pad(sec)}.${tenth}`;
+  }
+  function ensureTranscriptRow(){
+    if(annotations.length) return;
+    const now = getCurrentTime();
+    annotations.push({id:'ann_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), type:'Transcript', start:null, end:null, label:'', actor:'', text:'', createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()});
+    selectedId = annotations[0].id;
+  }
+  function autoGrowTextArea(t){
+    if(!t) return;
+    t.style.height = 'auto';
+    t.style.height = Math.max(32, t.scrollHeight) + 'px';
+  }
+  function makeTimeCheck(kind, value){
+    const has = value != null && value !== '' && Number.isFinite(Number(value));
+    const label = has ? `${kind}: ${fmtShortTime(value)}` : '';
+    return `<span class="jr-time-check ${has?'':'empty'}" data-time-kind="${kind}" data-time="${has?String(Number(value)):''}" title="${escapeHtml(label)}">✓</span>`;
+  }
+  function renderTranscriptRows(){
+    if(!els.jrTranscriptRows) return;
+    ensureTranscriptRow();
+    els.jrTranscriptRows.classList.toggle('show-start-editors', openStartEditorId === '__all__');
+    els.jrTranscriptRows.innerHTML = annotations.map((a,i)=>{
+      const active = a.id === selectedId ? ' selected' : '';
+      const showStartEditor = openStartEditorId === '__all__' || openStartEditorId === a.id;
+      const startEditor = showStartEditor ? `<input class="jr-start-time-editor" data-start-editor="start" data-id="${a.id}" value="${hasTimeValue(a.start)?escapeHtml(fmtShortTime(a.start)):''}" placeholder="mm:ss.t" title="Edit Start time. Double-click/tap this timecode to hide it." />` : '';
+      return `<article class="jr-line${active}" data-id="${a.id}">
+        <div class="jr-line-num${showStartEditor ? ' editing' : ''}" data-act="seek-start" title="Go to this line's Start time"><span>${i+1}</span>${makeTimeCheck('Start', a.start)}${startEditor}</div>
+        <input class="jr-speaker" data-field="actor" maxlength="3" value="${escapeHtml(a.actor||'')}" title="Speaker, 3 characters maximum" />
+        <textarea class="jr-text" data-field="text" placeholder="Transcript / note line">${escapeHtml(a.text||'')}</textarea>
+        <div class="jr-end-slot">${makeTimeCheck('End', a.end)}</div>
+        <div class="jr-coding-slot">
+          <button class="jr-note-icon-btn jr-line-note-btn${a.lineNote ? ' has-note' : ''}" data-act="line-note" data-id="${a.id}" title="Line note">▣</button>
+        </div>
+        ${(openInlineNote.id===a.id && openInlineNote.type==='lineNote') ? `<div class="jr-inline-note"><div class="jr-inline-note-head">Line Note ${i+1}</div><textarea data-note-field="lineNote" data-id="${a.id}" placeholder="Line note for this transcript line">${escapeHtml(a.lineNote||'')}</textarea></div>` : ''}
+      </article>`;
+    }).join('');
+    requestAnimationFrame(()=>els.jrTranscriptRows.querySelectorAll('.jr-text').forEach(autoGrowTextArea));
+  }
+  function showInlineNote(id, type){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    selectedId = id;
+    openInlineNote = {id, type};
+    renderTranscriptRows();
+    setTimeout(()=>{
+      const t = document.querySelector('.jr-inline-note textarea[data-note-field="' + type + '"]');
+      if(t){ t.focus(); autoGrowTextArea(t); }
+    }, 30);
+  }
+  function saveInlineNote(id, field, value){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    a[field] = value || '';
+    a.updatedAt = new Date().toISOString();
+    markDirty(true);
+    status((field === 'lineNote' ? 'Line note' : 'Field note') + (a[field] ? ' saved.' : ' cleared.'));
+  }
+  function openProjectNote(){
+    if(!els.jrProjectNotePanel) return;
+    if(els.jrProjectNoteText) els.jrProjectNoteText.value = projectNote || '';
+    els.jrProjectNotePanel.classList.remove('hidden');
+    setTimeout(()=>{ if(els.jrProjectNoteText) els.jrProjectNoteText.focus(); }, 30);
+  }
+  function closeProjectNote(){
+    if(els.jrProjectNotePanel) els.jrProjectNotePanel.classList.add('hidden');
+  }
+  function openFieldNote(){
+    if(!els.jrFieldNotePanel) return;
+    if(els.jrFieldNoteText) els.jrFieldNoteText.innerHTML = fieldNote || '';
+    els.jrFieldNotePanel.classList.remove('hidden');
+    setTimeout(()=>{ if(els.jrFieldNoteText) els.jrFieldNoteText.focus(); }, 30);
+  }
+  function closeFieldNote(){
+    if(els.jrFieldNotePanel) els.jrFieldNotePanel.classList.add('hidden');
+  }
+  function refreshFieldNoteButton(){
+    if(!els.jrFieldNoteBtn) return;
+    els.jrFieldNoteBtn.classList.toggle('has-note', !!stripHtml(fieldNote || ''));
+  }
+  function seekLineStart(id){
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    selectedId = id;
+    if(hasTimeValue(a.start)){
+      setCurrentTime(Number(a.start));
+      renderList();
+      status('Moved video to line start ' + fmtShortTime(a.start) + '.');
+    } else {
+      renderList();
+      status('Selected line has no Start time yet. Press Start to set it.');
+    }
+  }
+  function selectedAnnotationIndex(){
+    let idx = annotations.findIndex(a=>a.id===selectedId);
+    if(idx < 0){ idx = Math.max(0, annotations.length-1); selectedId = annotations[idx]?.id || null; }
+    return idx;
+  }
+  function addTranscriptLine(){
+    ensureTranscriptRow();
+    const idx = selectedAnnotationIndex();
+    const row = {id:'ann_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), type:'Transcript', start:null, end:null, label:'', actor:'', text:'', createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()};
+    annotations.splice(idx+1, 0, row); selectedId = row.id; markDirty(true); renderList(); status('Added line below selected line.');
+    setTimeout(()=>{ const el = els.jrTranscriptRows.querySelector(`.jr-line[data-id="${selectedId}"] .jr-text`); if(el) el.focus(); }, 40);
+  }
+  function deleteTranscriptLine(){
+    ensureTranscriptRow();
+    const idx = selectedAnnotationIndex();
+    if(idx < 0) return;
+    if(annotations.length === 1){ annotations[0].text=''; annotations[0].actor=''; annotations[0].label=''; annotations[0].start=null; annotations[0].end=null; selectedId=annotations[0].id; }
+    else { annotations.splice(idx,1); selectedId = annotations[Math.min(idx, annotations.length-1)].id; }
+    markDirty(true); renderList(); status('Deleted selected line.');
+  }
+  function updateTranscriptField(id, field, value){
+    const a = annotations.find(x=>x.id===id); if(!a) return;
+    if(field === 'actor') a.actor = String(value||'').slice(0,3).toUpperCase();
+    else if(field === 'text') a.text = value;
+    else if(field === 'label') a.label = value;
+    a.type = a.label && !a.text ? 'Code' : 'Transcript';
+    a.updatedAt = new Date().toISOString();
+    markDirty(true);
+  }
+  function setLineTime(id, kind){
+    const a = annotations.find(x=>x.id===id); if(!a) return;
+    selectedId = id;
+    const t = getCurrentTime();
+    if(kind === 'start') a.start = t;
+    if(kind === 'end') a.end = t;
+    a.updatedAt = new Date().toISOString(); markDirty(true); renderList();
+    status((kind === 'start' ? 'Start' : 'End') + ' set to ' + fmtShortTime(t) + '.');
+  }
+  function toggleStartTimeEditor(id){
+    const a = annotations.find(x=>x.id===id); if(!a) return;
+    selectedId = id;
+    openStartEditorId = openStartEditorId === '__all__' ? null : '__all__';
+    renderTranscriptRows();
+    if(openStartEditorId === '__all__'){
+      status('Showing editable Start timecodes for all transcript lines.');
+      setTimeout(()=>{
+        const inp = els.jrTranscriptRows && els.jrTranscriptRows.querySelector(`.jr-line[data-id="${id}"] .jr-start-time-editor`);
+        if(inp){ inp.focus(); inp.select(); }
+      }, 30);
+    } else {
+      status('Hid editable Start timecodes.');
+    }
+  }
+  function commitStartTimeEditor(input, hide=false){
+    if(!input) return;
+    const id = input.dataset.id;
+    const a = annotations.find(x=>x.id===id);
+    if(!a) return;
+    const raw = String(input.value || '').trim();
+    if(raw === ''){
+      a.start = null;
+      a.updatedAt = new Date().toISOString();
+      markDirty(true);
+      status('Cleared line Start time.');
+    } else {
+      const t = parseTime(raw);
+      if(t == null || !Number.isFinite(t) || t < 0){
+        status('Invalid Start time. Use mm:ss.t, for example 02:14.6.');
+        input.classList.add('invalid');
+        return;
+      }
+      a.start = t;
+      a.updatedAt = new Date().toISOString();
+      markDirty(true);
+      input.classList.remove('invalid');
+      status('Edited line Start time to ' + fmtShortTime(t) + '.');
+    }
+    if(hide){
+      openStartEditorId = null;
+      renderTranscriptRows();
+    }
+  }
+  let tipTimer = null, tipEl = null;
+  let lineSeekTimer = null;
+  function removeFloatingTip(){ if(tipTimer){ clearTimeout(tipTimer); tipTimer=null; } if(tipEl){ tipEl.remove(); tipEl=null; } }
+  function showFloatingTip(target){
+    removeFloatingTip();
+    const t = target.getAttribute('data-time');
+    const kind = target.getAttribute('data-time-kind') || 'Time';
+    if(!t) return;
+    const r = target.getBoundingClientRect();
+    tipEl = document.createElement('div'); tipEl.className='jr-floating-tip'; tipEl.textContent = `${kind}: ${fmtShortTime(Number(t))}`;
+    document.body.appendChild(tipEl);
+    const tr = tipEl.getBoundingClientRect();
+    tipEl.style.left = Math.min(window.innerWidth-tr.width-8, Math.max(8, r.left + r.width/2 - tr.width/2)) + 'px';
+    tipEl.style.top = Math.max(8, r.top - tr.height - 8) + 'px';
+    setTimeout(removeFloatingTip, 2200);
+  }
+
+  function renderList(){
+    const q = els.filterText.value.trim().toLowerCase();
+    const rows = annotations.filter(a => !q || [a.type,a.label,a.actor,a.text,fmtOptionalTime(a.start)].join(' ').toLowerCase().includes(q));
+    els.countBadge.textContent = `${annotations.length} row${annotations.length===1?'':'s'}`;
+    if(rows.length === 0){
+      els.annotationList.innerHTML = `<div class="empty-video" style="background:#f7f9fd;border:1px dashed var(--line);border-radius:12px;color:#536172;">No annotations yet. Pause the video and add your first note, transcript, or code.</div>`;
+      renderTranscriptRows();
+      return;
+    }
+    els.annotationList.innerHTML = rows.map(a=>{
+      const cls = a.type.toLowerCase();
+      const end = a.end == null ? '' : ' → ' + fmtTime(a.end);
+      return `<article class="row ${a.id===selectedId?'active':''}" data-id="${a.id}">
+        <div class="row-head">
+          <span class="pill ${cls}">${escapeHtml(a.type)}</span>
+          <span class="row-time">${fmtOptionalTime(a.start) || '--:--.-'}${end}</span>
+          <button class="small" data-act="replay" data-id="${a.id}">Replay</button>
+        </div>
+        <div class="row-body" data-act="select" data-id="${a.id}">
+          <div class="row-label">
+            ${a.label ? `<span><strong>Label:</strong> ${escapeHtml(a.label)}</span>` : ''}
+            ${a.actor ? `<span><strong>Actor:</strong> ${escapeHtml(a.actor)}</span>` : ''}
+          </div>
+          <div class="row-text">${escapeHtml(a.text || '')}</div>
+        </div>
+        <div class="row-actions">
+          <button class="small" data-act="select" data-id="${a.id}">Edit</button>
+          <button class="small" data-act="duplicate" data-id="${a.id}">Duplicate</button>
+        </div>
+      </article>`;
+    }).join('');
+    renderTranscriptRows();
+  }
+
+  function projectObject(){
+    return {
+      app:'Gravar Jr.', version:'1.19', savedAt:new Date().toISOString(),
+      source, annotations, projectNote, fieldNote
+    };
+  }
+  function saveJson(){
+    const stamp = new Date().toISOString().slice(0,19).replace(/[T:]/g,'-');
+    download(`Gravar_Jr_project_${stamp}.json`, JSON.stringify(projectObject(), null, 2), 'application/json;charset=utf-8');
+    markDirty(false); status('Saved project JSON.');
+  }
+  function loadJsonFile(file){
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const obj = JSON.parse(reader.result);
+        annotations = Array.isArray(obj.annotations) ? obj.annotations.map(a=>({...a, start:hasTimeValue(a.start)?Number(a.start):null, end:hasTimeValue(a.end)?Number(a.end):null})) : [];
+        source = obj.source || {type:'local',name:'',url:'',youtubeId:''};
+        projectNote = obj.projectNote || '';
+        fieldNote = (obj.fieldNote && /<[^>]+>/.test(obj.fieldNote)) ? obj.fieldNote : escapeHtml(obj.fieldNote || '').replace(/\n/g,'<br>');
+        refreshFieldNoteButton();
+        openInlineNote = {id:null, type:null}; openStartEditorId = null;
+        selectedId = null;
+        if(source.type === 'youtube' && source.youtubeId){
+          els.sourceType.value = 'youtube'; onSourceTypeChange(); els.sourceUrl.value = source.url || source.youtubeId; createOrLoadYouTube(source.youtubeId); showMode('youtube','YOUTUBE');
+        } else if(source.type === 'url' && source.url){
+          els.sourceType.value = 'url'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.localVideo.src = source.url; els.localVideo.load(); showMode('url','DIRECT URL');
+        } else if(source.type === 'panopto' && source.url){
+          els.sourceType.value = 'web'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.webFrame.src = source.url; showMode('web','WEB EMBED');
+        } else {
+          els.sourceType.value = 'local'; onSourceTypeChange(); showMode('none','');
+          status('Project loaded. Re-select the local video file if needed: ' + (source.name || 'local file'));
+        }
+        markDirty(false); clearForm(); renderList(); startTicker(); status('Loaded project JSON.');
+      }catch(e){ status('Could not load JSON: ' + e.message); }
+    };
+    reader.readAsText(file);
+  }
+  function exportCsv(){
+    const headers = ['Start','End','Type','Label','Speaker/Actor','Text/Note','Start seconds','End seconds'];
+    const lines = [headers.map(csvCell).join(',')].concat(annotations.map(a => [
+      fmtOptionalTime(a.start), fmtOptionalTime(a.end), a.type, a.label, a.actor, a.text, hasTimeValue(a.start)?a.start:'', hasTimeValue(a.end)?a.end:''
+    ].map(csvCell).join(',')));
+    download('Gravar_Jr_annotations.csv', lines.join('\n'), 'text/csv;charset=utf-8');
+    status('Exported CSV.');
+  }
+  function exportHtml(){
+    const rows = annotations.map(a=>`<tr><td>${fmtOptionalTime(a.start)}</td><td>${fmtOptionalTime(a.end)}</td><td>${escapeHtml(a.type)}</td><td>${escapeHtml(a.label)}</td><td>${escapeHtml(a.actor)}</td><td>${escapeHtml(a.text).replace(/\n/g,'<br>')}</td></tr>`).join('\n');
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gravar Jr. Annotation Report</title><style>body{font-family:Arial,sans-serif;margin:28px;line-height:1.4;color:#172033}table{border-collapse:collapse;width:100%;margin-top:16px}th,td{border:1px solid #cfd7e6;padding:7px;vertical-align:top}th{background:#f0f3f8;text-align:left}.meta{color:#536172}
+/* v1.11 paper transcript pane redesign */
+.action-stack{display:none!important}
+.bottom-panel{grid-column:1 / 3;grid-row:3;overflow:hidden;min-height:0}
+.jr-transcript-pane{height:100%;display:grid;grid-template-rows:minmax(0,1fr) 48px;background:#fff;min-height:0}
+.jr-transcript-rows{overflow:auto;padding:6px 10px 4px;display:grid;align-content:start;gap:0;background:#fff}
+.jr-line{display:grid;grid-template-columns:36px 44px minmax(0,1fr) 22px;grid-template-rows:auto 32px;column-gap:6px;row-gap:1px;align-items:start;border-bottom:1px solid #d9e1ed;padding:4px 3px 3px;background:#fff;min-height:70px}
+.jr-line.selected{background:#eef6ff;box-shadow:inset 3px 0 0 var(--accent)}
+.jr-line-num{grid-column:1;grid-row:1 / 3;display:flex;align-items:flex-start;gap:3px;padding-top:3px;color:#596679;font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;user-select:none}
+.jr-speaker{grid-column:2;grid-row:1;width:100%;min-height:30px;height:30px;border:1px solid #d5deec;border-radius:8px;padding:3px 4px;text-align:center;text-transform:uppercase;font-size:13px;font-weight:800;background:#fff}
+.jr-text{grid-column:3;grid-row:1;width:100%;min-height:32px;border:0;border-radius:0;border-bottom:1px solid transparent;padding:2px 3px 3px;background:transparent;resize:none;overflow:hidden;font-size:16px;line-height:1.32;color:#172033;white-space:pre-wrap;word-break:normal}
+.jr-text:focus{outline:1px solid rgba(46,111,187,.25);outline-offset:1px;background:#fff}
+.jr-end-slot{grid-column:4;grid-row:1;display:flex;align-items:flex-start;justify-content:center;padding-top:6px}
+.jr-subline{grid-column:2 / 5;grid-row:2;display:flex;gap:6px;align-items:center;min-width:0}
+.jr-mini-btn{min-height:27px!important;height:27px!important;border-radius:8px!important;padding:3px 8px!important;font-size:12px!important;font-weight:800!important;background:#f8faff!important}
+.jr-code{min-height:27px!important;height:27px!important;border-radius:8px!important;padding:3px 7px!important;font-size:12px!important;max-width:180px}
+.jr-spacer{flex:1 1 auto;min-width:12px}
+.jr-time-check{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;min-width:14px;border:0;background:transparent;color:#d12626;font-size:13px;line-height:1;cursor:help;padding:0;font-weight:900;user-select:none}
+.jr-time-check.empty{visibility:hidden}
+.jr-bottom-actions{border-top:1px solid var(--line);padding:5px 8px;display:flex;gap:8px;align-items:center;background:#f8faff}
+.jr-bottom-actions button{min-height:36px!important;height:36px!important;border-radius:10px!important;padding:5px 12px!important;font-size:14px!important}
+.jr-note-status{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:auto}
+.jr-floating-tip{position:fixed;z-index:150;background:#111827;color:#fff;border-radius:8px;padding:6px 8px;font-size:12px;box-shadow:0 10px 28px rgba(0,0,0,.28);pointer-events:none;white-space:nowrap}
+@media(max-width:900px){.bottom-panel{grid-column:1 / 3}.jr-line{grid-template-columns:30px 40px minmax(0,1fr) 20px;column-gap:5px;padding-left:2px;padding-right:2px}.jr-text{font-size:15px}.jr-code{max-width:120px}.jr-bottom-actions{gap:6px}.jr-bottom-actions button{padding-left:9px!important;padding-right:9px!important}}
+
+
+
+/* v1.11 paper transcript pane refinements */
+.bottom-panel{background:#fff!important;border-color:#dfe5ee!important;box-shadow:0 2px 8px rgba(20,30,50,.06)!important}
+.jr-transcript-pane{height:100%;display:grid;grid-template-rows:minmax(0,1fr) 48px;background:#fff!important;min-height:0}
+.jr-transcript-rows{overflow:auto;padding:12px 18px 6px!important;display:grid;align-content:start;gap:0;background:#fff!important}
+.jr-line{display:grid!important;grid-template-columns:34px 42px minmax(0,1fr) 20px!important;grid-template-rows:auto!important;column-gap:8px!important;align-items:start!important;border-bottom:1px solid #e3e8f0!important;padding:7px 4px 6px!important;background:#fff!important;min-height:44px!important}
+.jr-line.selected{background:#fff!important;box-shadow:inset 2px 0 0 rgba(46,111,187,.55)!important}
+.jr-line-num{grid-column:1!important;grid-row:1!important;display:flex!important;align-items:flex-start!important;justify-content:flex-end!important;gap:3px!important;padding-top:5px!important;color:#6b7280!important;font-weight:750!important;font-size:12.5px!important;font-variant-numeric:tabular-nums!important;user-select:none!important}
+.jr-speaker{grid-column:2!important;grid-row:1!important;width:100%!important;min-height:28px!important;height:28px!important;border:0!important;border-radius:0!important;border-bottom:1px solid transparent!important;padding:3px 2px!important;text-align:center!important;text-transform:uppercase!important;font-size:13px!important;font-weight:800!important;background:transparent!important;color:#172033!important}
+.jr-speaker:focus{outline:1px solid rgba(46,111,187,.24)!important;outline-offset:1px!important;background:#fff!important}
+.jr-text{grid-column:3!important;grid-row:1!important;width:100%!important;min-height:30px!important;border:0!important;border-radius:0!important;padding:3px 4px 2px!important;background:transparent!important;resize:none!important;overflow:hidden!important;font-size:16px!important;line-height:1.35!important;color:#172033!important;white-space:pre-wrap!important;word-break:normal!important}
+.jr-text:focus{outline:1px solid rgba(46,111,187,.24)!important;outline-offset:1px!important;background:#fff!important}
+.jr-end-slot{grid-column:4!important;grid-row:1!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;padding-top:6px!important}
+.jr-subline,.jr-code{display:none!important}
+.jr-bottom-actions{border-top:1px solid #e1e7f0!important;padding:5px 10px!important;display:flex!important;gap:8px!important;align-items:center!important;background:#fff!important}
+.jr-bottom-actions button{min-height:36px!important;height:36px!important;border-radius:8px!important;padding:5px 12px!important;font-size:14px!important}
+.jr-time-check{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:13px!important;height:13px!important;min-width:13px!important;border:0!important;background:transparent!important;color:#d12626!important;font-size:12px!important;line-height:1!important;cursor:help!important;padding:0!important;font-weight:900!important;user-select:none!important}
+@media(max-width:900px){.jr-transcript-rows{padding:10px 12px 6px!important}.jr-line{grid-template-columns:29px 38px minmax(0,1fr) 18px!important;column-gap:6px!important;padding-left:2px!important;padding-right:2px!important}.jr-text{font-size:15px!important}.jr-bottom-actions{gap:6px!important}.jr-bottom-actions button{padding-left:9px!important;padding-right:9px!important}}
+
+</style></head><body><h1>Gravar Jr. Annotation Report</h1><p class="meta"><strong>Video source:</strong> ${escapeHtml(source.name || source.url || source.youtubeId || 'Not specified')}<br><strong>Exported:</strong> ${escapeHtml(new Date().toLocaleString())}</p>${projectNote ? `<h2>Project Note</h2><p>${escapeHtml(projectNote).replace(/\n/g,'<br>')}</p>` : ''}${stripHtml(fieldNote) ? `<h2>Field Note</h2><div>${fieldNote}</div>` : ''}<table><thead><tr><th>Start</th><th>End</th><th>Type</th><th>Label</th><th>Speaker/Actor</th><th>Text/Note</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+    download('Gravar_Jr_annotation_report.html', html, 'text/html;charset=utf-8');
+    status('Exported HTML report.');
+  }
+
+  els.sourceType.addEventListener('change', onSourceTypeChange);
+  els.loadSourceBtn.addEventListener('click', ()=>loadSource(els.sourceType.value || source.type));
+  function setPlaybackRate(rate){
+    rate = Number(rate) || 1;
+    els.speedSelect.value = String(rate);
+    if(currentMode === 'youtube' && ytPlayer && ytPlayer.setPlaybackRate) ytPlayer.setPlaybackRate(rate);
+    else if(els.localVideo) els.localVideo.playbackRate = rate;
+    status('Playback speed set to ' + rate + '×.');
+  }
+  let playHoldTimer = null, playLongPress = false;
+  els.playPauseBtn.addEventListener('pointerdown', ()=>{
+    playLongPress = false;
+    clearTimeout(playHoldTimer);
+    playHoldTimer = setTimeout(()=>{ playLongPress = true; if(els.speedMenu) els.speedMenu.classList.remove('hidden'); }, 1000);
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>els.playPauseBtn.addEventListener(ev, ()=>clearTimeout(playHoldTimer)));
+  els.playPauseBtn.addEventListener('click', e=>{
+    if(playLongPress){ e.preventDefault(); playLongPress = false; return; }
+    isPlaying() ? pause() : play();
+  });
+  if(els.speedMenu){
+    els.speedMenu.addEventListener('click', e=>{
+      const b=e.target.closest('[data-speed]'); if(!b) return;
+      setPlaybackRate(b.getAttribute('data-speed'));
+      els.speedMenu.classList.add('hidden');
+    });
+  }
+  document.addEventListener('click', e=>{ if(els.speedMenu && !els.speedMenu.contains(e.target) && e.target!==els.playPauseBtn) els.speedMenu.classList.add('hidden'); });
+  els.speedSelect.addEventListener('change', ()=>setPlaybackRate(els.speedSelect.value));
+  function bindJumpHold(btn, tapDelta, dir, ratePerSecond){
+    let holdTimer=null, interval=null, didHold=false;
+    const frameStep = 1/30;
+    const intervalMs = Math.max(60, Math.round(1000 / ratePerSecond));
+    function stop(){ clearTimeout(holdTimer); holdTimer=null; if(interval){ clearInterval(interval); interval=null; btn.classList.remove('holding'); } }
+    btn.addEventListener('pointerdown', ()=>{
+      didHold=false;
+      clearTimeout(holdTimer);
+      holdTimer=setTimeout(()=>{
+        didHold=true; btn.classList.add('holding');
+        interval=setInterval(()=>seek(dir * frameStep), intervalMs);
+      }, 500);
+    });
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>btn.addEventListener(ev, stop));
+    btn.addEventListener('click', e=>{ if(didHold){ e.preventDefault(); didHold=false; return; } seek(tapDelta); });
+  }
+  bindJumpHold(els.back5Btn, -5, -1, 8);
+  bindJumpHold(els.back1Btn, -1, -1, 4);
+  bindJumpHold(els.fwd1Btn, 1, 1, 4);
+  bindJumpHold(els.fwd5Btn, 5, 1, 8);
+  function seekFromTimelineEvent(e){
+    const dur = getDuration(); if(!dur) return;
+    const r = els.videoDiagnostic.getBoundingClientRect();
+    const x = Math.max(0, Math.min(r.width, e.clientX - r.left));
+    setCurrentTime((x / r.width) * dur);
+  }
+  els.videoDiagnostic.addEventListener('pointerdown', e=>{ e.preventDefault(); seekFromTimelineEvent(e); });
+  if(els.scrubLayer){
+    let scrubStartX=0, scrubStartTime=0, scrubbing=false;
+    els.scrubLayer.addEventListener('pointerdown', e=>{
+      if(currentMode === 'none' || currentMode === 'web') return;
+      scrubbing=true; scrubStartX=e.clientX; scrubStartTime=getCurrentTime();
+      els.scrubLayer.classList.add('scrubbing');
+      els.scrubLayer.setPointerCapture && els.scrubLayer.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    els.scrubLayer.addEventListener('pointermove', e=>{
+      if(!scrubbing) return;
+      const r = els.scrubLayer.getBoundingClientRect();
+      const dx = e.clientX - scrubStartX;
+      const span = Math.max(80, Math.min(360, r.width * .35));
+      const delta = Math.max(-2, Math.min(2, (dx / span) * 2));
+      setCurrentTime(scrubStartTime + delta);
+      setDiag('Scrubbing ' + (delta>=0?'+':'') + delta.toFixed(2) + 's from start point.');
+      e.preventDefault();
+    });
+    function endScrub(e){ if(!scrubbing) return; scrubbing=false; els.scrubLayer.classList.remove('scrubbing'); updateTimeReadout(); }
+    els.scrubLayer.addEventListener('pointerup', endScrub);
+    els.scrubLayer.addEventListener('pointercancel', endScrub);
+    els.scrubLayer.addEventListener('pointerleave', endScrub);
+  }
+  ['timeupdate','play','pause','loadedmetadata','seeked'].forEach(ev=>els.localVideo.addEventListener(ev, updateTimeReadout));
+  els.localVideo.addEventListener('loadedmetadata', ()=>setDiag('Video metadata loaded. Duration: ' + fmtTime(els.localVideo.duration || 0) + '.'));
+  els.localVideo.addEventListener('canplay', ()=>status('Video ready.'));
+  els.localVideo.addEventListener('error', ()=>{ const e=els.localVideo.error; setDiag('Video failed to load. Browser media error ' + (e?e.code:'unknown') + '. Use MP4/H.264 when possible, or check whether the URL is a direct video file.'); });
+  els.captureNowBtn.addEventListener('click', ()=>{ els.annStart.value = fmtTime(getCurrentTime()); status('Captured current time as start.'); });
+  els.markStartBtn.addEventListener('click', ()=>{ els.annStart.value = fmtTime(getCurrentTime()); status('Set annotation start.'); });
+  els.markEndBtn.addEventListener('click', ()=>{ els.annEnd.value = fmtTime(getCurrentTime()); status('Set annotation end.'); });
+  els.addAnnBtn.addEventListener('click', addAnnotation);
+  els.updateAnnBtn.addEventListener('click', updateAnnotation);
+  els.clearFormBtn.addEventListener('click', clearForm);
+  if(els.deleteSelectedBtn) els.deleteSelectedBtn.addEventListener('click', deleteSelected);
+  els.sortBtn.addEventListener('click', ()=>{ annotations.sort((a,b)=>sortTimeValue(a.start)-sortTimeValue(b.start)); markDirty(true); renderList(); status('Sorted annotations by start time.'); });
+  if(els.jrSetStartBtn) els.jrSetStartBtn.addEventListener('click', ()=>setLineTime(selectedId, 'start'));
+  if(els.jrSetEndBtn) els.jrSetEndBtn.addEventListener('click', ()=>setLineTime(selectedId, 'end'));
+  if(els.jrAddLineBtn) els.jrAddLineBtn.addEventListener('click', addTranscriptLine);
+  if(els.jrDeleteLineBtn) els.jrDeleteLineBtn.addEventListener('click', deleteTranscriptLine);
+  if(els.projectNoteBtn) els.projectNoteBtn.addEventListener('click', openProjectNote);
+  if(els.jrProjectNoteText) els.jrProjectNoteText.addEventListener('input', ()=>{ projectNote = els.jrProjectNoteText.value || ''; markDirty(true); status(projectNote ? 'Saved project note.' : 'Cleared project note.'); });
+  if(els.jrProjectNoteClose) els.jrProjectNoteClose.addEventListener('click', closeProjectNote);
+  if(els.jrFieldNoteBtn) els.jrFieldNoteBtn.addEventListener('click', openFieldNote);
+  if(els.jrFieldNoteText) els.jrFieldNoteText.addEventListener('input', ()=>{ saveFieldNoteFromEditor(); status(stripHtml(fieldNote) ? 'Saved field note.' : 'Cleared field note.'); });
+  if(els.jrFieldNotePanel) els.jrFieldNotePanel.addEventListener('click', e=>{ const b=e.target.closest('[data-field-note-cmd]'); if(!b) return; e.preventDefault(); const cmd=b.dataset.fieldNoteCmd; if(cmd!=='table') els.jrFieldNoteText && els.jrFieldNoteText.focus(); if(cmd==='bold') document.execCommand('bold', false, null); else if(cmd==='italic') document.execCommand('italic', false, null); else if(cmd==='color') document.execCommand('foreColor', false, b.dataset.color || '#0f172a'); else if(cmd==='clear') document.execCommand('removeFormat', false, null); else if(cmd==='table') insertFieldNoteTable(); else if(cmd==='add-row') addFieldNoteTableRow(); else if(cmd==='delete-row') deleteFieldNoteTableRow(); else if(cmd==='add-col') addFieldNoteTableColumn(); else if(cmd==='delete-col') deleteFieldNoteTableColumn(); saveFieldNoteFromEditor(); });
+  if(els.exportFieldRtfBtn) els.exportFieldRtfBtn.addEventListener('click', exportFieldNoteRtf);
+  if(els.jrFieldNoteClose) els.jrFieldNoteClose.addEventListener('click', closeFieldNote);
+  if(els.jrTranscriptRows){
+    els.jrTranscriptRows.addEventListener('click', e=>{
+      const line = e.target.closest('.jr-line'); if(!line) return;
+      selectedId = line.dataset.id;
+      if(e.target.closest('.jr-start-time-editor')) return;
+      if(e.target.closest('.jr-line-num')) { if(e.detail >= 2) toggleStartTimeEditor(selectedId); else seekLineStart(selectedId); return; }
+      if(e.target.matches('[data-act="line-note"]')) { showInlineNote(selectedId, 'lineNote'); return; }
+      if(e.target.matches('[data-act="set-start"]')) setLineTime(selectedId, 'start');
+      else if(e.target.matches('[data-act="set-end"]')) setLineTime(selectedId, 'end');
+      else if(e.target.dataset && e.target.dataset.field) {
+        line.classList.add('selected');
+      } else {
+        renderList();
+      }
+    });
+    els.jrTranscriptRows.addEventListener('dblclick', e=>{
+      const editor = e.target.closest('.jr-start-time-editor');
+      if(editor){ commitStartTimeEditor(editor, true); e.preventDefault(); return; }
+      const ln = e.target.closest('.jr-line-num');
+      if(ln){ const line = ln.closest('.jr-line'); if(line) toggleStartTimeEditor(line.dataset.id); e.preventDefault(); }
+    });
+    els.jrTranscriptRows.addEventListener('change', e=>{
+      if(e.target.closest('.jr-start-time-editor')) commitStartTimeEditor(e.target, false);
+    });
+    els.jrTranscriptRows.addEventListener('keydown', e=>{
+      const editor = e.target.closest('.jr-start-time-editor');
+      if(!editor) return;
+      if(e.key === 'Enter'){ e.preventDefault(); commitStartTimeEditor(editor, false); editor.select(); }
+    });
+    els.jrTranscriptRows.addEventListener('input', e=>{
+      const line = e.target.closest('.jr-line'); if(!line) return; selectedId=line.dataset.id; if(e.target.closest('.jr-start-time-editor')) return; if(e.target.dataset.noteField){ saveInlineNote(selectedId, e.target.dataset.noteField, e.target.value); autoGrowTextArea(e.target); return; } if(!e.target.dataset.field) return; updateTranscriptField(selectedId, e.target.dataset.field, e.target.value); if(e.target.classList.contains('jr-text')) autoGrowTextArea(e.target);
+    });
+    els.jrTranscriptRows.addEventListener('pointerdown', e=>{
+      if(e.target.closest('.jr-start-time-editor')) return;
+      const ln = e.target.closest('.jr-line-num');
+      if(ln){
+        const line = ln.closest('.jr-line');
+        if(line){ lineSeekTimer = setTimeout(()=>seekLineStart(line.dataset.id), 500); }
+      }
+      const ck = e.target.closest('.jr-time-check:not(.empty)'); if(ck) tipTimer = setTimeout(()=>showFloatingTip(ck), 1000);
+    });
+    ['pointerup','pointercancel','pointerleave'].forEach(ev=>els.jrTranscriptRows.addEventListener(ev, ()=>{ if(lineSeekTimer){ clearTimeout(lineSeekTimer); lineSeekTimer=null; } removeFloatingTip(); }));
+    els.jrTranscriptRows.addEventListener('mouseover', e=>{ const ck=e.target.closest('.jr-time-check:not(.empty)'); if(ck) ck.title = `${ck.dataset.timeKind}: ${fmtShortTime(Number(ck.dataset.time))}`; });
+  }
+  els.filterText.addEventListener('input', renderList);
+  els.annotationList.addEventListener('click', e=>{
+    const btn = e.target.closest('[data-act]');
+    if(!btn) return;
+    const id = btn.getAttribute('data-id');
+    const act = btn.getAttribute('data-act');
+    if(act === 'select') selectAnnotation(id);
+    if(act === 'replay') replay(id);
+    if(act === 'duplicate') duplicate(id);
+  });
+  els.saveJsonBtn.addEventListener('click', saveJson);
+  els.loadJsonBtn.addEventListener('click', ()=>els.jsonFileInput.click());
+  els.jsonFileInput.addEventListener('change', ()=>{ const f=els.jsonFileInput.files[0]; if(f) loadJsonFile(f); els.jsonFileInput.value=''; });
+  els.exportCsvBtn.addEventListener('click', exportCsv);
+  els.exportHtmlBtn.addEventListener('click', exportHtml);
+  els.mobileExportsBtn.addEventListener('click', ()=>{
+    const choice = prompt('Type one: json, csv, html', 'csv');
+    if(!choice) return;
+    if(choice.toLowerCase().startsWith('j')) saveJson();
+    else if(choice.toLowerCase().startsWith('h')) exportHtml();
+    else exportCsv();
+  });
+  els.newProjectBtn.addEventListener('click', ()=>{
+    if(dirty && !confirm('Start a new project and discard unsaved changes?')) return;
+    annotations=[]; selectedId=null; projectNote=''; fieldNote=''; refreshFieldNoteButton(); openInlineNote={id:null,type:null}; openStartEditorId=null; source={type:'local',name:'',url:'',youtubeId:''};
+    els.localVideo.removeAttribute('src'); els.localVideo.load(); if(ytPlayer&&ytPlayer.stopVideo) ytPlayer.stopVideo();
+    showMode('none',''); clearForm(); markDirty(false); status('New project.');
+  });
+  els.helpBtn.addEventListener('click', ()=>els.helpModal.classList.add('show'));
+  els.closeHelpBtn.addEventListener('click', ()=>els.helpModal.classList.remove('show'));
+  els.helpModal.addEventListener('click', e=>{ if(e.target===els.helpModal) els.helpModal.classList.remove('show'); });
+
+  const fileMenuBtn = document.getElementById('fileMenuBtn');
+  const fileMenu = document.getElementById('fileMenu');
+  const chooseVideoBtn = document.getElementById('chooseVideoBtn');
+  const modeToggleBtn = document.getElementById('modeToggleBtn');
+  const addPane = document.getElementById('addPane');
+  const annotatePane = document.getElementById('annotatePane');
+  let workspaceMode = 'add';
+  function setWorkspaceMode(mode){
+    workspaceMode = mode;
+    addPane.classList.toggle('hidden', mode !== 'add');
+    annotatePane.classList.toggle('hidden', mode !== 'annotate');
+    if(modeToggleBtn){
+      modeToggleBtn.textContent = mode === 'add' ? 'Annotate' : 'Add';
+      modeToggleBtn.setAttribute('aria-pressed', mode === 'annotate' ? 'true' : 'false');
+    }
+    status(mode === 'add' ? 'Add mode.' : 'Annotation list mode.');
+  }
+  fileMenuBtn.addEventListener('click', e=>{ e.stopPropagation(); fileMenu.classList.toggle('show'); });
+  document.addEventListener('click', e=>{ if(!fileMenu.contains(e.target) && e.target!==fileMenuBtn) fileMenu.classList.remove('show'); });
+  fileMenu.addEventListener('click', e=>{
+    if(e.target.closest('select')) return;
+    if(e.target.closest('button')) setTimeout(()=>fileMenu.classList.remove('show'), 120);
+  });
+  if(modeToggleBtn) modeToggleBtn.addEventListener('click', ()=>setWorkspaceMode(workspaceMode === 'add' ? 'annotate' : 'add'));
+  if(chooseVideoBtn){
+    chooseVideoBtn.addEventListener('click', ()=>promptForVideoSource(els.sourceType.value || 'local'));
+  }
+  els.localFile.addEventListener('change', ()=>{
+    if(els.localFile.files[0]){
+      configureSourceInputs('local');
+      loadSource('local');
+      resetChooseVideoMenu();
+    }
+  });
+
+  window.addEventListener('beforeunload', e=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+  window.addEventListener('keydown', e=>{
+    const tag = (e.target.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if(e.code === 'Space'){ e.preventDefault(); isPlaying()?pause():play(); }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); seek(e.shiftKey?-5:-1); }
+    if(e.key === 'ArrowRight'){ e.preventDefault(); seek(e.shiftKey?5:1); }
+    if(e.key.toLowerCase() === 'n'){ e.preventDefault(); els.annStart.value = fmtTime(getCurrentTime()); els.annText.focus(); }
+  });
+
+  onSourceTypeChange();
+  if(canUseFileProtocol) setDiag('This app is being opened from a local file. Local video may work on laptops, but YouTube streaming will usually fail with Error 153. Use the included Mac launcher for localhost testing, or deploy the hosted package and open its HTTPS URL on the tablet.');
+  showMode('none','');
+  clearForm();
+  markDirty(false);
+  startTicker();
+})();
+</script>
+</body>
+</html>
