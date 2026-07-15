@@ -4,11 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
-<title>Gravar Jr. v1.20 — All Start Timecodes Toggle</title>
+<meta name="gravar-jr-catalog-base" content="catalogs/" />
+<title>Gravar Jr. v1.23 — Follow Transcript During Playback</title>
 <style>
 :root{--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#5d6878;--line:#cfd7e5;--accent:#2e6fbb;--accent2:#164f91;--danger:#b43c3c;--radius:18px;--tap:52px;--shadow:0 5px 16px rgba(20,30,50,.10)}
 *{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif} body{overflow:hidden} button,input,select,textarea{font:inherit} button{min-height:var(--tap);border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);padding:9px 13px;font-weight:650;cursor:pointer;touch-action:manipulation} button.primary{background:var(--accent);border-color:var(--accent);color:#fff} button.primary:hover{background:var(--accent2)} button.danger{background:var(--danger);border-color:var(--danger);color:#fff} button.small{min-height:40px;padding:6px 10px;font-size:13px} button:disabled{opacity:.45} input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 11px;color:var(--ink)} textarea{resize:none;line-height:1.35} label{display:block;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:4px}.hidden{display:none!important}.file-input{display:none}.app{height:100%;padding:10px}.layout{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 154px;grid-template-rows:34px minmax(150px,1fr) minmax(250px,50vh);gap:8px;max-width:1500px;margin:0 auto}.topbar,.video-panel,.bottom-panel,.side-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.topbar{grid-column:1;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:3px 8px;min-height:34px}.video-name{min-width:0;height:24px;line-height:24px;border:0;border-radius:8px;padding:0 4px;background:transparent;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}.file-box{position:relative;justify-self:end;align-self:center}.file-box>button{width:34px;height:28px;min-height:28px;padding:0;border-radius:9px;font-size:18px;line-height:1;background:#f8faff}.file-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);width:min(300px,calc(100vw - 30px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:9px;z-index:80;gap:6px}.file-menu.show{display:grid}.file-menu .menu-block{display:block;padding:2px 2px 6px;border-bottom:1px solid #edf1f7;margin-bottom:4px}.file-menu .menu-block select{height:38px;padding:6px 8px}.file-menu button{min-height:40px;border:0;border-radius:9px;text-align:left;background:#fff;padding:7px 9px}.file-menu button:hover{background:#eef3fb}.file-menu .primary{background:var(--accent);color:#fff;text-align:center}.file-menu .primary:hover{background:var(--accent2)}
+.topbar{grid-column:1;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:3px 8px;min-height:34px}.video-name{min-width:0;height:24px;line-height:24px;border:0;border-radius:8px;padding:0 4px;background:transparent;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}.file-box{position:relative;justify-self:end;align-self:center}.file-box>button{width:34px;height:28px;min-height:28px;padding:0;border-radius:9px;font-size:18px;line-height:1;background:#f8faff}.file-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);width:min(300px,calc(100vw - 30px));max-height:min(82vh,720px);overflow-y:auto;overscroll-behavior:contain;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:9px;z-index:80;gap:6px}.file-menu.show{display:grid}.file-menu .menu-block{display:block;padding:2px 2px 6px;border-bottom:1px solid #edf1f7;margin-bottom:4px}.file-menu .menu-block select{height:38px;padding:6px 8px}.file-menu button{min-height:40px;border:0;border-radius:9px;text-align:left;background:#fff;padding:7px 9px}.file-menu button:hover{background:#eef3fb}.file-menu .primary{background:var(--accent);color:#fff;text-align:center}.file-menu .primary:hover{background:var(--accent2)}
 .video-panel{grid-column:1;grid-row:2;position:relative;overflow:hidden;background:#10141d;min-height:0}.video-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative}video,#youtubeWrap,#youtubePlayer,#webFrame{width:100%;height:100%;border:0;background:#000}video{object-fit:contain}.empty-video{color:#dbe5f4;text-align:center;padding:30px;line-height:1.5;max-width:620px}.video-overlay-label{position:absolute;left:12px;top:12px;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:750;z-index:7}.scrub-layer{position:absolute;left:0;right:0;top:0;bottom:24px;z-index:5;cursor:ew-resize;touch-action:none;background:transparent}.scrub-layer.scrubbing{background:rgba(46,111,187,.08)}.diagnostic{position:absolute;left:0;right:0;bottom:0;height:24px;background:rgba(255,255,255,.94);border-top:1px solid rgba(0,0,0,.15);font-size:11px;color:#47556b;overflow:hidden;z-index:8;cursor:pointer;touch-action:none}.diag-progress{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(46,111,187,.25);pointer-events:none}.diag-text{position:relative;z-index:1;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px;white-space:nowrap;overflow:hidden}.diag-message{overflow:hidden;text-overflow:ellipsis}.time-readout{font-variant-numeric:tabular-nums;font-weight:850;color:#172033;white-space:nowrap}.yt-actions{position:absolute;right:10px;top:10px;background:#fff;padding:5px;border-radius:10px;display:flex;gap:6px;align-items:center;font-size:12px;z-index:11}.yt-actions a{color:var(--accent)}.speed-menu{position:absolute;right:10px;top:10px;z-index:75;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 38px rgba(0,0,0,.22);padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;min-width:220px}.speed-menu button{min-height:38px;padding:6px 8px}.speed-menu .speed-title{grid-column:1/-1;font-weight:800;font-size:12px;color:var(--muted);padding:0 2px 2px}
 .transport{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:8px;padding:10px}.transport button{width:100%;flex:1;font-size:18px}.transport .play{flex:1.35}.transport button.holding{box-shadow:0 0 0 3px rgba(46,111,187,.18);border-color:var(--accent)}.speed-wrap{display:none}
 .bottom-panel{grid-column:1;grid-row:3;overflow:hidden;min-height:0}.add-pane{height:100%;display:grid;grid-template-rows:1fr auto;gap:8px;padding:11px}.note-area textarea{height:100%;min-height:86px;font-size:16px}.fields{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end}.field-actions{display:flex;gap:7px}.field-actions button{min-height:46px}.status{font-size:12px;color:var(--muted);min-height:16px}.annotation-pane{height:100%;display:grid;grid-template-rows:auto 1fr;min-height:0}.list-toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:8px;border-bottom:1px solid var(--line)}.annotation-list{overflow:auto;padding:8px;display:grid;gap:7px}.row{border:1px solid var(--line);border-radius:11px;background:#fff;overflow:hidden}.row.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(46,111,187,.15)}.row-head{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:#f8faff;border-bottom:1px solid #e9eef7;padding:6px 8px}.pill{display:inline-flex;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800;border:1px solid var(--line);background:#fff;white-space:nowrap}.row-time{font-variant-numeric:tabular-nums;font-weight:800}.row-body{padding:7px 9px}.row-label{font-size:12px;color:var(--muted);display:flex;gap:8px}.row-text{white-space:pre-wrap;line-height:1.3}.row-actions{display:flex;gap:5px;padding:0 9px 7px}.row-actions button{min-height:34px;padding:4px 7px;font-size:12px}
@@ -146,20 +147,102 @@
 .jr-start-time-editor:focus{outline:none!important;border-color:#93b7e4!important;box-shadow:0 0 0 2px rgba(46,111,187,.14)!important;}
 @media(max-width:900px){.jr-transcript-rows.show-start-editors .jr-line{grid-template-columns:94px 38px minmax(0,1fr) 18px 104px!important}.jr-start-time-editor{width:60px!important;font-size:11px!important;padding-left:3px!important;padding-right:3px!important;}}
 @media(orientation:portrait) and (max-width:900px){.jr-transcript-rows.show-start-editors .jr-line{grid-template-columns:88px 36px minmax(0,1fr) 18px 92px!important}.jr-start-time-editor{width:56px!important;font-size:10.5px!important;}}
+
+/* v1.21: custom File icon, class catalog menus, paired Start/End editors, and help content */
+.file-menu-icon{display:block;width:22px;height:22px;object-fit:contain;margin:auto;border-radius:5px}
+.empty-video-guide{display:flex;align-items:center;justify-content:center;gap:18px;max-width:760px!important;font-size:18px}
+.empty-file-icon{width:68px;height:68px;flex:0 0 68px;border-radius:14px;box-shadow:0 5px 16px rgba(0,0,0,.25)}
+.file-menu{max-height:min(84vh,720px);overflow:auto}
+.file-menu .class-menu-block label{margin:0 0 5px 3px}
+.menu-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:center}
+.menu-row input{height:38px;padding:6px 8px;font-size:13px}
+.menu-row button{min-height:38px!important;height:38px!important;border:1px solid var(--line)!important;text-align:center!important}
+.menu-parent{display:flex!important;align-items:center!important;justify-content:space-between!important;width:100%}
+.menu-submenu{margin:0 0 4px 12px;padding:4px;border-left:2px solid #dbe4f0;background:#f8fafc;border-radius:0 9px 9px 0}
+.menu-submenu button{width:100%;background:transparent!important}
+.menu-status{font-size:11px;color:var(--muted);line-height:1.3;padding:4px 4px 2px;word-break:break-word}
+.streaming-items{display:grid;gap:2px}
+.streaming-item{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
+.streaming-item .stream-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.streaming-item .stream-type{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.help-content h2{font-size:17px;margin:22px 0 7px}.help-content h2:first-child{margin-top:0}.help-content p{margin:7px 0 12px}.help-content dl{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:7px 14px;margin:8px 0}.help-content dt{font-weight:850;color:#24324a}.help-content dd{margin:0;color:#3e4b60}.help-content code{background:#f1f5f9;border-radius:5px;padding:1px 4px}
+.jr-transcript-rows.show-time-editors .jr-line{grid-template-columns:34px 78px 42px minmax(0,1fr) 78px 154px!important}
+.jr-start-slot{display:none!important}
+.jr-transcript-rows.show-time-editors .jr-start-slot{grid-column:2!important;grid-row:1!important;display:flex!important;align-items:flex-start!important;padding-top:2px!important}
+.jr-transcript-rows.show-time-editors .jr-speaker{grid-column:3!important}
+.jr-transcript-rows.show-time-editors .jr-text{grid-column:4!important}
+.jr-transcript-rows.show-time-editors .jr-end-slot{grid-column:5!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;padding-top:2px!important}
+.jr-transcript-rows.show-time-editors .jr-coding-slot{grid-column:6!important}
+.jr-time-editor{position:static!important;width:74px!important;height:25px!important;min-height:25px!important;padding:2px 4px!important;border:1px solid #cbd5e1!important;border-radius:6px!important;background:#fff!important;color:#172033!important;font:11.5px ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;font-variant-numeric:tabular-nums!important;box-shadow:none!important;text-align:center!important}
+.jr-time-editor:focus{outline:none!important;border-color:#93b7e4!important;box-shadow:0 0 0 2px rgba(46,111,187,.14)!important}
+.jr-time-editor.invalid{border-color:#dc2626!important;box-shadow:0 0 0 2px rgba(220,38,38,.12)!important}
+.jr-transcript-rows.show-time-editors .jr-line-num{justify-content:flex-end!important}
+.jr-transcript-rows.show-time-editors .jr-end-slot .jr-time-check{display:none!important}
+@media(max-width:900px){
+  .empty-video-guide{font-size:15px;gap:12px}.empty-file-icon{width:50px;height:50px;flex-basis:50px}
+  .jr-transcript-rows.show-time-editors .jr-line{grid-template-columns:29px 64px 38px minmax(0,1fr) 64px 104px!important}
+  .jr-time-editor{width:60px!important;font-size:10.5px!important;padding-left:2px!important;padding-right:2px!important}
+  .help-content dl{grid-template-columns:1fr;gap:2px}.help-content dd{margin:0 0 8px}
+}
+@media(orientation:portrait) and (max-width:900px){
+  .jr-transcript-rows.show-time-editors .jr-line{grid-template-columns:29px 58px 36px minmax(0,1fr) 58px 92px!important}
+  .jr-time-editor{width:54px!important;font-size:10px!important}
+}
+
+
+/* v1.23: Follow playback highlights the transcript line with the latest Start time at or before the current video time. */
+.jr-line.follow-current{background:#fff8bf!important;}
+.jr-line.follow-current.selected{background:#fff8bf!important;}
+#jrFollowBtn[aria-pressed="true"]{background:#fff4b8!important;border-color:#d8b64c!important;color:#5d4700!important;}
+
+/* v1.23: local project library plus optional writable device folders. */
+.project-current-status{font-size:11px;color:#536172;line-height:1.3;padding:3px 9px 7px;border-bottom:1px solid #edf1f7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.project-form{display:grid;gap:12px}.project-form-row{display:grid;gap:5px}.project-form-row label{font-size:13px}.project-folder-box{border:1px solid #dbe3ee;border-radius:12px;padding:10px;background:#f8fafc;display:grid;gap:8px}.project-folder-status{font-size:12px;color:#536172;line-height:1.4}.project-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}.project-library-list{display:grid;gap:8px}.project-library-empty{border:1px dashed #cbd5e1;border-radius:12px;padding:18px;text-align:center;color:#64748b;background:#f8fafc}.project-library-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid #dbe3ee;border-radius:12px;padding:10px;background:#fff}.project-library-name{font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.project-library-meta{font-size:12px;color:#64748b;margin-top:3px;line-height:1.35}.project-library-actions{display:flex;gap:6px}.project-library-actions button{min-height:36px!important;height:36px!important;padding:5px 9px!important;font-size:12px!important}.folder-supported{color:#047857}.folder-unavailable{color:#9a3412}.menu-submenu .menu-status strong{color:#172033}
+@media(max-width:700px){.project-library-item{grid-template-columns:1fr}.project-library-actions{justify-content:flex-end}.project-modal-actions{flex-wrap:wrap}.project-modal-actions button{flex:1 1 auto}}
 </style>
 </head>
 <body>
 <div class="app"><main class="layout">
   <section class="topbar">
     <div id="videoTitleDisplay" class="video-name">No video selected</div>
-    <div class="file-box"><button id="fileMenuBtn" title="Files and video source" aria-label="Files and video source">📁</button><div id="fileMenu" class="file-menu">
-      <div class="menu-block"><select id="sourceType" aria-label="Choose video source"><option value="" selected>&lt; Choose Video &gt;</option><option value="local">Local file</option><option value="youtube">YouTube</option><option value="panopto">Panopto</option></select></div>
-      <button id="newProjectBtn">New project</button><button id="projectNoteBtn">Project Note</button><button id="saveJsonBtn">Save project JSON</button><button id="loadJsonBtn">Load project JSON</button><button id="exportCsvBtn">Export CSV</button><button id="exportHtmlBtn">Export HTML report</button><button id="exportFieldRtfBtn">Export Field Note RTF</button><button id="helpBtn">Help</button>
+    <div class="file-box"><button id="fileMenuBtn" title="Open the File menu for videos, projects, exports, class catalogs, Getting Started, and Help" aria-label="Open File menu"><img class="file-menu-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIyNiIgZmlsbD0iIzJmMzAzNSIvPgo8cGF0aCBkPSJNMjggMzhoMzJsOSAxMGgzMXY0NWE4IDggMCAwIDEtOCA4SDI4YTggOCAwIDAgMS04LThWNDZhOCA4IDAgMCAxIDgtOHoiIGZpbGw9IiNmM2Y0ZjYiLz4KPHBhdGggZD0iTTI4IDUyaDY4YTggOCAwIDAgMSA4IDh2MzJhOCA4IDAgMCAxLTggOEgyOGE4IDggMCAwIDEtOC04VjYwYTggOCAwIDAgMSA4LTh6IiBmaWxsPSIjZmZmZmZmIi8+CjxwYXRoIGQ9Ik0zNyAzMWgzMGwxMCAxMUgzN2E3IDcgMCAwIDAtNyA3djM5aC05VjQ3YTE2IDE2IDAgMCAxIDE2LTE2eiIgZmlsbD0iI2Q4ZGJlMSIvPgo8cGF0aCBkPSJNNzggNjdoMjZ2MjVhOCA4IDAgMCAxLTggOEg3OHoiIGZpbGw9IiNlNjVhM2MiLz4KPHBhdGggZD0iTTc4IDY3aDI2TDkxIDgwSDc4eiIgZmlsbD0iI2YzN2E1NSIvPgo8L3N2Zz4=" alt="" aria-hidden="true"></button><div id="fileMenu" class="file-menu" role="menu" aria-label="File menu">
+      <div class="menu-block"><select id="sourceType" aria-label="Choose video source" title="Choose a direct video source: Local file, YouTube, or Panopto"><option value="" selected>&lt; Choose Video &gt;</option><option value="local">Local</option><option value="youtube">YouTube</option><option value="panopto">Panopto</option></select></div>
+      <div class="menu-block class-menu-block">
+        <label for="classCodeInput">Class</label>
+        <div class="menu-row"><input id="classCodeInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="e.g., cds670-f26" aria-label="Class code" title="Enter the class code used to select a class-specific GitHub streaming catalog"><button id="setClassBtn" class="small" type="button" title="Save this class code locally and load its streaming catalog">Set</button></div>
+        <div id="classStatus" class="menu-status" aria-live="polite">No class selected.</div>
+      </div>
+      <button id="streamingFilesBtn" class="menu-parent" type="button" aria-expanded="false" title="Open the class-specific Streaming Files submenu">Streaming Files <span aria-hidden="true">›</span></button>
+      <div id="streamingSubmenu" class="menu-submenu hidden" role="group" aria-label="Streaming Files submenu">
+        <button id="refreshCatalogBtn" type="button" title="Refresh the selected class catalog from GitHub; the last successful catalog remains cached locally">↻ Refresh catalog</button>
+        <div id="streamingCatalogStatus" class="menu-status" aria-live="polite">Select a class first.</div>
+        <div id="streamingCatalogItems" class="streaming-items"></div>
+      </div>
+      <button id="newProjectBtn" type="button" title="Create and name a new project with its own internal project folder and, where supported, an optional writable device folder">New Project</button>
+      <button id="loadJsonBtn" type="button" title="Open a project saved in this device's Gravar Jr. project library">Load Project</button>
+      <button id="saveJsonBtn" type="button" title="Save or update the current working project in the local Gravar Jr. project library">Save Project</button>
+      <div id="projectLibraryStatus" class="project-current-status" title="Current working project and project folder">No working project named yet.</div>
+      <button id="projectFolderMenuBtn" class="menu-parent" type="button" aria-expanded="false" title="Manage the optional writable device folder linked to this project">Project Folder <span aria-hidden="true">›</span></button>
+      <div id="projectFolderSubmenu" class="menu-submenu hidden" role="group" aria-label="Project Folder submenu">
+        <div id="projectFolderStatus" class="menu-status" aria-live="polite">Internal project folder only.</div>
+        <button id="linkProjectFolderBtn" type="button" title="Choose a parent location and create or link a writable device folder for this project where the browser supports folder access">Create/Link Device Folder…</button>
+        <button id="disconnectProjectFolderBtn" type="button" title="Stop writing project files and exports to the currently linked device folder">Disconnect Device Folder</button>
+      </div>
+      <button id="importProjectBtn" type="button" title="Import a portable Gravar Jr. project JSON file into the local project library">Import Project</button>
+      <button id="exportMenuBtn" class="menu-parent" type="button" aria-expanded="false" title="Open project and data export choices">Export <span aria-hidden="true">›</span></button>
+      <div id="exportSubmenu" class="menu-submenu hidden" role="group" aria-label="Export submenu">
+        <button id="exportProjectJsonBtn" type="button" title="Export a portable Gravar Jr. project JSON file">Export Project JSON</button>
+        <button id="exportCsvBtn" type="button" title="Export transcript and timing data as CSV">Export CSV</button>
+        <button id="exportHtmlBtn" type="button" title="Export a standalone HTML annotation report">Export HTML</button>
+        <button id="exportFieldRtfBtn" type="button" title="Export the rich-text Field Note as an RTF file">Export Field Note RTF</button>
+      </div>
+      <button id="gettingStartedBtn" type="button" title="Open the step-by-step Getting Started guide">Getting Started</button>
+      <button id="helpBtn" type="button" title="Open the complete control, keyboard, mouse, touch, and gesture reference">Help</button>
     </div></div>
     <div class="source-hidden" aria-hidden="true"><label id="sourceLabel" for="sourceUrl">Choose video</label><input id="sourceUrl" type="text"><input id="localFile" type="file" accept="video/*,.mov,.mp4,.m4v,.webm"><div id="loadHelp"></div><button id="loadSourceBtn">Load video</button></div>
   </section>
 
-  <section class="video-panel"><div class="video-wrap" id="videoWrap"><video id="localVideo" playsinline webkit-playsinline preload="metadata" class="hidden"></video><div id="youtubeWrap" class="hidden"><div id="youtubePlayer"></div></div><iframe id="webFrame" class="hidden" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="empty-video" id="emptyVideo"><strong>Choose Local, YouTube, or Panopto.</strong><br>Then choose the assigned video and begin observing.</div><div class="video-overlay-label hidden" id="videoModeLabel"></div></div><div id="scrubLayer" class="scrub-layer" aria-label="Drag left or right to scrub the video ±2 seconds"></div><div class="diagnostic" id="videoDiagnostic"><div class="diag-progress" id="diagProgress"></div><div class="diag-text"><span class="diag-message" id="diagMessage">No video loaded.</span><span class="time-readout" id="timeReadout">00:00:00.0</span></div></div><div id="speedMenu" class="speed-menu hidden"><div class="speed-title">Playback speed</div><button data-speed="0.5">0.5×</button><button data-speed="0.75">0.75×</button><button data-speed="1">1×</button><button data-speed="1.25">1.25×</button><button data-speed="1.5">1.5×</button><button data-speed="2">2×</button></div><div class="yt-actions hidden" id="ytActions"><a id="openYouTubeLink" href="#" target="_blank" rel="noopener">Open in YouTube</a><button id="copyEmbedBtn" class="small">Copy embed URL</button></div></section>
+  <section class="video-panel"><div class="video-wrap" id="videoWrap"><video id="localVideo" playsinline webkit-playsinline preload="metadata" class="hidden"></video><div id="youtubeWrap" class="hidden"><div id="youtubePlayer"></div></div><iframe id="webFrame" class="hidden" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="empty-video empty-video-guide" id="emptyVideo"><img class="empty-file-icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIyNiIgZmlsbD0iIzJmMzAzNSIvPgo8cGF0aCBkPSJNMjggMzhoMzJsOSAxMGgzMXY0NWE4IDggMCAwIDEtOCA4SDI4YTggOCAwIDAgMS04LThWNDZhOCA4IDAgMCAxIDgtOHoiIGZpbGw9IiNmM2Y0ZjYiLz4KPHBhdGggZD0iTTI4IDUyaDY4YTggOCAwIDAgMSA4IDh2MzJhOCA4IDAgMCAxLTggOEgyOGE4IDggMCAwIDEtOC04VjYwYTggOCAwIDAgMSA4LTh6IiBmaWxsPSIjZmZmZmZmIi8+CjxwYXRoIGQ9Ik0zNyAzMWgzMGwxMCAxMUgzN2E3IDcgMCAwIDAtNyA3djM5aC05VjQ3YTE2IDE2IDAgMCAxIDE2LTE2eiIgZmlsbD0iI2Q4ZGJlMSIvPgo8cGF0aCBkPSJNNzggNjdoMjZ2MjVhOCA4IDAgMCAxLTggOEg3OHoiIGZpbGw9IiNlNjVhM2MiLz4KPHBhdGggZD0iTTc4IDY3aDI2TDkxIDgwSDc4eiIgZmlsbD0iI2YzN2E1NSIvPgo8L3N2Zz4=" alt="File menu icon"><div><strong>No video is loaded.</strong><br>Open the File menu with this icon, then use <strong>Getting Started</strong> for a step-by-step guide or <strong>Help</strong> for the complete control and gesture reference.</div></div><div class="video-overlay-label hidden" id="videoModeLabel"></div></div><div id="scrubLayer" class="scrub-layer" aria-label="Drag left or right to scrub the video ±2 seconds"></div><div class="diagnostic" id="videoDiagnostic"><div class="diag-progress" id="diagProgress"></div><div class="diag-text"><span class="diag-message" id="diagMessage">No video loaded.</span><span class="time-readout" id="timeReadout">00:00:00.0</span></div></div><div id="speedMenu" class="speed-menu hidden"><div class="speed-title">Playback speed</div><button data-speed="0.5">0.5×</button><button data-speed="0.75">0.75×</button><button data-speed="1">1×</button><button data-speed="1.25">1.25×</button><button data-speed="1.5">1.5×</button><button data-speed="2">2×</button></div><div class="yt-actions hidden" id="ytActions"><a id="openYouTubeLink" href="#" target="_blank" rel="noopener">Open in YouTube</a><button id="copyEmbedBtn" class="small">Copy embed URL</button></div></section>
 
   <aside class="transport side-card"><button id="back5Btn">↶ 5s</button><button id="back1Btn">↶ 1s</button><button id="playPauseBtn" class="primary play">▶︎</button><button id="fwd1Btn">1s ↷</button><button id="fwd5Btn">5s ↷</button><div class="speed-wrap"><select id="speedSelect"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></div></aside>
 
@@ -172,6 +255,7 @@
         <button id="jrFieldNoteBtn" title="Open project-wide Field Note">◇ Field Note</button>
         <button id="jrAddLineBtn" class="primary" title="Add a transcript line under the selected line">Add</button>
         <button id="jrDeleteLineBtn" class="danger" title="Delete the selected transcript line">Delete</button>
+        <button id="jrFollowBtn" type="button" aria-pressed="false" title="Toggle transcript following. When on, the line with the latest Start time at or before the current video time is highlighted in pale yellow.">Follow</button>
         <span id="jrNoteStatus" class="jr-note-status">Ready.</span>
       </div>
     </div>
@@ -213,7 +297,108 @@
   </div>
   <div id="jrFieldNoteText" class="jr-field-note-editor" contenteditable="true" data-placeholder="Field Note" spellcheck="false" tabindex="0"></div>
 </div>
-<div class="modal-backdrop" id="helpModal"><div class="modal"><header><div class="brand"><h1>Gravar Jr. Help</h1><span class="ver">v1.20</span></div><button id="closeHelpBtn">Close</button></header><div class="content"><p><strong>Video</strong> shows the current filename or source title. Use the folder button to choose a video source and access project files. Choosing Local file, YouTube, or Panopto immediately starts that loading path.</p><p>Use Start and End to copy the current video position into the selected transcript line. Click the line-number area, or touch-hold it for 0.5 seconds, to move the video to that line's Start time. Double-click or double-tap the line-number/check area to show editable Start time fields for all transcript lines; double-click or double-tap any visible timecode to hide them. Add creates a line below the selected line. Field Note opens a project-wide rich-text field note with compact Gravar-style formatting buttons, table insertion with chosen row/column counts, table row/column editing, and RTF export; the ▣ icon opens a line-specific note under the transcript row.</p><p>The diagnostic bar beneath the video also functions as a timeline. Drag on the video to scrub ±2 seconds. Hold Play for one second to show playback speed choices.</p></div></div></div>
+<div class="modal-backdrop" id="newProjectModal"><div class="modal"><header><div class="brand"><h1 id="newProjectModalTitle">New Project</h1><span class="ver">v1.23</span></div><button id="closeNewProjectBtn" type="button" title="Cancel project creation">Close</button></header><div class="content">
+  <div class="project-form">
+    <div class="project-form-row"><label for="newProjectNameInput">Project name</label><input id="newProjectNameInput" type="text" maxlength="120" autocomplete="off" placeholder="e.g., Week 3 Interaction Analysis" title="Name used in the local project library and project files"></div>
+    <div class="project-form-row"><label for="newProjectFolderInput">Project folder name</label><input id="newProjectFolderInput" type="text" maxlength="120" autocomplete="off" placeholder="e.g., week-3-interaction-analysis" title="Name of the internal project folder and, if you create one, the writable device folder"></div>
+    <div class="project-folder-box">
+      <strong>Project folder</strong>
+      <div id="newProjectFolderSupport" class="project-folder-status">Checking folder support…</div>
+      <button id="createDeviceFolderBtn" type="button" title="Choose a parent location and create a device folder using the project folder name">Create Device Folder…</button>
+      <div id="newProjectDeviceFolderStatus" class="project-folder-status">No device folder selected. The project will still have an internal Gravar Jr. folder.</div>
+    </div>
+    <div class="project-modal-actions"><button id="cancelNewProjectBtn" type="button" title="Cancel without creating a project">Cancel</button><button id="createNewProjectBtn" class="primary" type="button" title="Create the project and save it in the local project library">Create Project</button></div>
+  </div>
+</div></div></div>
+<div class="modal-backdrop" id="projectLibraryModal"><div class="modal"><header><div class="brand"><h1>Load Project</h1><span class="ver">Local project library</span></div><button id="closeProjectLibraryBtn" type="button" title="Close the saved-project library">Close</button></header><div class="content"><div id="projectLibraryList" class="project-library-list" aria-live="polite"></div></div></div></div>
+<div class="modal-backdrop" id="gettingStartedModal"><div class="modal"><header><div class="brand"><h1>Getting Started with Gravar Jr.</h1><span class="ver">v1.23</span></div><button id="closeGettingStartedBtn" title="Close Getting Started">Close</button></header><div class="content help-content">
+  <h2>1. Choose your class and video</h2>
+  <p>Open the File menu. For class-assigned streaming media, enter the class code (for example <code>cds670-f26</code>) and choose <strong>Set</strong>. Gravar Jr. remembers the class on this device. A launch link such as <code>?class=cds670-f26</code> selects the class automatically. Open <strong>Streaming Files</strong> and choose an assigned title. Use <strong>Refresh catalog</strong> to request the newest GitHub catalog. If GitHub is temporarily unavailable, Gravar Jr. uses the last catalog that loaded successfully on this device.</p>
+  <p>For a video that is not in the class catalog, choose <strong>Local</strong>, <strong>YouTube</strong>, or <strong>Panopto</strong> directly from the File menu. Local files remain on your device. YouTube and Panopto require a web-served copy of Gravar Jr.; some videos can still prohibit embedding.</p>
+  <h2>2. Control playback</h2>
+  <p>Use the center Play/Pause button. The ±1s and ±5s buttons jump by the labeled amount. Press and hold a jump button to step repeatedly in small frame-sized increments. Press and hold Play for one second to open playback-speed choices. Drag horizontally across the video to scrub within approximately ±2 seconds of the point where the drag began. Drag or tap the timeline strip under the video to move through the full video.</p>
+  <h2>3. Create transcript lines</h2>
+  <p>A blank transcript line is available automatically. Enter a short Speaker ID in the Speaker field and type the transcript in the large text field. Choose <strong>Add</strong> to insert a new line below the selected line. Choose <strong>Delete</strong> to remove the selected line. Click or tap any transcript field to select its line. Toggle <strong>Follow</strong> on to highlight the transcript line whose Start time is the latest Start at or before the current video position. The followed line is shown in pale yellow and changes automatically as the video moves.</p>
+  <h2>4. Set Start and End times</h2>
+  <p>Move the video to the beginning of an event and choose <strong>Start</strong>. Move to the ending point and choose <strong>End</strong>. A red check indicates that a time has been stored. Single-click or tap the line-number/Start-check area to seek to that line’s Start time; touch-hold the same area for about half a second also seeks to Start.</p>
+  <h2>5. Show and edit all timecodes</h2>
+  <p>Double-click or double-tap the line-number/red Start-check area on any line. Gravar Jr. reveals editable <strong>Start</strong> timecodes to the left of every Speaker field and editable <strong>End</strong> timecodes to the right of every transcript field, before the Line Note/coding rail. Edit any value using seconds, <code>mm:ss.t</code>, or <code>hh:mm:ss.t</code>. Press Enter or leave the field to commit the edit. Clear a field to remove that time. Double-click or double-tap the line-number/Start-check area again to hide all timecodes.</p>
+  <h2>6. Add Line Notes</h2>
+  <p>Choose the ▣ icon in a line’s right-hand rail to open its Line Note beneath that transcript row. Type freely; spaces remain in the note and never control video playback. The note is stored with that transcript line and saved in the project.</p>
+  <h2>7. Use the rich-text Field Note</h2>
+  <p>Choose <strong>◇ Field Note</strong> below the transcript. Use <strong>B</strong> and <em>I</em> for bold and italics, the color dots for text color, ▦ to insert a table, +R/−R to add or delete rows, +C/−C to add or delete columns, and × to clear selected formatting. Click inside a table cell before using row or column editing commands. Spaces typed in the Field Note remain in the note and never toggle playback.</p>
+  <h2>8. Create, save, and reopen working projects</h2>
+  <p>Choose <strong>New Project</strong>, give the project a name, and name its project folder. Every project receives an internal Gravar Jr. project folder in the browser’s local project library. Where the browser provides writable folder access, choose <strong>Create Device Folder…</strong>, select a parent location, and Gravar Jr. creates or links the named folder there. Choose <strong>Save Project</strong> to update the same working project rather than downloading another timestamped copy. Choose <strong>Load Project</strong> to reopen a project from the local library.</p>
+  <p>If a writable device folder is linked, Save Project also writes the current project JSON into that folder, and exports are written there. If folder access is unavailable, the internal project library still works and exports use the browser’s normal file-save/download behavior. Local video files may need to be reselected after reopening because browser security can restrict persistent access to local media.</p>
+  <h2>9. Import and export portable files</h2>
+  <p>Choose <strong>Import Project</strong> to bring a portable Gravar Jr. JSON file into the local project library. Open <strong>Export ›</strong> for <strong>Export Project JSON</strong>, <strong>Export CSV</strong>, <strong>Export HTML</strong>, or <strong>Export Field Note RTF</strong>. Project JSON is the portable backup/transfer format; CSV is useful for analysis workflows; HTML creates a readable report; and RTF preserves the Field Note’s formatted text and table content.</p>
+</div></div></div>
+<div class="modal-backdrop" id="helpModal"><div class="modal"><header><div class="brand"><h1>Gravar Jr. Help</h1><span class="ver">v1.23</span></div><button id="closeHelpBtn" title="Close Help">Close</button></header><div class="content help-content">
+  <h2>File menu and video sources</h2>
+  <dl>
+    <dt>Custom File icon — click/tap</dt><dd>Opens or closes the File menu without changing the current project.</dd>
+    <dt>Local</dt><dd>Opens the device file picker for a browser-playable video. The project remembers the filename but cannot retain permission to the local file after the page closes.</dd>
+    <dt>YouTube</dt><dd>Prompts for a YouTube URL or video ID and loads the official embedded player when the page has a valid web origin.</dd>
+    <dt>Panopto</dt><dd>Prompts for a Panopto embed URL. Browser cross-origin security may prevent Gravar Jr. from reading Panopto playback time automatically.</dd>
+    <dt>Class / Set</dt><dd>Saves the normalized class code locally and loads only that class’s catalog. A <code>?class=...</code> launch parameter overrides the remembered class.</dd>
+    <dt>Streaming Files ›</dt><dd>Shows only the current class catalog. Choosing a title loads its URL according to its catalog source type: YouTube, Panopto, or direct browser-playable URL.</dd>
+    <dt>Refresh catalog</dt><dd>Fetches the current class JSON again with browser caching disabled. The last successfully fetched catalog is stored locally as fallback.</dd>
+    <dt>New Project</dt><dd>Opens a project setup dialog. Name the project and its internal project folder; where supported, you may also create/link a writable device folder before creating the project.</dd>
+    <dt>Load Project</dt><dd>Opens the local Gravar Jr. project library on this device. Open a saved working project or delete an unwanted library entry.</dd>
+    <dt>Save Project</dt><dd>Updates the current working project in the local project library. If a writable device folder is linked, it also writes the current project JSON there.</dd>
+    <dt>Project Folder ›</dt><dd>Shows the current folder status. Create/link a writable device folder where supported, or disconnect the current folder. The internal Gravar Jr. project folder always remains available.</dd>
+    <dt>Import Project</dt><dd>Reads a portable Gravar Jr. JSON file and adds it to the local project library as a working project.</dd>
+    <dt>Export ›</dt><dd>Opens portable Project JSON, CSV, HTML report, and Field Note RTF export commands. Exports go to the linked writable folder when available; otherwise the browser handles the file save/download.</dd>
+    <dt>Getting Started / Help</dt><dd>Open the tutorial or this complete reference.</dd>
+  </dl>
+  <h2>Video and transport controls</h2>
+  <dl>
+    <dt>Play/Pause — click/tap</dt><dd>Toggles playback.</dd>
+    <dt>Play — long press (1 second)</dt><dd>Opens playback speed choices from 0.5× to 2×.</dd>
+    <dt>↶5s, ↶1s, 1s↷, 5s↷ — click/tap</dt><dd>Jump backward or forward by the labeled number of seconds.</dd>
+    <dt>Jump buttons — long press</dt><dd>Repeatedly steps in approximately 1/30-second increments until released.</dd>
+    <dt>Video image — horizontal drag/scrub</dt><dd>Scrubs up to approximately two seconds backward or forward from the drag starting point. This is the app’s horizontal swipe-like video gesture.</dd>
+    <dt>Timeline strip — tap/click/drag</dt><dd>Moves to a proportional position across the full video duration.</dd>
+    <dt>Vertical swipe</dt><dd>Scrolls the transcript list, Help/Getting Started content, or Field Note where that region is scrollable. There is no separate hidden swipe command.</dd>
+  </dl>
+  <h2>Transcript controls and actions</h2>
+  <dl>
+    <dt>Line number / red Start check — single click/tap</dt><dd>Selects the line and seeks the video to its Start time when one exists.</dd>
+    <dt>Line number / red Start check — long press</dt><dd>After about 0.5 seconds, seeks to the line’s Start time.</dd>
+    <dt>Line number / red Start check — double-click/double-tap</dt><dd>Toggles editable Start and End timecodes for all transcript lines.</dd>
+    <dt>Red timing check — hover or touch-hold</dt><dd>Shows the stored timing value. Start checks are in the line-number area; End checks appear at the right edge of the transcript while timecodes are hidden.</dd>
+    <dt>Start time field</dt><dd>Appears left of Speaker when timecodes are shown. Accepts seconds, mm:ss.t, or hh:mm:ss.t. Enter or leaving the field commits it; blank clears it.</dd>
+    <dt>End time field</dt><dd>Appears right of transcript text and before the Line Note/coding rail when timecodes are shown. Editing rules match Start.</dd>
+    <dt>Speaker</dt><dd>Editable three-character Speaker ID, automatically uppercased.</dd>
+    <dt>Transcript text</dt><dd>Editable multiline transcript. The field grows to fit its content.</dd>
+    <dt>Start / End buttons</dt><dd>Copy the current video position into the selected line’s Start or End time.</dd>
+    <dt>◇ Field Note</dt><dd>Opens the project-wide rich-text Field Note.</dd>
+    <dt>Add</dt><dd>Inserts a new transcript line immediately below the selected line.</dd>
+    <dt>Delete</dt><dd>Deletes the selected line; when only one line remains, it is cleared rather than removing the transcript completely.</dd>
+    <dt>Follow — click/tap</dt><dd>Toggles playback-following. When on, Gravar Jr. highlights in pale yellow the transcript line with the greatest Start time that is less than or equal to the current video time. Lines without Start times are ignored; before the first timed line, no line is highlighted.</dd>
+    <dt>▣ Line Note</dt><dd>Opens or focuses the line-specific plain-text note beneath that transcript row.</dd>
+  </dl>
+  <h2>Field Note formatting and tables</h2>
+  <dl>
+    <dt>B / I</dt><dd>Toggle bold or italic formatting for selected text or subsequently typed text at the caret.</dd>
+    <dt>Color dots</dt><dd>Apply red, blue, green, grey, or black to selected text.</dd>
+    <dt>▦ Table</dt><dd>Prompts for row and column counts and inserts a table at the current Field Note caret.</dd>
+    <dt>+R / −R</dt><dd>Add a row after the current table row or delete the current row. Deleting the last row removes the table.</dd>
+    <dt>+C / −C</dt><dd>Add a column after the current table column or delete the current column. Deleting the last column removes the table.</dd>
+    <dt>× Clear formatting</dt><dd>Removes formatting from selected Field Note text without deleting the text.</dd>
+    <dt>Field Note typing</dt><dd>All ordinary keys, including Space, remain in the editor. Table cells can be navigated with normal browser text-editing and pointer/touch actions.</dd>
+  </dl>
+  <h2>Keyboard reference</h2>
+  <dl>
+    <dt>Space</dt><dd>Play/Pause only when focus is not in an input, textarea, select, Line Note, Project Note, Field Note, contenteditable region, or other editable control.</dd>
+    <dt>Left / Right Arrow</dt><dd>Seek backward or forward 1 second when not editing text.</dd>
+    <dt>Shift + Left / Right Arrow</dt><dd>Seek backward or forward 5 seconds when not editing text.</dd>
+    <dt>N</dt><dd>In the preserved legacy annotation workflow, captures the current time as a new annotation Start and focuses its note field.</dd>
+    <dt>Enter in a visible Start/End timecode</dt><dd>Commits the edited time and keeps the field available for further editing.</dd>
+  </dl>
+  <h2>Project and catalog behavior</h2>
+  <p>Class catalogs are independent JSON files. By default the app resolves <code>catalogs/&lt;class-code&gt;.json</code> relative to the application, which is suitable for a GitHub Pages repository. The catalog base can also be changed by editing the <code>gravar-jr-catalog-base</code> meta tag to a raw GitHub directory URL. Only the selected class catalog is requested. Successful catalogs are cached under that class code.</p>
+</div></div></div>
 <script>
 (function(){
   'use strict';
@@ -227,8 +412,11 @@
     annType:$('annType'), annStart:$('annStart'), annEnd:$('annEnd'), annLabel:$('annLabel'), annActor:$('annActor'), annText:$('annText'),
     addAnnBtn:$('addAnnBtn'), updateAnnBtn:$('updateAnnBtn'), clearFormBtn:$('clearFormBtn'), statusLine:$('statusLine'), projectStatus:$('projectStatus'),
     annotationList:$('annotationList'), countBadge:$('countBadge'), filterText:$('filterText'), sortBtn:$('sortBtn'), deleteSelectedBtn:$('deleteSelectedBtn'),
-    newProjectBtn:$('newProjectBtn'), saveJsonBtn:$('saveJsonBtn'), loadJsonBtn:$('loadJsonBtn'), exportCsvBtn:$('exportCsvBtn'), exportHtmlBtn:$('exportHtmlBtn'), exportFieldRtfBtn:$('exportFieldRtfBtn'), jsonFileInput:$('jsonFileInput'),
-    helpBtn:$('helpBtn'), projectNoteBtn:$('projectNoteBtn'), jrProjectNotePanel:$('jrProjectNotePanel'), jrProjectNoteText:$('jrProjectNoteText'), jrProjectNoteClose:$('jrProjectNoteClose'), jrFieldNoteBtn:$('jrFieldNoteBtn'), jrFieldNotePanel:$('jrFieldNotePanel'), jrFieldNoteText:$('jrFieldNoteText'), jrFieldNoteClose:$('jrFieldNoteClose'), helpModal:$('helpModal'), closeHelpBtn:$('closeHelpBtn'), mobileExportsBtn:$('mobileExportsBtn'), loadHelp:$('loadHelp'), youtubeWrap:$('youtubeWrap'), webFrame:$('webFrame'), videoDiagnostic:$('videoDiagnostic'), diagMessage:$('diagMessage'), diagProgress:$('diagProgress'), scrubLayer:$('scrubLayer'), speedMenu:$('speedMenu'), ytActions:$('ytActions'), openYouTubeLink:$('openYouTubeLink'), copyEmbedBtn:$('copyEmbedBtn'), jrTranscriptRows:$('jrTranscriptRows'), jrSetStartBtn:$('jrSetStartBtn'), jrSetEndBtn:$('jrSetEndBtn'), jrAddLineBtn:$('jrAddLineBtn'), jrDeleteLineBtn:$('jrDeleteLineBtn'), jrNoteStatus:$('jrNoteStatus'), jrLineNotePopover:$('jrLineNotePopover'), jrLineNoteTitle:$('jrLineNoteTitle'), jrLineNoteText:$('jrLineNoteText'), jrLineNoteSave:$('jrLineNoteSave'), jrLineNoteClear:$('jrLineNoteClear'), jrLineNoteClose:$('jrLineNoteClose')
+    newProjectBtn:$('newProjectBtn'), saveJsonBtn:$('saveJsonBtn'), loadJsonBtn:$('loadJsonBtn'), importProjectBtn:$('importProjectBtn'), exportProjectJsonBtn:$('exportProjectJsonBtn'), exportCsvBtn:$('exportCsvBtn'), exportHtmlBtn:$('exportHtmlBtn'), exportFieldRtfBtn:$('exportFieldRtfBtn'), jsonFileInput:$('jsonFileInput'),
+    projectLibraryStatus:$('projectLibraryStatus'), projectFolderMenuBtn:$('projectFolderMenuBtn'), projectFolderSubmenu:$('projectFolderSubmenu'), projectFolderStatus:$('projectFolderStatus'), linkProjectFolderBtn:$('linkProjectFolderBtn'), disconnectProjectFolderBtn:$('disconnectProjectFolderBtn'),
+    newProjectModal:$('newProjectModal'), newProjectModalTitle:$('newProjectModalTitle'), closeNewProjectBtn:$('closeNewProjectBtn'), cancelNewProjectBtn:$('cancelNewProjectBtn'), createNewProjectBtn:$('createNewProjectBtn'), newProjectNameInput:$('newProjectNameInput'), newProjectFolderInput:$('newProjectFolderInput'), createDeviceFolderBtn:$('createDeviceFolderBtn'), newProjectFolderSupport:$('newProjectFolderSupport'), newProjectDeviceFolderStatus:$('newProjectDeviceFolderStatus'),
+    projectLibraryModal:$('projectLibraryModal'), closeProjectLibraryBtn:$('closeProjectLibraryBtn'), projectLibraryList:$('projectLibraryList'),
+    helpBtn:$('helpBtn'), gettingStartedBtn:$('gettingStartedBtn'), gettingStartedModal:$('gettingStartedModal'), closeGettingStartedBtn:$('closeGettingStartedBtn'), classCodeInput:$('classCodeInput'), setClassBtn:$('setClassBtn'), classStatus:$('classStatus'), streamingFilesBtn:$('streamingFilesBtn'), streamingSubmenu:$('streamingSubmenu'), refreshCatalogBtn:$('refreshCatalogBtn'), streamingCatalogStatus:$('streamingCatalogStatus'), streamingCatalogItems:$('streamingCatalogItems'), exportMenuBtn:$('exportMenuBtn'), exportSubmenu:$('exportSubmenu'), projectNoteBtn:$('projectNoteBtn'), jrProjectNotePanel:$('jrProjectNotePanel'), jrProjectNoteText:$('jrProjectNoteText'), jrProjectNoteClose:$('jrProjectNoteClose'), jrFieldNoteBtn:$('jrFieldNoteBtn'), jrFieldNotePanel:$('jrFieldNotePanel'), jrFieldNoteText:$('jrFieldNoteText'), jrFieldNoteClose:$('jrFieldNoteClose'), helpModal:$('helpModal'), closeHelpBtn:$('closeHelpBtn'), mobileExportsBtn:$('mobileExportsBtn'), loadHelp:$('loadHelp'), youtubeWrap:$('youtubeWrap'), webFrame:$('webFrame'), videoDiagnostic:$('videoDiagnostic'), diagMessage:$('diagMessage'), diagProgress:$('diagProgress'), scrubLayer:$('scrubLayer'), speedMenu:$('speedMenu'), ytActions:$('ytActions'), openYouTubeLink:$('openYouTubeLink'), copyEmbedBtn:$('copyEmbedBtn'), jrTranscriptRows:$('jrTranscriptRows'), jrSetStartBtn:$('jrSetStartBtn'), jrSetEndBtn:$('jrSetEndBtn'), jrAddLineBtn:$('jrAddLineBtn'), jrDeleteLineBtn:$('jrDeleteLineBtn'), jrFollowBtn:$('jrFollowBtn'), jrNoteStatus:$('jrNoteStatus'), jrLineNotePopover:$('jrLineNotePopover'), jrLineNoteTitle:$('jrLineNoteTitle'), jrLineNoteText:$('jrLineNoteText'), jrLineNoteSave:$('jrLineNoteSave'), jrLineNoteClear:$('jrLineNoteClear'), jrLineNoteClose:$('jrLineNoteClose')
   };
 
   let annotations = [];
@@ -236,8 +424,28 @@
   let projectNote = '';
   let fieldNote = '';
   let openInlineNote = {id:null, type:null};
-  let openStartEditorId = null; // null or "__all__" for global Start-time edit display
-  let source = { type:'local', name:'', url:'', youtubeId:'' };
+  let showAllTimeEditors = false; // global paired Start/End timecode display
+  let followEnabled = false;
+  let followedLineId = null;
+  let source = { type:'local', name:'', url:'', youtubeId:'', classId:'', streamingTitle:'', streamingUrl:'', streamingSourceType:'' };
+  let currentProjectId = null;
+  let currentProjectName = '';
+  let currentProjectFolderName = '';
+  let currentProjectCreatedAt = '';
+  let currentProjectFolderHandle = null;
+  let pendingNewProjectFolderHandle = null;
+  let projectDialogMode = 'new';
+  const PROJECT_DB_NAME = 'GravarJrProjects';
+  const PROJECT_DB_VERSION = 1;
+  const PROJECT_STORE = 'projects';
+  const CLASS_STORAGE_KEY = 'gravarJr.classCode';
+  const CATALOG_CACHE_PREFIX = 'gravarJr.catalogCache.';
+  let activeClassCode = '';
+  let activeCatalog = [];
+  let activeCatalogSource = '';
+  let suppressLineClickUntil = 0;
+  let pendingLineSeekClick = null;
+  let lastTouchTap = {id:'', at:0};
   const canUseFileProtocol = location.protocol === 'file:';
   function setDiag(msg){ if(els.diagMessage) els.diagMessage.textContent = msg; else if(els.videoDiagnostic) els.videoDiagnostic.textContent = msg; }
   function isUsableWebOrigin(){
@@ -435,11 +643,10 @@
     }
     saveFieldNoteFromEditor();
   }
-  function exportFieldNoteRtf(){
+  async function exportFieldNoteRtf(){
     const content = fieldNote || (els.jrFieldNoteText ? els.jrFieldNoteText.innerHTML : '');
     if(!stripHtml(content)) { status('Field Note is empty.'); alert('Field Note is empty.'); return; }
-    download('Gravar_Jr_field_note.rtf', htmlToRtf(content), 'application/rtf;charset=utf-8');
-    status('Exported Field Note RTF.');
+    await saveOutputFile(projectFileBase() + '_field_note.rtf', htmlToRtf(content), 'application/rtf;charset=utf-8');
   }
 
   function csvCell(v){
@@ -454,6 +661,174 @@
     document.body.appendChild(a);
     a.click();
     setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function makeProjectId(){
+    if(globalThis.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'proj-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10);
+  }
+  function cleanProjectName(value, fallback='Untitled Project'){
+    const v = String(value || '').replace(/[\u0000-\u001f]/g,' ').replace(/\s+/g,' ').trim();
+    return v || fallback;
+  }
+  function cleanFolderName(value, fallback='Untitled Project'){
+    const v = cleanProjectName(value, fallback).replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,' ').trim();
+    return v || fallback;
+  }
+  function safeFilePart(value, fallback='Gravar_Jr_project'){
+    return cleanFolderName(value, fallback).replace(/\s+/g,'_').replace(/[^A-Za-z0-9._-]+/g,'_').replace(/^[_\.]+|[_\.]+$/g,'') || fallback;
+  }
+  function projectFileBase(){ return safeFilePart(currentProjectName || 'Gravar_Jr_project'); }
+  function openProjectDb(){
+    return new Promise((resolve,reject)=>{
+      if(!('indexedDB' in window)){ reject(new Error('This browser does not provide IndexedDB local project storage.')); return; }
+      const req = indexedDB.open(PROJECT_DB_NAME, PROJECT_DB_VERSION);
+      req.onupgradeneeded = ()=>{ const db=req.result; if(!db.objectStoreNames.contains(PROJECT_STORE)) db.createObjectStore(PROJECT_STORE,{keyPath:'id'}); };
+      req.onsuccess = ()=>resolve(req.result);
+      req.onerror = ()=>reject(req.error || new Error('Could not open the local project library.'));
+    });
+  }
+  async function projectStoreRequest(mode, action){
+    const db = await openProjectDb();
+    return new Promise((resolve,reject)=>{
+      const tx = db.transaction(PROJECT_STORE, mode);
+      const store = tx.objectStore(PROJECT_STORE);
+      let req;
+      try{ req = action(store); }catch(e){ db.close(); reject(e); return; }
+      req.onsuccess = ()=>resolve(req.result);
+      req.onerror = ()=>reject(req.error || new Error('Project library operation failed.'));
+      tx.oncomplete = ()=>db.close();
+      tx.onabort = ()=>{ db.close(); };
+    });
+  }
+  function idbGetAllProjects(){ return projectStoreRequest('readonly', store=>store.getAll()); }
+  function idbGetProject(id){ return projectStoreRequest('readonly', store=>store.get(id)); }
+  function idbDeleteProject(id){ return projectStoreRequest('readwrite', store=>store.delete(id)); }
+  async function idbPutProject(record){
+    try{ return await projectStoreRequest('readwrite', store=>store.put(record)); }
+    catch(e){
+      if(record && record.folderHandle){
+        const fallback = {...record, folderHandle:null};
+        await projectStoreRequest('readwrite', store=>store.put(fallback));
+        return record.id;
+      }
+      throw e;
+    }
+  }
+  async function ensureFolderWritePermission(handle){
+    if(!handle) return false;
+    const opts={mode:'readwrite'};
+    try{
+      if(typeof handle.queryPermission === 'function' && await handle.queryPermission(opts) === 'granted') return true;
+      if(typeof handle.requestPermission === 'function' && await handle.requestPermission(opts) === 'granted') return true;
+    }catch(e){}
+    return typeof handle.getFileHandle === 'function';
+  }
+  async function writeTextToFolder(handle, filename, text){
+    if(!handle) throw new Error('No device folder is linked.');
+    if(!(await ensureFolderWritePermission(handle))) throw new Error('Write permission for the device folder was not granted.');
+    const fh = await handle.getFileHandle(filename,{create:true});
+    const writable = await fh.createWritable();
+    await writable.write(text);
+    await writable.close();
+  }
+  async function saveOutputFile(filename, text, type){
+    if(currentProjectFolderHandle){
+      try{
+        await writeTextToFolder(currentProjectFolderHandle, filename, text);
+        status('Saved ' + filename + ' to the linked project folder.');
+        return 'folder';
+      }catch(e){
+        status('Could not write to the linked folder; using the browser file save instead.');
+      }
+    }
+    download(filename, text, type);
+    status('Exported ' + filename + '.');
+    return 'download';
+  }
+  function updateProjectUi(){
+    const name = currentProjectName || 'No working project named yet';
+    const folder = currentProjectFolderName || 'No project folder';
+    if(els.projectLibraryStatus){ els.projectLibraryStatus.textContent = currentProjectName ? `${name} · ${folder}` : name; els.projectLibraryStatus.title = currentProjectName ? `Current project: ${name}. Internal folder: ${folder}.` : 'No working project named yet.'; }
+    if(els.projectFolderStatus){
+      els.projectFolderStatus.innerHTML = currentProjectFolderHandle ? `<strong>Linked:</strong> ${escapeHtml(folder)}<br>Save Project and exports write to this device folder.` : `<strong>Internal folder:</strong> ${escapeHtml(folder)}<br>No writable device folder linked.`;
+    }
+    if(els.disconnectProjectFolderBtn) els.disconnectProjectFolderBtn.disabled = !currentProjectFolderHandle;
+  }
+  async function createOrLinkDeviceFolder(folderName){
+    if(typeof window.showDirectoryPicker !== 'function') throw new Error('Writable device-folder access is not available in this browser.');
+    const parent = await window.showDirectoryPicker({mode:'readwrite', id:'gravar-jr-project-parent'});
+    if(!(await ensureFolderWritePermission(parent))) throw new Error('Write permission was not granted.');
+    return await parent.getDirectoryHandle(cleanFolderName(folderName), {create:true});
+  }
+  async function persistCurrentProject({writeExternal=true, quiet=false}={}){
+    if(!currentProjectId) return false;
+    try{ if(navigator.storage && typeof navigator.storage.persist === 'function') await navigator.storage.persist(); }catch(e){}
+    const now = new Date().toISOString();
+    if(!currentProjectCreatedAt) currentProjectCreatedAt = now;
+    const data = projectObject();
+    const record = {id:currentProjectId,name:currentProjectName,folderName:currentProjectFolderName,createdAt:currentProjectCreatedAt,updatedAt:now,project:data,folderHandle:currentProjectFolderHandle || null};
+    await idbPutProject(record);
+    let externalWritten=false;
+    if(writeExternal && currentProjectFolderHandle){
+      try{ await writeTextToFolder(currentProjectFolderHandle, projectFileBase()+'.gravar-jr.json', JSON.stringify(data,null,2)); externalWritten=true; }
+      catch(e){ if(!quiet) status('Saved locally, but the linked device folder could not be written: ' + e.message); }
+    }
+    markDirty(false); updateProjectUi();
+    if(!quiet) status(externalWritten ? 'Project saved locally and to the linked device folder.' : 'Project saved in the local Gravar Jr. project library.');
+    return true;
+  }
+  function resetWorkspaceForNewProject(){
+    annotations=[]; selectedId=null; projectNote=''; fieldNote=''; refreshFieldNoteButton(); openInlineNote={id:null,type:null}; showAllTimeEditors=false;
+    source={type:'local',name:'',url:'',youtubeId:'',classId:'',streamingTitle:'',streamingUrl:'',streamingSourceType:''};
+    els.localVideo.removeAttribute('src'); els.localVideo.load(); if(ytPlayer&&ytPlayer.stopVideo) ytPlayer.stopVideo();
+    showMode('none',''); clearForm(); renderList();
+  }
+  function setCurrentProjectIdentity({id,name,folderName,createdAt,folderHandle}){
+    currentProjectId = id || makeProjectId();
+    currentProjectName = cleanProjectName(name);
+    currentProjectFolderName = cleanFolderName(folderName || currentProjectName);
+    currentProjectCreatedAt = createdAt || new Date().toISOString();
+    currentProjectFolderHandle = folderHandle || null;
+    updateProjectUi();
+  }
+  function openProjectSetupDialog(mode='new'){
+    projectDialogMode = mode;
+    pendingNewProjectFolderHandle = null;
+    const proposedName = mode === 'save' ? (currentProjectName || 'Untitled Project') : 'Untitled Project';
+    els.newProjectModalTitle.textContent = mode === 'save' ? 'Name Current Project' : 'New Project';
+    els.createNewProjectBtn.textContent = mode === 'save' ? 'Create & Save' : 'Create Project';
+    els.newProjectNameInput.value = proposedName;
+    delete els.newProjectFolderInput.dataset.userEdited;
+    els.newProjectFolderInput.value = cleanFolderName(currentProjectFolderName || proposedName);
+    els.newProjectDeviceFolderStatus.textContent = 'No device folder selected. The project will still have an internal Gravar Jr. folder.';
+    const supported = typeof window.showDirectoryPicker === 'function';
+    els.createDeviceFolderBtn.disabled = !supported;
+    els.newProjectFolderSupport.textContent = supported ? 'This browser supports writable device folders. You may create one now, or use only the internal Gravar Jr. project folder.' : 'This browser does not expose writable folder creation to web apps. Gravar Jr. will create an internal project folder; portable exports will use the browser’s normal file save/download interface.';
+    els.newProjectFolderSupport.className = 'project-folder-status ' + (supported ? 'folder-supported' : 'folder-unavailable');
+    els.newProjectModal.classList.add('show');
+    setTimeout(()=>{ els.newProjectNameInput.focus(); els.newProjectNameInput.select(); },50);
+  }
+  function closeProjectSetupDialog(){ els.newProjectModal.classList.remove('show'); pendingNewProjectFolderHandle=null; }
+  async function renderProjectLibrary(){
+    els.projectLibraryList.innerHTML = '<div class="project-library-empty">Loading saved projects…</div>';
+    try{
+      const records = (await idbGetAllProjects()).sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));
+      if(!records.length){ els.projectLibraryList.innerHTML = '<div class="project-library-empty">No projects have been saved in this browser yet. Create a New Project or Import Project.</div>'; return; }
+      els.projectLibraryList.innerHTML = records.map(r=>{
+        const updated = r.updatedAt ? new Date(r.updatedAt).toLocaleString() : 'Unknown save time';
+        const linked = r.folderHandle ? ' · device folder linked' : '';
+        return `<div class="project-library-item" data-project-id="${escapeHtml(r.id)}"><div><div class="project-library-name">${escapeHtml(r.name||'Untitled Project')}</div><div class="project-library-meta">Folder: ${escapeHtml(r.folderName||r.name||'Untitled Project')} · Updated ${escapeHtml(updated)}${linked}</div></div><div class="project-library-actions"><button type="button" data-project-act="open" title="Open this saved project">Open</button><button type="button" data-project-act="delete" class="danger" title="Delete this project from the local Gravar Jr. project library">Delete</button></div></div>`;
+      }).join('');
+      applyTooltips(els.projectLibraryList);
+    }catch(e){ els.projectLibraryList.innerHTML = `<div class="project-library-empty">Could not open the local project library: ${escapeHtml(e.message)}</div>`; }
+  }
+  async function openSavedProject(id){
+    if(dirty && !confirm('Open another project and discard unsaved changes?')) return;
+    const record = await idbGetProject(id);
+    if(!record) throw new Error('The selected project was not found.');
+    applyProjectObject(record.project || {});
+    setCurrentProjectIdentity({id:record.id,name:record.name,folderName:record.folderName,createdAt:record.createdAt,folderHandle:record.folderHandle || null});
+    markDirty(false); els.projectLibraryModal.classList.remove('show'); status('Loaded project from the local project library.');
   }
   function status(msg){ if(els.statusLine) els.statusLine.textContent = msg; if(els.jrNoteStatus) els.jrNoteStatus.textContent = msg; }
   function markDirty(v=true){ dirty = v; els.projectStatus.textContent = dirty ? 'Unsaved changes' : 'Saved / clean'; }
@@ -540,7 +915,47 @@
       els.diagProgress.style.width = pct + '%';
     }
   }
-  function updateTimeReadout(){ els.timeReadout.textContent = fmtTime(getCurrentTime()); updateTimeline(); updatePlayButton(); }
+  function getFollowLineId(time){
+    const now = Number(time);
+    if(!Number.isFinite(now)) return null;
+    let bestId = null;
+    let bestStart = -Infinity;
+    let bestIndex = -1;
+    annotations.forEach((a, index)=>{
+      if(!hasTimeValue(a.start)) return;
+      const start = Number(a.start);
+      if(start <= now + 0.0001 && (start > bestStart || (start === bestStart && index > bestIndex))){
+        bestId = a.id;
+        bestStart = start;
+        bestIndex = index;
+      }
+    });
+    return bestId;
+  }
+  function updateFollowHighlight(force=false){
+    if(!els.jrTranscriptRows) return;
+    const nextId = followEnabled ? getFollowLineId(getCurrentTime()) : null;
+    if(!force && nextId === followedLineId) return;
+    followedLineId = nextId;
+    els.jrTranscriptRows.querySelectorAll('.jr-line.follow-current').forEach(row=>row.classList.remove('follow-current'));
+    if(nextId){
+      const row = Array.from(els.jrTranscriptRows.querySelectorAll('.jr-line')).find(el=>el.dataset.id === nextId);
+      if(row) row.classList.add('follow-current');
+    }
+  }
+  function setFollowEnabled(enabled){
+    followEnabled = !!enabled;
+    if(els.jrFollowBtn){
+      els.jrFollowBtn.setAttribute('aria-pressed', followEnabled ? 'true' : 'false');
+      els.jrFollowBtn.title = followEnabled
+        ? 'Follow is on. The transcript line with the latest Start time at or before the current video time is highlighted in pale yellow. Click to turn Follow off.'
+        : 'Toggle transcript following. When on, the line with the latest Start time at or before the current video time is highlighted in pale yellow.';
+    }
+    followedLineId = null;
+    updateFollowHighlight(true);
+    status(followEnabled ? 'Follow on: current transcript line will be highlighted in pale yellow.' : 'Follow off.');
+  }
+  function updateTimeReadout(){ els.timeReadout.textContent = fmtTime(getCurrentTime()); updateTimeline(); updatePlayButton(); updateFollowHighlight(); }
   function startTicker(){ if(ticker) clearInterval(ticker); ticker = setInterval(updateTimeReadout, 120); }
 
   function loadSource(typeOverride){
@@ -554,7 +969,7 @@
       localObjectUrl = URL.createObjectURL(f);
       els.localVideo.src = localObjectUrl;
       els.localVideo.load();
-      source = {type:'local', name:f.name, url:'', youtubeId:''};
+      source = {type:'local', name:f.name, url:'', youtubeId:'', classId:'', streamingTitle:'', streamingUrl:'', streamingSourceType:''};
       showMode('local', 'LOCAL VIDEO');
       setDiag('Local file selected: ' + f.name + '. Tap the video Play button once if the browser blocks scripted playback.');
       status('Loaded local video: ' + f.name);
@@ -564,7 +979,7 @@
       if(!url){ status('Paste a direct video file URL first.'); setDiag('Direct video URLs must point to a browser-playable file such as .mp4, .m4v, .mov, or .webm. Regular web pages usually will not work here.'); return; }
       els.localVideo.src = url;
       els.localVideo.load();
-      source = {type:'url', name:url.split('/').pop() || 'direct video file URL', url, youtubeId:''};
+      source = {type:'url', name:url.split('/').pop() || 'direct video file URL', url, youtubeId:'', classId:'', streamingTitle:'', streamingUrl:'', streamingSourceType:''};
       showMode('url', 'DIRECT VIDEO URL');
       setDiag('Loaded as an HTML5 video file URL. If the video stays blank, the server may block browser playback, require login, or the link may not be a direct video file.');
       status('Loaded direct video file URL.');
@@ -573,7 +988,7 @@
       const url = els.sourceUrl.value.trim();
       const id = extractYouTubeId(url);
       if(!id){ status('Could not identify a YouTube video ID from that URL.'); setDiag('Paste a full YouTube URL, a youtu.be link, or the video ID.'); return; }
-      source = {type:'youtube', name:'YouTube ' + id, url, youtubeId:id};
+      source = {type:'youtube', name:'YouTube ' + id, url, youtubeId:id, classId:'', streamingTitle:'', streamingUrl:'', streamingSourceType:''};
       showMode('youtube', 'YOUTUBE');
       createOrLoadYouTube(id);
       setDiag('YouTube loaded through the official embedded player with strict-origin-when-cross-origin referrer policy. Some videos disable embedding, and YouTube timing is approximate rather than frame-accurate.');
@@ -582,7 +997,7 @@
     } else if(type === 'panopto'){
       const url = els.sourceUrl.value.trim();
       if(!url){ status('Paste a Panopto embed URL first.'); setDiag('Use the Panopto Embed URL supplied by your institution. Browser security prevents Gravar Jr. from reading the embedded player time, so use the app timer manually.'); return; }
-      source = {type:'panopto', name:url, url, youtubeId:''};
+      source = {type:'panopto', name:url, url, youtubeId:'', classId:'', streamingTitle:'', streamingUrl:'', streamingSourceType:''};
       els.webFrame.src = url;
       showMode('web', 'PANOPTO');
       setDiag('Panopto player embedded. Browser security usually prevents automatic timing control for this mode; use this for viewing and manual time-linked notes only.');
@@ -670,6 +1085,136 @@
     const type = els.sourceType.value;
     if(!type){ configureSourceInputs(''); return; }
     promptForVideoSource(type);
+  }
+
+
+  function normalizeClassCode(value){
+    return String(value || '').trim().toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+  function catalogBaseUrl(){
+    const meta = document.querySelector('meta[name="gravar-jr-catalog-base"]');
+    return (meta && meta.content ? meta.content.trim() : 'catalogs/') || 'catalogs/';
+  }
+  function catalogUrlForClass(code){
+    const file = encodeURIComponent(code) + '.json';
+    return new URL(file, new URL(catalogBaseUrl(), location.href)).href;
+  }
+  function inferStreamingType(url){
+    const s = String(url || '').toLowerCase();
+    if(s.includes('youtube.com') || s.includes('youtu.be')) return 'youtube';
+    if(s.includes('panopto')) return 'panopto';
+    return 'url';
+  }
+  function normalizeStreamingType(type, url){
+    const t = String(type || '').trim().toLowerCase();
+    if(t === 'youtube' || t === 'yt') return 'youtube';
+    if(t === 'panopto') return 'panopto';
+    if(t === 'url' || t === 'direct' || t === 'html5') return 'url';
+    return inferStreamingType(url);
+  }
+  function normalizeCatalogPayload(payload, classCode){
+    const items = Array.isArray(payload) ? payload : (Array.isArray(payload.videos) ? payload.videos : (Array.isArray(payload.files) ? payload.files : []));
+    return items.map((item, index)=>{
+      const url = String(item && (item.url || item.embedUrl || item.href) || '').trim();
+      const title = String(item && (item.title || item.name || item.label) || `Streaming file ${index+1}`).trim();
+      return {title, url, type:normalizeStreamingType(item && (item.type || item.sourceType || item.source), url), classId:classCode};
+    }).filter(item=>item.url);
+  }
+  function readCachedCatalog(code){
+    try{
+      const raw = localStorage.getItem(CATALOG_CACHE_PREFIX + code);
+      if(!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed && Array.isArray(parsed.items) ? parsed : null;
+    }catch(e){ return null; }
+  }
+  function writeCachedCatalog(code, items, url){
+    try{ localStorage.setItem(CATALOG_CACHE_PREFIX + code, JSON.stringify({classId:code, url, fetchedAt:new Date().toISOString(), items})); }catch(e){}
+  }
+  function renderClassStatus(){
+    if(els.classCodeInput && els.classCodeInput.value !== activeClassCode) els.classCodeInput.value = activeClassCode;
+    if(els.classStatus) els.classStatus.textContent = activeClassCode ? `Class: ${activeClassCode}` : 'No class selected.';
+  }
+  function renderStreamingCatalog(){
+    if(!els.streamingCatalogItems || !els.streamingCatalogStatus) return;
+    if(!activeClassCode){
+      els.streamingCatalogStatus.textContent = 'Select a class first.';
+      els.streamingCatalogItems.innerHTML = '';
+      return;
+    }
+    els.streamingCatalogStatus.textContent = activeCatalog.length ? `${activeCatalog.length} streaming file${activeCatalog.length===1?'':'s'} • ${activeCatalogSource}` : `No streaming files found for ${activeClassCode}.`;
+    els.streamingCatalogItems.innerHTML = activeCatalog.map((item, i)=>`<button class="streaming-item" type="button" data-stream-index="${i}" title="Load ${escapeHtml(item.title)} from the ${escapeHtml(activeClassCode)} catalog"><span class="stream-title">${escapeHtml(item.title)}</span><span class="stream-type">${escapeHtml(item.type)}</span></button>`).join('');
+    applyTooltips(els.streamingCatalogItems);
+  }
+  async function loadClassCatalog(code, force=false){
+    code = normalizeClassCode(code);
+    activeCatalog = [];
+    activeCatalogSource = '';
+    renderStreamingCatalog();
+    if(!code) return;
+    const url = catalogUrlForClass(code);
+    if(els.streamingCatalogStatus) els.streamingCatalogStatus.textContent = `Loading ${code} catalog…`;
+    try{
+      const response = await fetch(url, {cache: force ? 'reload' : 'no-store', headers:{'Accept':'application/json'}});
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const declaredClass = normalizeClassCode(payload && (payload.classId || payload.class || payload.code) || code);
+      if(declaredClass && declaredClass !== code) throw new Error(`catalog identifies class ${declaredClass}`);
+      activeCatalog = normalizeCatalogPayload(payload, code);
+      activeCatalogSource = 'GitHub catalog';
+      writeCachedCatalog(code, activeCatalog, url);
+      renderStreamingCatalog();
+      status(`Loaded ${activeCatalog.length} streaming file${activeCatalog.length===1?'':'s'} for ${code}.`);
+      return;
+    }catch(err){
+      const cached = readCachedCatalog(code);
+      if(cached){
+        activeCatalog = cached.items;
+        activeCatalogSource = 'cached catalog';
+        renderStreamingCatalog();
+        if(els.streamingCatalogStatus) els.streamingCatalogStatus.textContent += ` • remote refresh failed (${err.message})`;
+        status(`Using the cached ${code} streaming catalog.`);
+      }else{
+        activeCatalog = [];
+        activeCatalogSource = 'catalog unavailable';
+        renderStreamingCatalog();
+        if(els.streamingCatalogStatus) els.streamingCatalogStatus.textContent = `Could not load ${code}: ${err.message}. No cached catalog is available.`;
+        status(`Could not load the ${code} streaming catalog.`);
+      }
+    }
+  }
+  function setActiveClass(code, options={}){
+    const normalized = normalizeClassCode(code);
+    activeClassCode = normalized;
+    if(options.persist !== false){ try{ if(normalized) localStorage.setItem(CLASS_STORAGE_KEY, normalized); else localStorage.removeItem(CLASS_STORAGE_KEY); }catch(e){} }
+    renderClassStatus();
+    if(options.load !== false) loadClassCatalog(normalized, !!options.force);
+  }
+  function initializeClassSelection(){
+    let remembered = '';
+    try{ remembered = localStorage.getItem(CLASS_STORAGE_KEY) || ''; }catch(e){}
+    const fromUrl = normalizeClassCode(new URLSearchParams(location.search).get('class') || '');
+    setActiveClass(fromUrl || remembered, {persist:true, load:true});
+  }
+  function loadStreamingCatalogItem(item){
+    if(!item || !item.url) return;
+    const type = normalizeStreamingType(item.type, item.url);
+    els.sourceUrl.value = item.url;
+    loadSource(type);
+    const ytId = type === 'youtube' ? extractYouTubeId(item.url) : '';
+    source = {
+      type,
+      name:item.title,
+      url:item.url,
+      youtubeId:ytId,
+      classId:activeClassCode,
+      streamingTitle:item.title,
+      streamingUrl:item.url,
+      streamingSourceType:type
+    };
+    updateVideoTitle();
+    markDirty(true);
+    status(`Loaded “${item.title}” from class ${activeClassCode}.`);
   }
 
   function clearForm(){
@@ -807,29 +1352,37 @@
   }
   function makeTimeCheck(kind, value){
     const has = value != null && value !== '' && Number.isFinite(Number(value));
-    const label = has ? `${kind}: ${fmtShortTime(value)}` : '';
+    const label = has ? `${kind}: ${fmtShortTime(value)}` : `${kind} time not set`;
     return `<span class="jr-time-check ${has?'':'empty'}" data-time-kind="${kind}" data-time="${has?String(Number(value)):''}" title="${escapeHtml(label)}">✓</span>`;
+  }
+  function makeTimeEditor(kind, row){
+    const key = kind.toLowerCase();
+    const value = hasTimeValue(row[key]) ? escapeHtml(fmtShortTime(row[key])) : '';
+    return `<input class="jr-time-editor jr-${key}-time-editor" data-time-editor="${key}" data-id="${row.id}" value="${value}" placeholder="mm:ss.t" aria-label="${kind} time for this transcript line" title="Edit ${kind} time. Use seconds, mm:ss.t, or hh:mm:ss.t; Enter or leaving the field commits; blank clears the time." />`;
   }
   function renderTranscriptRows(){
     if(!els.jrTranscriptRows) return;
     ensureTranscriptRow();
-    els.jrTranscriptRows.classList.toggle('show-start-editors', openStartEditorId === '__all__');
+    els.jrTranscriptRows.classList.toggle('show-time-editors', showAllTimeEditors);
     els.jrTranscriptRows.innerHTML = annotations.map((a,i)=>{
       const active = a.id === selectedId ? ' selected' : '';
-      const showStartEditor = openStartEditorId === '__all__' || openStartEditorId === a.id;
-      const startEditor = showStartEditor ? `<input class="jr-start-time-editor" data-start-editor="start" data-id="${a.id}" value="${hasTimeValue(a.start)?escapeHtml(fmtShortTime(a.start)):''}" placeholder="mm:ss.t" title="Edit Start time. Double-click/tap this timecode to hide it." />` : '';
       return `<article class="jr-line${active}" data-id="${a.id}">
-        <div class="jr-line-num${showStartEditor ? ' editing' : ''}" data-act="seek-start" title="Go to this line's Start time"><span>${i+1}</span>${makeTimeCheck('Start', a.start)}${startEditor}</div>
-        <input class="jr-speaker" data-field="actor" maxlength="3" value="${escapeHtml(a.actor||'')}" title="Speaker, 3 characters maximum" />
-        <textarea class="jr-text" data-field="text" placeholder="Transcript / note line">${escapeHtml(a.text||'')}</textarea>
-        <div class="jr-end-slot">${makeTimeCheck('End', a.end)}</div>
+        <div class="jr-line-num" data-act="seek-start" title="Single-click/tap or long press to go to this line's Start time. Double-click/double-tap to show or hide all editable Start and End timecodes."><span>${i+1}</span>${makeTimeCheck('Start', a.start)}</div>
+        <div class="jr-start-slot">${showAllTimeEditors ? makeTimeEditor('Start', a) : ''}</div>
+        <input class="jr-speaker" data-field="actor" maxlength="3" value="${escapeHtml(a.actor||'')}" title="Speaker ID: enter up to 3 characters; letters are automatically uppercased" />
+        <textarea class="jr-text" data-field="text" placeholder="Transcript / note line" title="Transcript text for this line; type or edit freely">${escapeHtml(a.text||'')}</textarea>
+        <div class="jr-end-slot">${showAllTimeEditors ? makeTimeEditor('End', a) : makeTimeCheck('End', a.end)}</div>
         <div class="jr-coding-slot">
-          <button class="jr-note-icon-btn jr-line-note-btn${a.lineNote ? ' has-note' : ''}" data-act="line-note" data-id="${a.id}" title="Line note">▣</button>
+          <button class="jr-note-icon-btn jr-line-note-btn${a.lineNote ? ' has-note' : ''}" data-act="line-note" data-id="${a.id}" title="Open or edit the Line Note for this transcript line">▣</button>
         </div>
-        ${(openInlineNote.id===a.id && openInlineNote.type==='lineNote') ? `<div class="jr-inline-note"><div class="jr-inline-note-head">Line Note ${i+1}</div><textarea data-note-field="lineNote" data-id="${a.id}" placeholder="Line note for this transcript line">${escapeHtml(a.lineNote||'')}</textarea></div>` : ''}
+        ${(openInlineNote.id===a.id && openInlineNote.type==='lineNote') ? `<div class="jr-inline-note"><div class="jr-inline-note-head">Line Note ${i+1}</div><textarea data-note-field="lineNote" data-id="${a.id}" placeholder="Line note for this transcript line" title="Line Note for transcript line ${i+1}; Space types a space and never controls playback">${escapeHtml(a.lineNote||'')}</textarea></div>` : ''}
       </article>`;
     }).join('');
-    requestAnimationFrame(()=>els.jrTranscriptRows.querySelectorAll('.jr-text').forEach(autoGrowTextArea));
+    requestAnimationFrame(()=>{
+      els.jrTranscriptRows.querySelectorAll('.jr-text').forEach(autoGrowTextArea);
+      applyTooltips(els.jrTranscriptRows);
+      updateFollowHighlight(true);
+    });
   }
   function showInlineNote(id, type){
     const a = annotations.find(x=>x.id===id);
@@ -923,49 +1476,48 @@
     a.updatedAt = new Date().toISOString(); markDirty(true); renderList();
     status((kind === 'start' ? 'Start' : 'End') + ' set to ' + fmtShortTime(t) + '.');
   }
-  function toggleStartTimeEditor(id){
+  function toggleAllTimeEditors(id){
     const a = annotations.find(x=>x.id===id); if(!a) return;
     selectedId = id;
-    openStartEditorId = openStartEditorId === '__all__' ? null : '__all__';
+    showAllTimeEditors = !showAllTimeEditors;
     renderTranscriptRows();
-    if(openStartEditorId === '__all__'){
-      status('Showing editable Start timecodes for all transcript lines.');
+    if(showAllTimeEditors){
+      status('Showing editable Start and End timecodes for all transcript lines.');
       setTimeout(()=>{
         const inp = els.jrTranscriptRows && els.jrTranscriptRows.querySelector(`.jr-line[data-id="${id}"] .jr-start-time-editor`);
         if(inp){ inp.focus(); inp.select(); }
       }, 30);
-    } else {
-      status('Hid editable Start timecodes.');
-    }
+    } else status('Hid editable Start and End timecodes.');
   }
-  function commitStartTimeEditor(input, hide=false){
+  function commitTimeEditor(input){
     if(!input) return;
     const id = input.dataset.id;
+    const kind = input.dataset.timeEditor;
+    if(kind !== 'start' && kind !== 'end') return;
     const a = annotations.find(x=>x.id===id);
     if(!a) return;
     const raw = String(input.value || '').trim();
+    const label = kind === 'start' ? 'Start' : 'End';
     if(raw === ''){
-      a.start = null;
-      a.updatedAt = new Date().toISOString();
-      markDirty(true);
-      status('Cleared line Start time.');
-    } else {
-      const t = parseTime(raw);
-      if(t == null || !Number.isFinite(t) || t < 0){
-        status('Invalid Start time. Use mm:ss.t, for example 02:14.6.');
-        input.classList.add('invalid');
-        return;
-      }
-      a.start = t;
+      a[kind] = null;
       a.updatedAt = new Date().toISOString();
       markDirty(true);
       input.classList.remove('invalid');
-      status('Edited line Start time to ' + fmtShortTime(t) + '.');
+      status(`Cleared line ${label} time.`);
+      return;
     }
-    if(hide){
-      openStartEditorId = null;
-      renderTranscriptRows();
+    const t = parseTime(raw);
+    if(t == null || !Number.isFinite(t) || t < 0){
+      status(`Invalid ${label} time. Use seconds, mm:ss.t, or hh:mm:ss.t.`);
+      input.classList.add('invalid');
+      return;
     }
+    a[kind] = t;
+    a.updatedAt = new Date().toISOString();
+    markDirty(true);
+    input.classList.remove('invalid');
+    input.value = fmtShortTime(t);
+    status(`Edited line ${label} time to ${fmtShortTime(t)}.`);
   }
   let tipTimer = null, tipEl = null;
   let lineSeekTimer = null;
@@ -1020,51 +1572,57 @@
 
   function projectObject(){
     return {
-      app:'Gravar Jr.', version:'1.19', savedAt:new Date().toISOString(),
-      source, annotations, projectNote, fieldNote
+      app:'Gravar Jr.', version:'1.23', savedAt:new Date().toISOString(),
+      projectId:currentProjectId || '', projectName:currentProjectName || '', projectFolderName:currentProjectFolderName || '',
+      classCode:activeClassCode, source, annotations, projectNote, fieldNote
     };
   }
-  function saveJson(){
-    const stamp = new Date().toISOString().slice(0,19).replace(/[T:]/g,'-');
-    download(`Gravar_Jr_project_${stamp}.json`, JSON.stringify(projectObject(), null, 2), 'application/json;charset=utf-8');
-    markDirty(false); status('Saved project JSON.');
+  async function saveJson(){
+    const name = projectFileBase() + '.gravar-jr.json';
+    await saveOutputFile(name, JSON.stringify(projectObject(), null, 2), 'application/json;charset=utf-8');
+  }
+  function applyProjectObject(obj){
+    annotations = Array.isArray(obj.annotations) ? obj.annotations.map(a=>({...a, start:hasTimeValue(a.start)?Number(a.start):null, end:hasTimeValue(a.end)?Number(a.end):null})) : [];
+    source = obj.source || {type:'local',name:'',url:'',youtubeId:''};
+    projectNote = obj.projectNote || '';
+    fieldNote = (obj.fieldNote && /<[^>]+>/.test(obj.fieldNote)) ? obj.fieldNote : escapeHtml(obj.fieldNote || '').replace(/\n/g,'<br>');
+    refreshFieldNoteButton(); openInlineNote = {id:null, type:null}; showAllTimeEditors = false; selectedId = null;
+    const restoredClass = normalizeClassCode(obj.classCode || source.classId || '');
+    if(restoredClass) setActiveClass(restoredClass, {persist:true, load:true});
+    if(source.type === 'youtube' && source.youtubeId){
+      els.sourceType.value = 'youtube'; configureSourceInputs('youtube'); els.sourceUrl.value = source.url || source.youtubeId; createOrLoadYouTube(source.youtubeId); showMode('youtube','YOUTUBE');
+    } else if(source.type === 'url' && source.url){
+      configureSourceInputs('url'); els.sourceUrl.value = source.url; els.localVideo.src = source.url; els.localVideo.load(); showMode('url','DIRECT URL');
+    } else if(source.type === 'panopto' && source.url){
+      els.sourceType.value = 'panopto'; configureSourceInputs('panopto'); els.sourceUrl.value = source.url; els.webFrame.src = source.url; showMode('web','WEB EMBED');
+    } else {
+      els.sourceType.value = 'local'; configureSourceInputs('local'); showMode('none','');
+    }
+    clearForm(); renderList(); startTicker();
   }
   function loadJsonFile(file){
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try{
+        if(dirty && !confirm('Import this project and discard unsaved changes?')) return;
         const obj = JSON.parse(reader.result);
-        annotations = Array.isArray(obj.annotations) ? obj.annotations.map(a=>({...a, start:hasTimeValue(a.start)?Number(a.start):null, end:hasTimeValue(a.end)?Number(a.end):null})) : [];
-        source = obj.source || {type:'local',name:'',url:'',youtubeId:''};
-        projectNote = obj.projectNote || '';
-        fieldNote = (obj.fieldNote && /<[^>]+>/.test(obj.fieldNote)) ? obj.fieldNote : escapeHtml(obj.fieldNote || '').replace(/\n/g,'<br>');
-        refreshFieldNoteButton();
-        openInlineNote = {id:null, type:null}; openStartEditorId = null;
-        selectedId = null;
-        if(source.type === 'youtube' && source.youtubeId){
-          els.sourceType.value = 'youtube'; onSourceTypeChange(); els.sourceUrl.value = source.url || source.youtubeId; createOrLoadYouTube(source.youtubeId); showMode('youtube','YOUTUBE');
-        } else if(source.type === 'url' && source.url){
-          els.sourceType.value = 'url'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.localVideo.src = source.url; els.localVideo.load(); showMode('url','DIRECT URL');
-        } else if(source.type === 'panopto' && source.url){
-          els.sourceType.value = 'web'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.webFrame.src = source.url; showMode('web','WEB EMBED');
-        } else {
-          els.sourceType.value = 'local'; onSourceTypeChange(); showMode('none','');
-          status('Project loaded. Re-select the local video file if needed: ' + (source.name || 'local file'));
-        }
-        markDirty(false); clearForm(); renderList(); startTicker(); status('Loaded project JSON.');
-      }catch(e){ status('Could not load JSON: ' + e.message); }
+        applyProjectObject(obj);
+        const importedName = cleanProjectName(obj.projectName || file.name.replace(/\.(gravar-jr\.)?json$/i,'') || 'Imported Project');
+        setCurrentProjectIdentity({id:makeProjectId(),name:importedName,folderName:obj.projectFolderName || importedName,createdAt:new Date().toISOString(),folderHandle:null});
+        await persistCurrentProject({writeExternal:false,quiet:true});
+        markDirty(false); status('Imported project and saved it in the local Gravar Jr. project library.');
+      }catch(e){ status('Could not import project: ' + e.message); }
     };
     reader.readAsText(file);
   }
-  function exportCsv(){
+  async function exportCsv(){
     const headers = ['Start','End','Type','Label','Speaker/Actor','Text/Note','Start seconds','End seconds'];
     const lines = [headers.map(csvCell).join(',')].concat(annotations.map(a => [
       fmtOptionalTime(a.start), fmtOptionalTime(a.end), a.type, a.label, a.actor, a.text, hasTimeValue(a.start)?a.start:'', hasTimeValue(a.end)?a.end:''
     ].map(csvCell).join(',')));
-    download('Gravar_Jr_annotations.csv', lines.join('\n'), 'text/csv;charset=utf-8');
-    status('Exported CSV.');
+    await saveOutputFile(projectFileBase() + '_annotations.csv', lines.join('\n'), 'text/csv;charset=utf-8');
   }
-  function exportHtml(){
+  async function exportHtml(){
     const rows = annotations.map(a=>`<tr><td>${fmtOptionalTime(a.start)}</td><td>${fmtOptionalTime(a.end)}</td><td>${escapeHtml(a.type)}</td><td>${escapeHtml(a.label)}</td><td>${escapeHtml(a.actor)}</td><td>${escapeHtml(a.text).replace(/\n/g,'<br>')}</td></tr>`).join('\n');
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gravar Jr. Annotation Report</title><style>body{font-family:Arial,sans-serif;margin:28px;line-height:1.4;color:#172033}table{border-collapse:collapse;width:100%;margin-top:16px}th,td{border:1px solid #cfd7e6;padding:7px;vertical-align:top}th{background:#f0f3f8;text-align:left}.meta{color:#536172}
 /* v1.11 paper transcript pane redesign */
@@ -1112,8 +1670,7 @@
 @media(max-width:900px){.jr-transcript-rows{padding:10px 12px 6px!important}.jr-line{grid-template-columns:29px 38px minmax(0,1fr) 18px!important;column-gap:6px!important;padding-left:2px!important;padding-right:2px!important}.jr-text{font-size:15px!important}.jr-bottom-actions{gap:6px!important}.jr-bottom-actions button{padding-left:9px!important;padding-right:9px!important}}
 
 </style></head><body><h1>Gravar Jr. Annotation Report</h1><p class="meta"><strong>Video source:</strong> ${escapeHtml(source.name || source.url || source.youtubeId || 'Not specified')}<br><strong>Exported:</strong> ${escapeHtml(new Date().toLocaleString())}</p>${projectNote ? `<h2>Project Note</h2><p>${escapeHtml(projectNote).replace(/\n/g,'<br>')}</p>` : ''}${stripHtml(fieldNote) ? `<h2>Field Note</h2><div>${fieldNote}</div>` : ''}<table><thead><tr><th>Start</th><th>End</th><th>Type</th><th>Label</th><th>Speaker/Actor</th><th>Text/Note</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
-    download('Gravar_Jr_annotation_report.html', html, 'text/html;charset=utf-8');
-    status('Exported HTML report.');
+    await saveOutputFile(projectFileBase() + '_report.html', html, 'text/html;charset=utf-8');
   }
 
   els.sourceType.addEventListener('change', onSourceTypeChange);
@@ -1212,6 +1769,7 @@
   if(els.jrSetEndBtn) els.jrSetEndBtn.addEventListener('click', ()=>setLineTime(selectedId, 'end'));
   if(els.jrAddLineBtn) els.jrAddLineBtn.addEventListener('click', addTranscriptLine);
   if(els.jrDeleteLineBtn) els.jrDeleteLineBtn.addEventListener('click', deleteTranscriptLine);
+  if(els.jrFollowBtn) els.jrFollowBtn.addEventListener('click', ()=>setFollowEnabled(!followEnabled));
   if(els.projectNoteBtn) els.projectNoteBtn.addEventListener('click', openProjectNote);
   if(els.jrProjectNoteText) els.jrProjectNoteText.addEventListener('input', ()=>{ projectNote = els.jrProjectNoteText.value || ''; markDirty(true); status(projectNote ? 'Saved project note.' : 'Cleared project note.'); });
   if(els.jrProjectNoteClose) els.jrProjectNoteClose.addEventListener('click', closeProjectNote);
@@ -1224,8 +1782,13 @@
     els.jrTranscriptRows.addEventListener('click', e=>{
       const line = e.target.closest('.jr-line'); if(!line) return;
       selectedId = line.dataset.id;
-      if(e.target.closest('.jr-start-time-editor')) return;
-      if(e.target.closest('.jr-line-num')) { if(e.detail >= 2) toggleStartTimeEditor(selectedId); else seekLineStart(selectedId); return; }
+      if(e.target.closest('.jr-time-editor')) return;
+      if(e.target.closest('.jr-line-num')) {
+        if(Date.now() < suppressLineClickUntil) return;
+        clearTimeout(pendingLineSeekClick);
+        pendingLineSeekClick = setTimeout(()=>seekLineStart(selectedId), 240);
+        return;
+      }
       if(e.target.matches('[data-act="line-note"]')) { showInlineNote(selectedId, 'lineNote'); return; }
       if(e.target.matches('[data-act="set-start"]')) setLineTime(selectedId, 'start');
       else if(e.target.matches('[data-act="set-end"]')) setLineTime(selectedId, 'end');
@@ -1236,24 +1799,28 @@
       }
     });
     els.jrTranscriptRows.addEventListener('dblclick', e=>{
-      const editor = e.target.closest('.jr-start-time-editor');
-      if(editor){ commitStartTimeEditor(editor, true); e.preventDefault(); return; }
       const ln = e.target.closest('.jr-line-num');
-      if(ln){ const line = ln.closest('.jr-line'); if(line) toggleStartTimeEditor(line.dataset.id); e.preventDefault(); }
+      if(ln){
+        clearTimeout(pendingLineSeekClick);
+        const line = ln.closest('.jr-line');
+        if(line) toggleAllTimeEditors(line.dataset.id);
+        suppressLineClickUntil = Date.now() + 400;
+        e.preventDefault();
+      }
     });
     els.jrTranscriptRows.addEventListener('change', e=>{
-      if(e.target.closest('.jr-start-time-editor')) commitStartTimeEditor(e.target, false);
+      if(e.target.closest('.jr-time-editor')) commitTimeEditor(e.target);
     });
     els.jrTranscriptRows.addEventListener('keydown', e=>{
-      const editor = e.target.closest('.jr-start-time-editor');
+      const editor = e.target.closest('.jr-time-editor');
       if(!editor) return;
-      if(e.key === 'Enter'){ e.preventDefault(); commitStartTimeEditor(editor, false); editor.select(); }
+      if(e.key === 'Enter'){ e.preventDefault(); commitTimeEditor(editor); editor.select(); }
     });
     els.jrTranscriptRows.addEventListener('input', e=>{
-      const line = e.target.closest('.jr-line'); if(!line) return; selectedId=line.dataset.id; if(e.target.closest('.jr-start-time-editor')) return; if(e.target.dataset.noteField){ saveInlineNote(selectedId, e.target.dataset.noteField, e.target.value); autoGrowTextArea(e.target); return; } if(!e.target.dataset.field) return; updateTranscriptField(selectedId, e.target.dataset.field, e.target.value); if(e.target.classList.contains('jr-text')) autoGrowTextArea(e.target);
+      const line = e.target.closest('.jr-line'); if(!line) return; selectedId=line.dataset.id; if(e.target.closest('.jr-time-editor')) return; if(e.target.dataset.noteField){ saveInlineNote(selectedId, e.target.dataset.noteField, e.target.value); autoGrowTextArea(e.target); return; } if(!e.target.dataset.field) return; updateTranscriptField(selectedId, e.target.dataset.field, e.target.value); if(e.target.classList.contains('jr-text')) autoGrowTextArea(e.target);
     });
     els.jrTranscriptRows.addEventListener('pointerdown', e=>{
-      if(e.target.closest('.jr-start-time-editor')) return;
+      if(e.target.closest('.jr-time-editor')) return;
       const ln = e.target.closest('.jr-line-num');
       if(ln){
         const line = ln.closest('.jr-line');
@@ -1261,7 +1828,26 @@
       }
       const ck = e.target.closest('.jr-time-check:not(.empty)'); if(ck) tipTimer = setTimeout(()=>showFloatingTip(ck), 1000);
     });
-    ['pointerup','pointercancel','pointerleave'].forEach(ev=>els.jrTranscriptRows.addEventListener(ev, ()=>{ if(lineSeekTimer){ clearTimeout(lineSeekTimer); lineSeekTimer=null; } removeFloatingTip(); }));
+    els.jrTranscriptRows.addEventListener('pointerup', e=>{
+      const ln = e.target.closest('.jr-line-num');
+      if(ln && e.pointerType === 'touch'){
+        const line = ln.closest('.jr-line');
+        const now = Date.now();
+        if(line && lastTouchTap.id === line.dataset.id && (now - lastTouchTap.at) < 380){
+          clearTimeout(pendingLineSeekClick);
+          if(lineSeekTimer){ clearTimeout(lineSeekTimer); lineSeekTimer=null; }
+          toggleAllTimeEditors(line.dataset.id);
+          lastTouchTap = {id:'', at:0};
+          suppressLineClickUntil = now + 600;
+          e.preventDefault();
+        }else if(line){
+          lastTouchTap = {id:line.dataset.id, at:now};
+        }
+      }
+      if(lineSeekTimer){ clearTimeout(lineSeekTimer); lineSeekTimer=null; }
+      removeFloatingTip();
+    });
+    ['pointercancel','pointerleave'].forEach(ev=>els.jrTranscriptRows.addEventListener(ev, ()=>{ if(lineSeekTimer){ clearTimeout(lineSeekTimer); lineSeekTimer=null; } removeFloatingTip(); }));
     els.jrTranscriptRows.addEventListener('mouseover', e=>{ const ck=e.target.closest('.jr-time-check:not(.empty)'); if(ck) ck.title = `${ck.dataset.timeKind}: ${fmtShortTime(Number(ck.dataset.time))}`; });
   }
   els.filterText.addEventListener('input', renderList);
@@ -1274,27 +1860,87 @@
     if(act === 'replay') replay(id);
     if(act === 'duplicate') duplicate(id);
   });
-  els.saveJsonBtn.addEventListener('click', saveJson);
-  els.loadJsonBtn.addEventListener('click', ()=>els.jsonFileInput.click());
+  els.saveJsonBtn.addEventListener('click', async ()=>{
+    try{ if(!currentProjectId){ openProjectSetupDialog('save'); return; } await persistCurrentProject({writeExternal:true}); }
+    catch(e){ status('Could not save project: ' + e.message); }
+  });
+  els.loadJsonBtn.addEventListener('click', async ()=>{ els.projectLibraryModal.classList.add('show'); await renderProjectLibrary(); });
+  els.importProjectBtn.addEventListener('click', ()=>els.jsonFileInput.click());
   els.jsonFileInput.addEventListener('change', ()=>{ const f=els.jsonFileInput.files[0]; if(f) loadJsonFile(f); els.jsonFileInput.value=''; });
+  els.exportProjectJsonBtn.addEventListener('click', saveJson);
   els.exportCsvBtn.addEventListener('click', exportCsv);
   els.exportHtmlBtn.addEventListener('click', exportHtml);
   els.mobileExportsBtn.addEventListener('click', ()=>{
-    const choice = prompt('Type one: json, csv, html', 'csv');
+    const choice = prompt('Type one: project, csv, html', 'csv');
     if(!choice) return;
-    if(choice.toLowerCase().startsWith('j')) saveJson();
+    if(choice.toLowerCase().startsWith('p') || choice.toLowerCase().startsWith('j')) saveJson();
     else if(choice.toLowerCase().startsWith('h')) exportHtml();
     else exportCsv();
   });
   els.newProjectBtn.addEventListener('click', ()=>{
     if(dirty && !confirm('Start a new project and discard unsaved changes?')) return;
-    annotations=[]; selectedId=null; projectNote=''; fieldNote=''; refreshFieldNoteButton(); openInlineNote={id:null,type:null}; openStartEditorId=null; source={type:'local',name:'',url:'',youtubeId:''};
-    els.localVideo.removeAttribute('src'); els.localVideo.load(); if(ytPlayer&&ytPlayer.stopVideo) ytPlayer.stopVideo();
-    showMode('none',''); clearForm(); markDirty(false); status('New project.');
+    openProjectSetupDialog('new');
   });
+  [els.closeNewProjectBtn,els.cancelNewProjectBtn].forEach(b=>b && b.addEventListener('click', closeProjectSetupDialog));
+  els.newProjectModal.addEventListener('click', e=>{ if(e.target===els.newProjectModal) closeProjectSetupDialog(); });
+  els.newProjectNameInput.addEventListener('input', ()=>{ if(!els.newProjectFolderInput.dataset.userEdited) els.newProjectFolderInput.value = cleanFolderName(els.newProjectNameInput.value || 'Untitled Project'); });
+  els.newProjectFolderInput.addEventListener('input', ()=>{ els.newProjectFolderInput.dataset.userEdited='true'; });
+  els.createDeviceFolderBtn.addEventListener('click', async ()=>{
+    try{
+      const folderName = cleanFolderName(els.newProjectFolderInput.value || els.newProjectNameInput.value);
+      pendingNewProjectFolderHandle = await createOrLinkDeviceFolder(folderName);
+      els.newProjectDeviceFolderStatus.textContent = 'Device folder ready: ' + folderName + '. Project files and exports will be written there.';
+      els.newProjectDeviceFolderStatus.className='project-folder-status folder-supported';
+    }catch(e){ if(e.name!=='AbortError'){ els.newProjectDeviceFolderStatus.textContent = e.message; els.newProjectDeviceFolderStatus.className='project-folder-status folder-unavailable'; } }
+  });
+  els.createNewProjectBtn.addEventListener('click', async ()=>{
+    try{
+      const name=cleanProjectName(els.newProjectNameInput.value);
+      const folderName=cleanFolderName(els.newProjectFolderInput.value || name);
+      if(projectDialogMode==='new') resetWorkspaceForNewProject();
+      setCurrentProjectIdentity({id:makeProjectId(),name,folderName,createdAt:new Date().toISOString(),folderHandle:pendingNewProjectFolderHandle});
+      await persistCurrentProject({writeExternal:true,quiet:false});
+      closeProjectSetupDialog();
+    }catch(e){ status('Could not create project: ' + e.message); }
+  });
+  els.closeProjectLibraryBtn.addEventListener('click', ()=>els.projectLibraryModal.classList.remove('show'));
+  els.projectLibraryModal.addEventListener('click', e=>{ if(e.target===els.projectLibraryModal) els.projectLibraryModal.classList.remove('show'); });
+  els.projectLibraryList.addEventListener('click', async e=>{
+    const btn=e.target.closest('[data-project-act]'); if(!btn) return;
+    const item=btn.closest('[data-project-id]'); if(!item) return;
+    const id=item.dataset.projectId;
+    try{
+      if(btn.dataset.projectAct==='open') await openSavedProject(id);
+      if(btn.dataset.projectAct==='delete'){
+        const rec=await idbGetProject(id); if(!rec) return;
+        if(confirm(`Delete “${rec.name || 'Untitled Project'}” from this browser's local project library? This does not delete files in a linked device folder.`)){ await idbDeleteProject(id); if(currentProjectId===id){ currentProjectId=null; currentProjectName=''; currentProjectFolderName=''; currentProjectFolderHandle=null; updateProjectUi(); } await renderProjectLibrary(); status('Deleted project from the local project library.'); }
+      }
+    }catch(err){ status('Project library error: ' + err.message); }
+  });
+  els.linkProjectFolderBtn.addEventListener('click', async ()=>{
+    try{
+      if(!currentProjectId){ openProjectSetupDialog('save'); return; }
+      currentProjectFolderHandle = await createOrLinkDeviceFolder(currentProjectFolderName || currentProjectName);
+      updateProjectUi(); await persistCurrentProject({writeExternal:true});
+    }catch(e){ if(e.name!=='AbortError') status('Could not link a device folder: ' + e.message); }
+  });
+  els.disconnectProjectFolderBtn.addEventListener('click', async ()=>{
+    currentProjectFolderHandle=null; updateProjectUi();
+    try{ if(currentProjectId) await persistCurrentProject({writeExternal:false,quiet:true}); status('Disconnected the writable device folder. The internal project remains saved.'); }catch(e){ status('Folder disconnected, but project metadata could not be updated: ' + e.message); }
+  });
+  els.projectFolderMenuBtn.addEventListener('click', ()=>{ const open=els.projectFolderSubmenu.classList.toggle('hidden'); els.projectFolderMenuBtn.setAttribute('aria-expanded', open ? 'false' : 'true'); });
+  els.gettingStartedBtn.addEventListener('click', ()=>els.gettingStartedModal.classList.add('show'));
+  els.closeGettingStartedBtn.addEventListener('click', ()=>els.gettingStartedModal.classList.remove('show'));
+  els.gettingStartedModal.addEventListener('click', e=>{ if(e.target===els.gettingStartedModal) els.gettingStartedModal.classList.remove('show'); });
   els.helpBtn.addEventListener('click', ()=>els.helpModal.classList.add('show'));
   els.closeHelpBtn.addEventListener('click', ()=>els.helpModal.classList.remove('show'));
   els.helpModal.addEventListener('click', e=>{ if(e.target===els.helpModal) els.helpModal.classList.remove('show'); });
+  if(els.setClassBtn) els.setClassBtn.addEventListener('click', ()=>setActiveClass(els.classCodeInput.value, {persist:true, load:true}));
+  if(els.classCodeInput) els.classCodeInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); setActiveClass(els.classCodeInput.value, {persist:true, load:true}); } });
+  if(els.streamingFilesBtn) els.streamingFilesBtn.addEventListener('click', ()=>{ const open=els.streamingSubmenu.classList.toggle('hidden'); els.streamingFilesBtn.setAttribute('aria-expanded', open ? 'false' : 'true'); if(!open && activeClassCode && !activeCatalog.length) loadClassCatalog(activeClassCode, false); });
+  if(els.refreshCatalogBtn) els.refreshCatalogBtn.addEventListener('click', ()=>loadClassCatalog(activeClassCode, true));
+  if(els.streamingCatalogItems) els.streamingCatalogItems.addEventListener('click', e=>{ const b=e.target.closest('[data-stream-index]'); if(!b) return; const item=activeCatalog[Number(b.dataset.streamIndex)]; if(item) loadStreamingCatalogItem(item); });
+  if(els.exportMenuBtn) els.exportMenuBtn.addEventListener('click', ()=>{ const open=els.exportSubmenu.classList.toggle('hidden'); els.exportMenuBtn.setAttribute('aria-expanded', open ? 'false' : 'true'); });
 
   const fileMenuBtn = document.getElementById('fileMenuBtn');
   const fileMenu = document.getElementById('fileMenu');
@@ -1316,7 +1962,7 @@
   fileMenuBtn.addEventListener('click', e=>{ e.stopPropagation(); fileMenu.classList.toggle('show'); });
   document.addEventListener('click', e=>{ if(!fileMenu.contains(e.target) && e.target!==fileMenuBtn) fileMenu.classList.remove('show'); });
   fileMenu.addEventListener('click', e=>{
-    if(e.target.closest('select')) return;
+    if(e.target.closest('select,input,.menu-submenu') || e.target.closest('#streamingFilesBtn,#exportMenuBtn,#projectFolderMenuBtn,#setClassBtn,#refreshCatalogBtn')) return;
     if(e.target.closest('button')) setTimeout(()=>fileMenu.classList.remove('show'), 120);
   });
   if(modeToggleBtn) modeToggleBtn.addEventListener('click', ()=>setWorkspaceMode(workspaceMode === 'add' ? 'annotate' : 'add'));
@@ -1334,13 +1980,51 @@
   window.addEventListener('beforeunload', e=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
   window.addEventListener('keydown', e=>{
     const tag = (e.target.tagName || '').toLowerCase();
-    if(tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    const editable = tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable || !!e.target.closest('[contenteditable="true"],.jr-inline-note,.jr-field-note-panel,.jr-project-note-panel');
+    if(editable) return;
     if(e.code === 'Space'){ e.preventDefault(); isPlaying()?pause():play(); }
     if(e.key === 'ArrowLeft'){ e.preventDefault(); seek(e.shiftKey?-5:-1); }
     if(e.key === 'ArrowRight'){ e.preventDefault(); seek(e.shiftKey?5:1); }
     if(e.key.toLowerCase() === 'n'){ e.preventDefault(); els.annStart.value = fmtTime(getCurrentTime()); els.annText.focus(); }
   });
 
+
+  const TOOLTIP_TEXT = {
+    videoTitleDisplay:'Current video or streaming title',
+    fileMenuBtn:'Open the File menu for video sources, class streaming catalogs, projects, exports, Getting Started, and Help',
+    sourceType:'Choose Local, YouTube, or Panopto video loading',
+    classCodeInput:'Class code used to choose one class-specific GitHub streaming catalog',
+    setClassBtn:'Remember this class code locally and load its catalog',
+    streamingFilesBtn:'Open or close the selected class Streaming Files submenu',
+    refreshCatalogBtn:'Refresh the current class catalog from GitHub; cached data remains available if refresh fails',
+    newProjectBtn:'Create and name a new working project with its own internal folder and optional writable device folder', projectNoteBtn:'Open the project-wide plain-text Project Note',
+    loadJsonBtn:'Open a working project from this browser’s local Gravar Jr. project library', saveJsonBtn:'Save or update the current working project in the local project library', importProjectBtn:'Import a portable Gravar Jr. project JSON file',
+    projectFolderMenuBtn:'Open or close project-folder controls', linkProjectFolderBtn:'Create or link a writable device folder for the current project where supported', disconnectProjectFolderBtn:'Disconnect the writable device folder while keeping the internal project',
+    exportMenuBtn:'Open or close export choices', exportProjectJsonBtn:'Export a portable Gravar Jr. project JSON file', exportCsvBtn:'Export transcript and timings as CSV', exportHtmlBtn:'Export a standalone HTML report', exportFieldRtfBtn:'Export the rich-text Field Note as RTF',
+    newProjectNameInput:'Name of the working project', newProjectFolderInput:'Name of the project folder', createDeviceFolderBtn:'Create a writable device folder where supported', createNewProjectBtn:'Create the project and save it to the local project library',
+    gettingStartedBtn:'Open the step-by-step Getting Started guide', helpBtn:'Open the complete control and gesture reference',
+    localVideo:'Video display for local files and direct browser-playable video URLs', youtubeWrap:'YouTube video display', webFrame:'Panopto embedded video display',
+    scrubLayer:'Drag horizontally across the video to scrub approximately ±2 seconds from the drag starting point', videoDiagnostic:'Timeline and playback status strip; click, tap, or drag to seek through the full video',
+    back5Btn:'Jump backward 5 seconds; long press for repeated fine stepping', back1Btn:'Jump backward 1 second; long press for repeated fine stepping', playPauseBtn:'Play or pause; long press for 1 second to choose playback speed', fwd1Btn:'Jump forward 1 second; long press for repeated fine stepping', fwd5Btn:'Jump forward 5 seconds; long press for repeated fine stepping', speedSelect:'Choose playback speed',
+    jrSetStartBtn:'Set the selected transcript line Start time to the current video position', jrSetEndBtn:'Set the selected transcript line End time to the current video position', jrFieldNoteBtn:'Open the project-wide rich-text Field Note', jrAddLineBtn:'Add a transcript line below the selected line', jrDeleteLineBtn:'Delete the selected transcript line',
+    jrFieldNoteText:'Rich-text Field Note editor; Space always types a space and never toggles playback', jrFieldNoteClose:'Close the Field Note', jrProjectNoteText:'Project-wide plain-text note; Space always types a space and never toggles playback', jrProjectNoteClose:'Close the Project Note',
+    jsonFileInput:'Choose a portable Gravar Jr. project JSON file to import', timeReadout:'Current video time', openYouTubeLink:'Open the current video on YouTube', copyEmbedBtn:'Copy the YouTube embed URL'
+  };
+  function applyTooltips(root=document){
+    Object.entries(TOOLTIP_TEXT).forEach(([id,title])=>{ const el=$(id); if(el && (!root || root===document || root.contains(el))) { el.title=title; if(!el.getAttribute('aria-label') && (el.matches('button,input,select,textarea,[contenteditable="true"]'))) el.setAttribute('aria-label', title); } });
+    const controls = root.querySelectorAll ? root.querySelectorAll('button,input,select,textarea,[contenteditable="true"],video,iframe,.scrub-layer,.diagnostic,[data-act]') : [];
+    controls.forEach(el=>{
+      if(!el.title){
+        const label = (el.getAttribute('aria-label') || el.getAttribute('placeholder') || el.textContent || el.id || 'Control').trim().replace(/\s+/g,' ');
+        el.title = label ? `${label} — Gravar Jr. control` : 'Gravar Jr. control';
+      }
+      if(!el.getAttribute('aria-label') && el.matches('button,input,select,textarea,[contenteditable="true"]')) el.setAttribute('aria-label', el.title);
+    });
+  }
+
+  applyTooltips(document);
+  initializeClassSelection();
+  updateProjectUi();
   onSourceTypeChange();
   if(canUseFileProtocol) setDiag('This app is being opened from a local file. Local video may work on laptops, but YouTube streaming will usually fail with Error 153. Use the included Mac launcher for localhost testing, or deploy the hosted package and open its HTTPS URL on the tablet.');
   showMode('none','');
