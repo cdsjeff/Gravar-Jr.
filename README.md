@@ -1,25 +1,23 @@
-# Gravar Jr. v1.38 — Visible Frame Clip
+# Gravar Jr. v1.39 — Streaming Link Library
 
-This package contains the current standalone Gravar Jr. build.
+This package contains a standalone browser version of Gravar Jr.
 
 ## Files
 
-- `index.html` — the Gravar Jr. application
+- `index.html` — the Gravar Jr. app
 - `help.html` — standalone help file
 - `starting_up.html` — standalone startup guide
 - `README.md` — this file
 
-## v1.38 diagnostic repair
+## New in v1.39
 
-The prior zoom repair still allowed the visible media box to behave like the whole frame was growing. The fix separates the video display into three layers:
+- Added a selectable streaming-link library to the Choose Video menu.
+- Added the built-in YouTube test link: **Lone Ranger-AAC practitioner**.
+- Added **Add Streaming Link** for adding named YouTube or Panopto links to the local browser/device menu.
+- Updated Help and Starting Up files.
 
-1. a fixed black video pane,
-2. a fixed original visible picture rectangle,
-3. an internal media layer that alone is scaled and panned.
+## GitHub Pages
 
-The video/iframe itself is no longer directly transformed. The +/− buttons, Command-Option vertical drag, and pinch/trackpad pinch now transform only the internal media layer. The original picture boundary remains fixed and clips the enlarged image.
+Upload the contents of this folder, not the ZIP itself, so that `index.html` is at the top level of the repository or Pages folder.
 
-
-## v1.38 note
-
-Frame Clip now captures the visible cropped picture area for local videos. When the picture is zoomed and panned, the exported clip matches what is visible inside the fixed picture boundary rather than the full original source frame.
+YouTube embedding usually requires Gravar Jr. to run from HTTPS or localhost, not from a downloaded `file://` page.

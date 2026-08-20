@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
-<title>Gravar Jr. v1.38 — Visible Frame Clip</title>
+<title>Gravar Jr. v1.39 — Streaming Link Library</title>
 <style>
 :root{--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#5d6878;--line:#cfd7e5;--accent:#2e6fbb;--accent2:#164f91;--danger:#b43c3c;--radius:18px;--tap:52px;--shadow:0 5px 16px rgba(20,30,50,.10)}
 *{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif} body{overflow:hidden} button,input,select,textarea{font:inherit} button{min-height:var(--tap);border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);padding:9px 13px;font-weight:650;cursor:pointer;touch-action:manipulation} button.primary{background:var(--accent);border-color:var(--accent);color:#fff} button.primary:hover{background:var(--accent2)} button.danger{background:var(--danger);border-color:var(--danger);color:#fff} button.small{min-height:40px;padding:6px 10px;font-size:13px} button:disabled{opacity:.45} input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 11px;color:var(--ink)} textarea{resize:none;line-height:1.35} label{display:block;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:4px}.hidden{display:none!important}.file-input{display:none}.app{height:100%;padding:10px}.layout{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 154px;grid-template-rows:34px minmax(150px,1fr) minmax(250px,50vh);gap:8px;max-width:1500px;margin:0 auto}.topbar,.video-panel,.bottom-panel,.side-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
@@ -259,6 +259,7 @@
       <button id="loadJsonBtn">Load Project</button>
       <button id="saveJsonBtn">Save Project</button>
       <button id="jrAutoLineBtn" title="Create transcript lines at a fixed interval for the full video">Auto Line</button>
+      <button id="addStreamLinkBtn" title="Add a named YouTube or Panopto streaming link to the Choose Video list">Add Streaming Link</button>
       <button id="startingUpBtn" title="Open the Starting Up guide">Starting Up</button>
       <button id="helpBtn" title="Open Gravar Jr. Help">Help</button>
       <details class="export-menu"><summary>Export &gt;</summary><div class="export-submenu">
@@ -320,9 +321,9 @@
   </div>
   <div id="jrFieldNoteText" class="jr-field-note-editor" contenteditable="true" data-placeholder="Field Note" spellcheck="false" tabindex="0"></div>
 </div>
-<div class="modal-backdrop" id="helpModal"><div class="modal"><header><div class="brand"><h1>Gravar Jr. Help</h1><span class="ver">v1.38</span></div><button id="closeHelpBtn">Close</button></header><div class="content">
+<div class="modal-backdrop" id="helpModal"><div class="modal"><header><div class="brand"><h1>Gravar Jr. Help</h1><span class="ver">v1.39</span></div><button id="closeHelpBtn">Close</button></header><div class="content">
 <p><strong>Folder menu.</strong> Use 📁 to choose a video, load or save a project, create Auto Lines, open Starting Up, open Help, and export CSV or HTML.</p>
-<p><strong>Video loading.</strong> Choose <strong>Local file</strong>, <strong>YouTube</strong>, or <strong>Panopto</strong> from Choose Video. Local files provide the most complete browser control. YouTube and institutional embeds may restrict frame capture or direct time control depending on browser and source permissions.</p>
+<p><strong>Video loading.</strong> Choose <strong>Local file</strong>, <strong>YouTube</strong>, <strong>Panopto</strong>, or a named saved streaming link from <strong>Choose Video</strong>. The included test link is <strong>Lone Ranger-AAC practitioner</strong>. Use <strong>Add Streaming Link</strong> in the folder menu to add more YouTube or Panopto links to the selectable list. Local files provide the most complete browser control. YouTube and institutional embeds may restrict frame capture or direct time control depending on browser and source permissions.</p>
 <p><strong>Transport and video manipulation.</strong> Use the side controls for ±5 seconds, ±1 second, and Play/Pause. Command-click/Ctrl-click the ±1 second arrows for ±0.1 second. Hold the ±1 second arrows to step at about 7 frames per second. Command-Option drag left/right on the video to scrub forward/backward. Command-Option drag up/down, pinch, or the video +/− buttons zoom the video picture only. The black pane and the original visible picture rectangle stay fixed. The enlarged picture is clipped inside that original picture rectangle. Plain click-drag repositions the enlarged picture within that same boundary.</p>
 <p><strong>Transcript lines.</strong> Use <strong>Start</strong> and <strong>End</strong> to copy the current video time into the selected line. Click or 0.5-second touch-hold the line-number/check area to seek to that line's Start. Double-click/tap the Start/check area to show editable Start fields for all lines. Double-click/tap the End/check area to show editable End fields for all lines. Double-click/tap a visible timecode field to hide that group.</p>
 <p><strong>Line playback.</strong> Double-click/double-tap a transcript line, or Command-click/Ctrl-click the line, to play the video from that line's Start to End.</p>
@@ -330,9 +331,9 @@
 <p><strong>Frame clips.</strong> <strong>Fr Clip</strong> inserts the currently visible portion of the video picture and timing information into the Field Note. If the picture is zoomed and panned, the frame clip captures only that visible cropped area, not the full source frame. Local videos can usually export the visible frame image. YouTube/iframe sources may export timing only if the browser blocks direct image capture.</p>
 <p><strong>Exports.</strong> CSV and HTML exports include transcript lines, timing, line notes, field notes, and frame-clip material where available. Project JSON preserves the working project state.</p>
 </div></div></div>
-<div class="modal-backdrop" id="startingUpModal"><div class="modal"><header><div class="brand"><h1>Starting Up Gravar Jr.</h1><span class="ver">v1.38</span></div><button id="closeStartingUpBtn">Close</button></header><div class="content">
+<div class="modal-backdrop" id="startingUpModal"><div class="modal"><header><div class="brand"><h1>Starting Up Gravar Jr.</h1><span class="ver">v1.39</span></div><button id="closeStartingUpBtn">Close</button></header><div class="content">
 <p><strong>1. Open the app.</strong> For iPad or Chromebook use the hosted version or the package folder on a web server. On a Mac, the standalone HTML can be opened directly for local testing.</p>
-<p><strong>2. Choose a video.</strong> Open 📁 and choose <strong>Local file</strong>, <strong>YouTube</strong>, or <strong>Panopto</strong>. Local file is best for class demos that need frame capture and full time control.</p>
+<p><strong>2. Choose a video.</strong> Open 📁 and choose <strong>Local file</strong>, <strong>YouTube</strong>, <strong>Panopto</strong>, or a named streaming link such as <strong>Lone Ranger-AAC practitioner</strong>. Use <strong>Add Streaming Link</strong> to add more YouTube or Panopto links to the menu. Local file is best for class demos that need frame capture and full time control.</p>
 <p><strong>3. Create transcript rows.</strong> Add rows manually with <strong>Add</strong>, or use <strong>Auto Line</strong> from the folder menu to generate lines at a fixed interval, such as 10 seconds.</p>
 <p><strong>4. Mark times.</strong> Select a line, move the video to the onset, press <strong>Start</strong>; move to the offset, press <strong>End</strong>. Double-click/tap the timing check areas to display editable timecodes.</p>
 <p><strong>5. Write observations.</strong> Type in the transcript line, add a line-specific note with ▣, and add project-wide observations in <strong>◇ Field Note</strong>. Use <strong>Fr Clip</strong> to place the visible cropped video picture and timecode in the Field Note.</p>
@@ -363,6 +364,94 @@
   let openStartEditorId = null; // null or "__all__" for global Start-time edit display
   let openEndEditorId = null; // null or "__all__" for global End-time edit display
   let source = { type:'local', name:'', url:'', youtubeId:'' };
+  const BUILT_IN_STREAMING_LINKS = [
+    {name:'Lone Ranger-AAC practitioner', type:'youtube', url:'https://youtu.be/JPaRoQ0NXAE?si=Ud7iHQXzDtEVczHI'}
+  ];
+  const STREAM_LINKS_KEY = 'gravarJrStreamingLinks';
+  function readCustomStreamingLinks(){
+    try{
+      const arr = JSON.parse(localStorage.getItem(STREAM_LINKS_KEY) || '[]');
+      return Array.isArray(arr) ? arr.filter(x=>x && x.name && x.url && (x.type === 'youtube' || x.type === 'panopto')) : [];
+    }catch(e){ return []; }
+  }
+  function writeCustomStreamingLinks(arr){
+    try{ localStorage.setItem(STREAM_LINKS_KEY, JSON.stringify(arr || [])); }catch(e){}
+  }
+  function allStreamingLinks(){ return BUILT_IN_STREAMING_LINKS.concat(readCustomStreamingLinks()); }
+  function streamingTypeFromUrl(url){
+    if(extractYouTubeId(url)) return 'youtube';
+    if(/panopto/i.test(url) || /Embed\.aspx/i.test(url)) return 'panopto';
+    return '';
+  }
+  function rebuildStreamingLinkOptions(){
+    if(!els.sourceType) return;
+    els.sourceType.innerHTML = '';
+    const base = [
+      ['', 'Choose Video'],
+      ['local', 'Local file'],
+      ['youtube', 'YouTube'],
+      ['panopto', 'Panopto']
+    ];
+    base.forEach(([value,label])=>{
+      const opt = document.createElement('option');
+      opt.value = value; opt.textContent = label;
+      if(value === '') opt.selected = true;
+      els.sourceType.appendChild(opt);
+    });
+    const links = allStreamingLinks();
+    if(links.length){
+      const group = document.createElement('optgroup');
+      group.label = 'Streaming links';
+      links.forEach((link, i)=>{
+        const opt = document.createElement('option');
+        opt.value = 'stream:' + i;
+        opt.textContent = link.name;
+        opt.title = link.url;
+        group.appendChild(opt);
+      });
+      els.sourceType.appendChild(group);
+    }
+    els.sourceType.value = '';
+  }
+  function loadStreamingLink(index){
+    const link = allStreamingLinks()[index];
+    if(!link){ status('Streaming link was not found.'); resetChooseVideoMenu(); return; }
+    configureSourceInputs(link.type);
+    els.sourceUrl.value = link.url;
+    loadSource(link.type);
+    setTimeout(()=>{
+      source.name = link.name;
+      source.url = link.url;
+      updateVideoTitle();
+      status('Loaded streaming link: ' + link.name);
+      markDirty(true);
+    }, 0);
+    resetChooseVideoMenu();
+  }
+  function addStreamingLinkDialog(){
+    const name = window.prompt('Name for this streaming link:', '');
+    if(name === null) return;
+    const cleanName = name.trim();
+    if(!cleanName){ status('Streaming link was not added: no name supplied.'); return; }
+    const url = window.prompt('Paste a YouTube or Panopto streaming link:', '');
+    if(url === null) return;
+    const cleanUrl = url.trim();
+    if(!cleanUrl){ status('Streaming link was not added: no URL supplied.'); return; }
+    let type = streamingTypeFromUrl(cleanUrl);
+    if(!type){
+      const t = (window.prompt('Type y for YouTube or p for Panopto:', 'y') || '').trim().toLowerCase();
+      type = t.startsWith('p') ? 'panopto' : (t.startsWith('y') ? 'youtube' : '');
+    }
+    if(type !== 'youtube' && type !== 'panopto'){
+      status('Streaming link was not added: source type must be YouTube or Panopto.');
+      return;
+    }
+    const custom = readCustomStreamingLinks();
+    custom.push({name:cleanName, type, url:cleanUrl});
+    writeCustomStreamingLinks(custom);
+    rebuildStreamingLinkOptions();
+    status('Added streaming link: ' + cleanName);
+  }
   const canUseFileProtocol = location.protocol === 'file:';
   function setDiag(msg){ if(els.diagMessage) els.diagMessage.textContent = msg; else if(els.videoDiagnostic) els.videoDiagnostic.textContent = msg; }
   function isUsableWebOrigin(){
@@ -1087,6 +1176,10 @@
   function onSourceTypeChange(){
     const type = els.sourceType.value;
     if(!type){ configureSourceInputs(''); return; }
+    if(type.startsWith('stream:')){
+      loadStreamingLink(Number(type.slice(7)));
+      return;
+    }
     promptForVideoSource(type);
   }
 
@@ -1558,7 +1651,7 @@
 
   function projectObject(){
     return {
-      app:'Gravar Jr.', version:'1.36', savedAt:new Date().toISOString(),
+      app:'Gravar Jr.', version:'1.39', savedAt:new Date().toISOString(),
       source, annotations, fieldNote
     };
   }
@@ -1584,7 +1677,7 @@
         } else if(source.type === 'url' && source.url){
           els.sourceType.value = 'url'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.localVideo.src = source.url; els.localVideo.load(); showMode('url','DIRECT URL');
         } else if(source.type === 'panopto' && source.url){
-          els.sourceType.value = 'web'; onSourceTypeChange(); els.sourceUrl.value = source.url; els.webFrame.src = source.url; showMode('web','WEB EMBED');
+          els.sourceType.value = 'panopto'; els.sourceUrl.value = source.url; els.webFrame.src = source.url; showMode('web','PANOPTO');
         } else {
           els.sourceType.value = 'local'; onSourceTypeChange(); showMode('none','');
           status('Project loaded. Re-select the local video file if needed: ' + (source.name || 'local file'));
@@ -2012,6 +2105,7 @@
 
   const fileMenuBtn = document.getElementById('fileMenuBtn');
   const fileMenu = document.getElementById('fileMenu');
+  const addStreamLinkBtn = document.getElementById('addStreamLinkBtn');
   const chooseVideoBtn = document.getElementById('chooseVideoBtn');
   const modeToggleBtn = document.getElementById('modeToggleBtn');
   const addPane = document.getElementById('addPane');
@@ -2034,6 +2128,7 @@
     if(e.target.closest('button')) setTimeout(()=>fileMenu.classList.remove('show'), 120);
   });
   if(modeToggleBtn) modeToggleBtn.addEventListener('click', ()=>setWorkspaceMode(workspaceMode === 'add' ? 'annotate' : 'add'));
+  if(addStreamLinkBtn) addStreamLinkBtn.addEventListener('click', addStreamingLinkDialog);
   if(chooseVideoBtn){
     chooseVideoBtn.addEventListener('click', ()=>promptForVideoSource(els.sourceType.value || 'local'));
   }
@@ -2056,6 +2151,7 @@
     if(e.key.toLowerCase() === 'n'){ e.preventDefault(); els.annStart.value = fmtTime(getCurrentTime()); els.annText.focus(); }
   });
 
+  rebuildStreamingLinkOptions();
   onSourceTypeChange();
   if(canUseFileProtocol) setDiag('This app is being opened from a local file. Local video may work on laptops, but YouTube streaming will usually fail with Error 153. Use the included Mac launcher for localhost testing, or deploy the hosted package and open its HTTPS URL on the tablet.');
   showMode('none','');
