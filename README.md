@@ -1,23 +1,27 @@
-# Gravar Jr. v1.39 — Streaming Link Library
+# Gravar Jr. v1.43 — Built-in Streaming Links
 
-This package contains a standalone browser version of Gravar Jr.
+This repository-ready package contains the current Gravar Jr. standalone web app based on v1.42, updated with four additional built-in YouTube streaming links.
 
 ## Files
 
-- `index.html` — the Gravar Jr. app
-- `help.html` — standalone help file
+- `index.html` — main GitHub Pages app; upload this at the repository root
+- `Gravar_Jr_v1.43_streaming_links.html` — named standalone copy of the same app
+- `help.html` — standalone help guide
 - `starting_up.html` — standalone startup guide
-- `README.md` — this file
+- `shortcuts.html` — standalone shortcut/click-combination guide
 
-## New in v1.39
+## v1.43 update
 
-- Added a selectable streaming-link library to the Choose Video menu.
-- Added the built-in YouTube test link: **Lone Ranger-AAC practitioner**.
-- Added **Add Streaming Link** for adding named YouTube or Panopto links to the local browser/device menu.
-- Updated Help and Starting Up files.
+The Choose Video menu now includes these built-in YouTube links for every user/device:
 
-## GitHub Pages
+- Lone Ranger-AAC practitioner
+- Bill and Daughter — https://youtu.be/1Mc18NDa0GE
+- Bill and Louise Gesture — https://youtu.be/3_kirTx5tTI
+- Dean & Linda (short) — https://youtu.be/gFTe2QxC2rM
+- Jimmy & Tammy — https://youtu.be/evh2x7K2JdY
 
-Upload the contents of this folder, not the ZIP itself, so that `index.html` is at the top level of the repository or Pages folder.
+User-added streaming links remain stored locally and are appended after the built-in links.
 
-YouTube embedding usually requires Gravar Jr. to run from HTTPS or localhost, not from a downloaded `file://` page.
+## GitHub Pages update
+
+Unzip this package, upload the files at the repository root, and replace the existing `index.html`. GitHub Pages will then serve v1.43.
